@@ -1203,7 +1203,69 @@ body {
   .propose-intro { flex-direction: column; gap: 12px; padding: 22px 20px; }
 }
 
+/* ══ COMMUNITY BADGE ══ */
+.community-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase;
+  background: linear-gradient(135deg, #F97316, #F59E0B);
+  color: white; padding: 3px 8px; border-radius: 10px; margin-left: 8px;
+}
+
 /* ══ ADMIN PANEL ══ */
+.admin-tabs-bar {
+  display: flex; gap: 4px; flex-wrap: wrap;
+  background: var(--panda-grey-light); border-radius: 14px; padding: 6px; margin-bottom: 24px;
+}
+.admin-tab-btn {
+  flex: 1; min-width: 120px;
+  font-family: 'Fredoka One', cursive; font-size: 13px;
+  background: none; border: none; border-radius: 10px;
+  padding: 10px 12px; cursor: pointer; color: rgba(43,43,43,.45);
+  transition: all .2s; position: relative;
+}
+.admin-tab-btn.on { background: var(--white); color: var(--panda-dark); box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+.admin-tab-content { display: none; }
+.admin-tab-content.on { display: block; }
+.admin-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--accent-red); color: white;
+  font-size: 9px; font-weight: 900; margin-left: 5px; font-family: 'Nunito', sans-serif;
+}
+.ps-item-accept {
+  font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 900;
+  background: var(--bamboo-pale); color: var(--bamboo-dark);
+  border: 2px solid var(--bamboo-light); border-radius: 20px;
+  padding: 5px 12px; cursor: pointer; transition: all .2s;
+}
+.ps-item-accept:hover { background: var(--bamboo); color: white; border-color: var(--bamboo); }
+.ps-item-reject {
+  font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 900;
+  background: none; color: rgba(43,43,43,.35);
+  border: 2px solid var(--panda-grey-light); border-radius: 20px;
+  padding: 5px 12px; cursor: pointer; transition: all .2s;
+}
+.ps-item-reject:hover { color: #c0392b; border-color: #c0392b; background: rgba(192,57,43,.06); }
+.user-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--off-white); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px;
+}
+.user-row-info { flex: 1; }
+.user-row-email { font-weight: 700; font-size: 13px; color: var(--panda-dark); }
+.user-row-meta { font-size: 11px; color: rgba(43,43,43,.4); margin-top: 3px; }
+.user-role-badge {
+  font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px; border: 2px solid var(--bamboo-light);
+  color: var(--bamboo-dark); background: var(--bamboo-pale);
+}
+.user-role-badge.admin { background: var(--panda-dark); color: var(--bamboo); border-color: var(--panda-dark); }
+.notif-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--bamboo-pale); border-radius: 12px; padding: 12px 16px;
+  margin-bottom: 8px; border-left: 4px solid var(--bamboo);
+}
+.notif-item.read { background: var(--off-white); border-color: var(--panda-grey-light); opacity: .65; }
+
 .admin-toggle-btn {
   font-family: 'Nunito', sans-serif;
   font-size: 12px; font-weight: 900;
@@ -2122,20 +2184,68 @@ body {
         <div class="admin-login-err" id="admin-login-err"></div>
       </div>
 
-      <!-- PROPOSALS LIST — vizibil dupa login -->
+      <!-- ADMIN DASHBOARD — vizibil dupa login -->
       <div class="proposals-saved" id="proposals-saved" style="display:none">
         <div class="ps-header">
-          <div>
-            <div class="ps-title">📋 Retete propuse de vizitatori</div>
-            <div class="ps-count" id="ps-count">se incarca...</div>
-          </div>
+          <div><div class="ps-title">🐼 Admin Dashboard</div></div>
           <div class="ps-btns">
-            <button class="ps-btn-dl" onclick="downloadProposals()">⬇️ Descarca JSON</button>
-            <button class="ps-btn-clear" onclick="clearProposals()">🗑️ Sterge tot</button>
             <button class="ps-btn-clear" onclick="adminLogout()" style="color:var(--bamboo-dark);border-color:var(--bamboo)">Logout</button>
           </div>
         </div>
-        <div class="ps-list" id="ps-list"></div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs-bar">
+          <button class="admin-tab-btn on" onclick="switchAdminTab('tab-proposals',this)">
+            📋 Propuneri<span class="admin-badge" id="badge-proposals" style="display:none">0</span>
+          </button>
+          <button class="admin-tab-btn" onclick="switchAdminTab('tab-ai-proposals',this)">
+            🤖 AI Propuse<span class="admin-badge" id="badge-ai" style="display:none">0</span>
+          </button>
+          <button class="admin-tab-btn" onclick="switchAdminTab('tab-users',this)">
+            👥 Useri<span class="admin-badge" id="badge-users" style="display:none">0</span>
+          </button>
+          <button class="admin-tab-btn" onclick="switchAdminTab('tab-notifications',this)">
+            🔔 Notificari<span class="admin-badge" id="badge-notif" style="display:none">0</span>
+          </button>
+        </div>
+
+        <!-- Tab: Propuneri text -->
+        <div class="admin-tab-content on" id="tab-proposals">
+          <div class="ps-header" style="margin-bottom:16px">
+            <div><div class="ps-count" id="ps-count">se incarca...</div></div>
+            <div class="ps-btns">
+              <button class="ps-btn-dl" onclick="downloadProposals()">⬇️ Descarca JSON (acceptate)</button>
+            </div>
+          </div>
+          <div id="ps-list"></div>
+        </div>
+
+        <!-- Tab: Propuneri AI -->
+        <div class="admin-tab-content" id="tab-ai-proposals">
+          <div class="ps-header" style="margin-bottom:16px">
+            <div><div class="ps-count" id="ai-proposals-count">se incarca...</div></div>
+          </div>
+          <div id="ai-proposals-list"></div>
+        </div>
+
+        <!-- Tab: Useri -->
+        <div class="admin-tab-content" id="tab-users">
+          <div class="ps-header" style="margin-bottom:16px">
+            <div><div class="ps-count" id="users-count">se incarca...</div></div>
+          </div>
+          <div id="users-list"></div>
+        </div>
+
+        <!-- Tab: Notificari -->
+        <div class="admin-tab-content" id="tab-notifications">
+          <div class="ps-header" style="margin-bottom:16px">
+            <div><div class="ps-count" id="notif-count">se incarca...</div></div>
+            <div class="ps-btns">
+              <button class="ps-btn-clear" onclick="markAllNotificationsRead()">✓ Marcheaza toate citite</button>
+            </div>
+          </div>
+          <div id="notifications-list"></div>
+        </div>
       </div>
 
     </div>
@@ -2966,7 +3076,7 @@ document.addEventListener('keydown', function(e) {
 </script>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, where, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
          signOut, onAuthStateChanged, signInWithPopup, GoogleAuthProvider,
@@ -3193,12 +3303,22 @@ window.submitProposal = async function() {
   btn.disabled = true;
 
   try {
-    await addDoc(collection(db, 'proposals'), {
+    const propData = {
       text,
       photos: proposePhotos.map(p => ({ name: p.name, dataUrl: p.dataUrl })),
       timestamp: new Date().toISOString(),
-      timestampDisplay: new Date().toLocaleString('ro-RO')
-    });
+      timestampDisplay: new Date().toLocaleString('ro-RO'),
+      status: 'pending',
+      uid: currentUser?.uid || null,
+      userEmail: currentUser?.email || 'anonim'
+    };
+    await addDoc(collection(db, 'proposals'), propData);
+    // Notificare admin
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'new_proposal', data: { email: propData.userEmail, text, timestamp: propData.timestampDisplay } })
+    }).catch(() => {});
 
     document.getElementById('pf-text').value = '';
     proposePhotos = [];
@@ -3249,6 +3369,136 @@ window.adminLogin = async function() {
 
 window.adminLogout = function() { signOut(auth); };
 
+// ── Admin tabs ──
+window.switchAdminTab = function(tabId, btn) {
+  document.querySelectorAll('.admin-tab-content').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById(tabId)?.classList.add('on');
+  btn.classList.add('on');
+};
+
+// ── Notificari ──
+let notifCache = [];
+async function loadNotifications() {
+  const listEl = document.getElementById('notifications-list');
+  const countEl = document.getElementById('notif-count');
+  const badge = document.getElementById('badge-notif');
+  if (!listEl) return;
+  try {
+    const q = query(collection(db, 'notifications'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    notifCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const unread = notifCache.filter(n => !n.read).length;
+    if (countEl) countEl.textContent = notifCache.length + ' notificari';
+    if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? 'inline-flex' : 'none'; }
+    listEl.innerHTML = notifCache.length ? notifCache.map(n => `
+      <div class="notif-item ${n.read ? 'read' : ''}">
+        <div style="font-size:24px">${n.type === 'new_user' ? '👤' : '🎋'}</div>
+        <div style="flex:1">
+          <div style="font-weight:700;font-size:13px">${n.type === 'new_user' ? 'User nou' : 'Propunere noua'}</div>
+          <div style="font-size:12px;color:rgba(43,43,43,.5)">${n.email || ''} · ${n.createdAt ? new Date(n.createdAt).toLocaleString('ro-RO') : ''}</div>
+        </div>
+        ${!n.read ? `<button class="ps-item-rm" onclick="markNotifRead('${n.id}')">✓ Citit</button>` : ''}
+      </div>`).join('') : '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">Nicio notificare inca.</div>';
+  } catch(e) {}
+}
+
+window.markNotifRead = async function(id) {
+  await updateDoc(doc(db, 'notifications', id), { read: true });
+  loadNotifications();
+};
+window.markAllNotificationsRead = async function() {
+  await Promise.all(notifCache.filter(n => !n.read).map(n => updateDoc(doc(db, 'notifications', n.id), { read: true })));
+  loadNotifications();
+};
+
+// ── Useri ──
+async function loadUsers() {
+  const listEl = document.getElementById('users-list');
+  const countEl = document.getElementById('users-count');
+  const badge = document.getElementById('badge-users');
+  if (!listEl) return;
+  try {
+    const snap = await getDocs(collection(db, 'users'));
+    const users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (countEl) countEl.textContent = users.length + ' useri inregistrati';
+    if (badge) { badge.textContent = users.length; badge.style.display = users.length > 0 ? 'inline-flex' : 'none'; }
+    listEl.innerHTML = users.map(u => `
+      <div class="user-row">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bamboo);color:white;font-family:Fredoka One,cursive;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          ${(u.email || '?').charAt(0).toUpperCase()}
+        </div>
+        <div class="user-row-info">
+          <div class="user-row-email">${u.email || '—'}</div>
+          <div class="user-row-meta">Inregistrat: ${u.createdAt ? new Date(u.createdAt).toLocaleDateString('ro-RO') : '—'} · Salvate: ${(u.savedRecipes||[]).length}</div>
+        </div>
+        <span class="user-role-badge ${u.role === 'admin' ? 'admin' : ''}">${u.role || 'user'}</span>
+        ${u.email?.toLowerCase() !== ADMIN_EMAIL.toLowerCase() ? `
+          <button class="ps-item-copy" onclick="setUserRole('${u.id}', '${u.role === 'admin' ? 'user' : 'admin'}')">
+            ${u.role === 'admin' ? '⬇ Revoca admin' : '⬆ Fa admin'}
+          </button>` : '<span style="font-size:11px;opacity:.4">Owner</span>'}
+      </div>`).join('');
+  } catch(e) {}
+}
+
+window.setUserRole = async function(uid, role) {
+  await updateDoc(doc(db, 'users', uid), { role });
+  showToast(role === 'admin' ? '✅ User promovat la admin!' : 'User retrogradat la user', 'bamboo');
+  loadUsers();
+};
+
+// ── Propuneri AI (pendingRecipes proposed de useri) ──
+let aiProposalsCache = [];
+async function loadAiProposals() {
+  const listEl = document.getElementById('ai-proposals-list');
+  const countEl = document.getElementById('ai-proposals-count');
+  const badge = document.getElementById('badge-ai');
+  if (!listEl) return;
+  try {
+    const q = query(collection(db, 'pendingRecipes'), orderBy('proposedAt', 'desc'));
+    const snap = await getDocs(q);
+    aiProposalsCache = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => r.status === 'proposed');
+    const pending = aiProposalsCache.length;
+    if (countEl) countEl.textContent = pending + ' propuneri AI in asteptare';
+    if (badge) { badge.textContent = pending; badge.style.display = pending > 0 ? 'inline-flex' : 'none'; }
+    listEl.innerHTML = pending ? aiProposalsCache.map(r => `
+      <div class="ps-item" id="aipr-${r.id}">
+        <button class="ps-item-rm" onclick="rejectAiProposal('${r.id}')">✕</button>
+        <div class="ps-item-meta">De la: ${r.proposedBy || '—'} · ${r.proposedAt ? new Date(r.proposedAt).toLocaleString('ro-RO') : ''}</div>
+        <div class="ps-item-name">${r.emoji || '🍽️'} ${r.titlu || '—'}</div>
+        <div class="ps-item-preview">${r.subtitlu || r.descriere || ''}</div>
+        <div class="ps-item-actions">
+          <button class="ps-item-accept" onclick="acceptAiProposal('${r.id}')">✅ Accepta si publica</button>
+          <button class="ps-item-reject" onclick="rejectAiProposal('${r.id}')">❌ Respinge</button>
+        </div>
+      </div>`).join('') : '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">🎋 Nicio propunere AI in asteptare.</div>';
+  } catch(e) {}
+}
+
+window.acceptAiProposal = async function(id) {
+  const recipe = aiProposalsCache.find(r => r.id === id);
+  if (!recipe) return;
+  // Seteaza source community si publica
+  recipe.source = 'community';
+  window._pendingRecipe = recipe;
+  await updateDoc(doc(db, 'pendingRecipes', id), { status: 'accepted' });
+  // Publica direct
+  const docRef = await addDoc(collection(db, 'publishedRecipes'), { ...recipe, publishedAt: new Date().toISOString() });
+  renderDynamicRecipe({ id: docRef.id, ...recipe });
+  document.getElementById(`aipr-${id}`)?.remove();
+  aiProposalsCache = aiProposalsCache.filter(r => r.id !== id);
+  showToast('🎋 Reteta publicata din propunere AI!', 'bamboo');
+  loadAiProposals();
+};
+
+window.rejectAiProposal = async function(id) {
+  await updateDoc(doc(db, 'pendingRecipes', id), { status: 'rejected' });
+  document.getElementById(`aipr-${id}`)?.remove();
+  aiProposalsCache = aiProposalsCache.filter(r => r.id !== id);
+  showToast('❌ Propunere respinsa', '');
+  loadAiProposals();
+};
+
 // ── auth state ──
 onAuthStateChanged(auth, async user => {
   // ── Admin panel (doar pentru adminul real) ──
@@ -3257,7 +3507,7 @@ onAuthStateChanged(auth, async user => {
   if (user && user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
     login.style.display   = 'none';
     savedEl.style.display = 'block';
-    loadProposals();
+    loadProposals(); loadAiProposals(); loadUsers(); loadNotifications();
   } else {
     login.style.display   = 'flex';
     savedEl.style.display = 'none';
@@ -3298,13 +3548,32 @@ async function ensureUserDoc(user) {
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
   if (!snap.exists()) {
-    await setDoc(ref, {
+    const userData = {
       email: user.email,
       displayName: user.displayName || null,
       createdAt: new Date().toISOString(),
       isPremium: false,
-      savedRecipes: []
+      savedRecipes: [],
+      role: 'user'
+    };
+    await setDoc(ref, userData);
+    // Notificare admin — Firestore
+    await addDoc(collection(db, 'notifications'), {
+      type: 'new_user',
+      email: user.email,
+      createdAt: new Date().toISOString(),
+      read: false
     });
+    // Email notificare via Vercel function (silentios daca nu e configurat)
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'new_user', data: { email: user.email, createdAt: new Date().toLocaleString('ro-RO'), provider: user.providerData?.[0]?.providerId || 'email' } })
+    }).catch(() => {});
+  } else {
+    // Verifica daca e admin din Firestore
+    const data = snap.data();
+    if (data.role === 'admin') isAdminUser = true;
   }
 }
 
@@ -3598,11 +3867,20 @@ window.loadProfileData = async function() {
         </div>`).join('')
     : '<div style="font-size:13px;color:rgba(43,43,43,.4);font-style:italic;padding:8px 0">Nicio reteta salvata inca. Apasa ♡ pe un card.</div>';
 
+  // Counter propuneri trimise
+  let proposalsCount = 0;
+  try {
+    const pq = query(collection(db, 'proposals'));
+    const psnap = await getDocs(pq);
+    proposalsCount = psnap.docs.filter(d => d.data().userEmail === user.email).length;
+  } catch(e) {}
+
   document.getElementById('profile-body').innerHTML = `
     <div class="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val">${createdAt}</div><div class="profile-stat-lbl">Membru din</div></div>
       <div class="profile-stat"><div class="profile-stat-val">${saved.length}</div><div class="profile-stat-lbl">Retete salvate</div></div>
       <div class="profile-stat"><div class="profile-stat-val" style="color:${searchesLeft < 3 ? '#e05c5c' : 'var(--bamboo-dark)'}">${searchesLeft}</div><div class="profile-stat-lbl">Cautari AI azi</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${proposalsCount}</div><div class="profile-stat-lbl">Retete propuse</div></div>
     </div>
     <div class="ai-progress-wrap" title="${searchesUsed}/${AI_DAILY_LIMIT} cautari folosite azi">
       <div class="ai-progress-bar" style="width:${pct}%;background:${pct > 80 ? '#e05c5c' : 'var(--bamboo)'}"></div>
@@ -3827,11 +4105,12 @@ function renderDynamicRecipe(r) {
   card.setAttribute('for', cbId);
   card.setAttribute('data-tags', tags);
   card.style.cssText = `--ca:${color};--cb:${bg}`;
+  const communityBadge = r.source === 'community' ? `<span class="community-badge">👥 Comunitate</span>` : '';
   card.innerHTML = `
     <button class="save-btn" data-recipe="${r.id}" onclick="toggleSaveRecipe('${r.id}',event)" title="Salveaza reteta"></button>
     <div class="cthumb" style="background:${bg}"><span class="em">${r.emoji||'🍽️'}</span></div>
     <div class="cbody">
-      <div class="ccat">🐼 ${r.categorie||'Reteta noua'}</div>
+      <div class="ccat">🐼 ${r.categorie||'Reteta noua'}${communityBadge}</div>
       <h3 class="ctitle">${r.titlu}</h3>
       <p class="ctag">${r.subtitlu||r.descriere||''}</p>
       <div class="cfooter"><span class="clang">🤖 AI</span><span class="copen">Mananc asta! →</span></div>
@@ -4026,32 +4305,36 @@ let proposalCache = [];
 async function loadProposals() {
   const countEl = document.getElementById('ps-count');
   const listEl  = document.getElementById('ps-list');
-  countEl.textContent = 'Se incarca...';
-  listEl.innerHTML = '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">🐼 Panda cauta retetele...</div>';
+  const badge   = document.getElementById('badge-proposals');
+  if (countEl) countEl.textContent = 'Se incarca...';
+  if (listEl) listEl.innerHTML = '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">🐼 Panda cauta retetele...</div>';
 
   try {
     const q    = query(collection(db, 'proposals'), orderBy('timestamp', 'desc'));
     const snap = await getDocs(q);
     proposalCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const pending = proposalCache.filter(p => !p.status || p.status === 'pending').length;
+    if (badge) { badge.textContent = pending; badge.style.display = pending > 0 ? 'inline-flex' : 'none'; }
     renderProposalsList();
   } catch(e) {
-    countEl.textContent = 'Eroare la incarcare';
-    listEl.innerHTML = '<div style="padding:20px;color:#c0392b;font-style:italic">Nu s-au putut incarca propunerile. Verifica Security Rules in Firestore.</div>';
+    if (countEl) countEl.textContent = 'Eroare la incarcare';
+    if (listEl) listEl.innerHTML = '<div style="padding:20px;color:#c0392b;font-style:italic">Nu s-au putut incarca propunerile.</div>';
   }
 }
 
 function renderProposalsList() {
   const countEl = document.getElementById('ps-count');
   const listEl  = document.getElementById('ps-list');
-  const n = proposalCache.length;
-  countEl.textContent = n + (n === 1 ? ' reteta in asteptare' : ' retete in asteptare');
+  const pending = proposalCache.filter(p => !p.status || p.status === 'pending');
+  const n = pending.length;
+  if (countEl) countEl.textContent = n + (n === 1 ? ' propunere in asteptare' : ' propuneri in asteptare');
 
   if (!n) {
-    listEl.innerHTML = '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">🎋 Nicio propunere inca. Panda asteapta.</div>';
+    if (listEl) listEl.innerHTML = '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">🎋 Nicio propunere neprocesata. Panda asteapta.</div>';
     return;
   }
 
-  listEl.innerHTML = proposalCache.map(p => `
+  if (listEl) listEl.innerHTML = pending.map(p => `
     <div class="ps-item" id="psitem-${p.id}">
       <button class="ps-item-rm" onclick="removeProposal(&quot;${p.id}&quot;)">sterge</button>
       <div class="ps-item-meta">${p.timestampDisplay || p.timestamp}</div>
@@ -4070,7 +4353,9 @@ function renderProposalsList() {
             </div>`).join('')}
         </div>` : ''}
       <div class="ps-item-actions">
-        ${p.text ? `<button class="ps-item-copy" onclick="copyProposalText(&quot;${p.id}&quot;, this)">📋 Copiaza text</button>` : ''}
+        ${p.text ? `<button class="ps-item-copy" onclick="copyProposalText(&quot;${p.id}&quot;, this)">📋 Copiaza</button>` : ''}
+        <button class="ps-item-accept" onclick="acceptTextProposal('${p.id}')">✅ Accepta si genereaza</button>
+        <button class="ps-item-reject" onclick="rejectTextProposal('${p.id}')">❌ Respinge</button>
       </div>
     </div>`).join('');
 }
@@ -4104,12 +4389,53 @@ window.clearProposals = async function() {
 };
 
 window.downloadProposals = function() {
-  if (!proposalCache.length) { alert('Nu sunt propuneri de descarcat.'); return; }
-  const blob = new Blob([JSON.stringify({ exportDate: new Date().toLocaleString('ro-RO'), total: proposalCache.length, proposals: proposalCache }, null, 2)], { type: 'application/json' });
+  const accepted = proposalCache.filter(p => p.status === 'accepted');
+  if (!accepted.length) { alert('Nu sunt propuneri acceptate de descarcat.'); return; }
+  const blob = new Blob([JSON.stringify({ exportDate: new Date().toLocaleString('ro-RO'), total: accepted.length, proposals: accepted }, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'retete-propuse-panda-' + new Date().toISOString().slice(0,10) + '.json';
+  a.download = 'retete-acceptate-panda-' + new Date().toISOString().slice(0,10) + '.json';
   a.click();
+};
+
+window.acceptTextProposal = async function(id) {
+  const p = proposalCache.find(x => x.id === id);
+  if (!p) return;
+  // Genereaza reteta completa din textul propunerii
+  const prompt = `Esti un chef panda sarcastict din Romania. Genereaza o reteta COMPLETA bazata pe urmatoarea propunere:
+
+"${p.text}"
+
+Returneaza EXACT un obiect JSON:
+{"titlu":"...","emoji":"...","categorie":"...","tags":[],"subtitlu":"...","macros":{"calorii":"","proteine":"","carbs":"","grasimi":""},"ingrediente":[{"nume":"","cantitate":"","link":"","sursa":""}],"cuptor":{"temperatura":"","mod":"","zanussi":"","timp":"","nota":""},"pasi":[{"titlu":"","descriere":"","sarcasm":""}],"sfaturi":[]}
+
+REGULI: ZERO diacritice, umor+sarcasm, grame, linkuri freshful.ro/carrefour.ro, treapta Zanussi.
+Returneaza DOAR JSON-ul.`;
+
+  showToast('⏳ Panda genereaza reteta din propunere...', '');
+  try {
+    const resp = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) });
+    const data = await resp.json();
+    const cleaned = (data.text || '').replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
+    const recipe = JSON.parse(cleaned.match(/\{[\s\S]*\}/)[0]);
+    recipe.source = 'community';
+    recipe.proposedBy = p.userEmail || 'anonim';
+    recipe.sursa = null;
+    window._pendingRecipe = recipe;
+    showPublishPreview(recipe);
+    await updateDoc(doc(db, 'proposals', id), { status: 'accepted' });
+    proposalCache = proposalCache.map(x => x.id === id ? { ...x, status: 'accepted' } : x);
+  } catch(e) {
+    showToast('❌ Eroare la generare: ' + e.message, '');
+  }
+};
+
+window.rejectTextProposal = async function(id) {
+  if (!confirm('Respingi aceasta propunere?')) return;
+  await updateDoc(doc(db, 'proposals', id), { status: 'rejected' });
+  proposalCache = proposalCache.map(x => x.id === id ? { ...x, status: 'rejected' } : x);
+  renderProposalsList();
+  showToast('❌ Propunere respinsa', '');
 };
 
 // ── drag & drop ──
