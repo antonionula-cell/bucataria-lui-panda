@@ -3433,6 +3433,9 @@ async function loadUsers() {
           <div class="user-row-meta">Inregistrat: ${u.createdAt ? new Date(u.createdAt).toLocaleDateString('ro-RO') : '—'} · Salvate: ${(u.savedRecipes||[]).length}</div>
         </div>
         <span class="user-role-badge ${u.role === 'admin' ? 'admin' : ''}">${u.role || 'user'}</span>
+        <button class="ps-item-copy" onclick="resetAiSearches('${u.id}', '${u.email}')" title="Reset cautari AI" style="background:var(--bamboo-pale);color:var(--bamboo-dark)">
+          🔄 Reset AI
+        </button>
         ${u.email?.toLowerCase() !== ADMIN_EMAIL.toLowerCase() ? `
           <button class="ps-item-copy" onclick="setUserRole('${u.id}', '${u.role === 'admin' ? 'user' : 'admin'}')">
             ${u.role === 'admin' ? '⬇ Revoca admin' : '⬆ Fa admin'}
@@ -3440,6 +3443,12 @@ async function loadUsers() {
       </div>`).join('');
   } catch(e) {}
 }
+
+window.resetAiSearches = async function(uid, email) {
+  await updateDoc(doc(db, 'users', uid), { aiSearches: { count: 0, resetAt: null } });
+  showToast(`🔄 AI searches resetate pentru ${email}`, 'bamboo');
+  loadUsers();
+};
 
 window.setUserRole = async function(uid, role) {
   await updateDoc(doc(db, 'users', uid), { role });
