@@ -3522,6 +3522,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     if (!jsonMatch) throw new Error('No JSON in response');
     const recipe = JSON.parse(jsonMatch[0]);
     recipe._sourceIdx = idx;
+    recipe.sursa = window._lastAiRecipes[idx]?.link || null;
     showPublishPreview(recipe);
     if (btn) { btn.disabled = false; btn.textContent = '🎋 Publica in Panda'; }
   } catch(e) {
@@ -3587,7 +3588,10 @@ window.showPublishPreview = function(recipe) {
     <div class="rstitle" style="margin-top:20px">🐼 Pasi</div>
     <ol class="slist">${steps}</ol>
     <div class="rstitle" style="margin-top:20px">🎋 Sfaturi</div>
-    <div class="tips">${tips}</div>`;
+    <div class="tips">${tips}</div>
+    ${recipe.sursa ? `<div style="margin-top:20px;padding-top:14px;border-top:2px dashed var(--panda-grey-light);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
+      🔗 Sursa / Credits: <a href="${recipe.sursa}" target="_blank" rel="noopener" style="color:var(--bamboo-dark)">${recipe.sursa}</a>
+    </div>` : ''}`;
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -3710,6 +3714,9 @@ function renderDynamicRecipe(r) {
         ${r.cuptor ? `<div class="rsec"><div class="rstitle">🔥 Setari cuptor</div>${ovenHtml}</div>` : ''}
         <div class="rsec"><div class="rstitle">🐼 Pasi</div><ol class="slist">${steps}</ol></div>
         <div class="rsec"><div class="rstitle">🎋 Sfaturi</div><div class="tips">${tips}</div></div>
+        ${r.sursa ? `<div style="margin-top:24px;padding-top:16px;border-top:2px dashed var(--panda-grey-light);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
+          🔗 Inspirat de: <a href="${r.sursa}" target="_blank" rel="noopener" style="color:var(--bamboo-dark)">${r.sursa}</a>
+        </div>` : ''}
       </div>
     </div>`;
   document.body.appendChild(overlay);
