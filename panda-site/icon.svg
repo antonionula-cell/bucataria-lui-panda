@@ -34,7 +34,7 @@
     <circle cx="68" cy="90" r="9" fill="#FFB3B3" opacity="0.55"/>
     <circle cx="132" cy="90" r="9" fill="#FFB3B3" opacity="0.55"/>
     <!-- Belly -->
-    <ellipse cx="100" cy="138" rx="30" ry="28" fill="#E8E8E8"/>
+    <ellipse cx="100" cy="138" rx="30" ry="28" fill="white"/>
     <!-- Arms -->
     <ellipse cx="48" cy="128" rx="18" ry="12" fill="#1A1A1A" transform="rotate(-20 48 128)"/>
     <ellipse cx="152" cy="128" rx="18" ry="12" fill="#1A1A1A" transform="rotate(20 152 128)"/>
