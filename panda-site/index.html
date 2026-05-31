@@ -5258,7 +5258,10 @@ function showLoginSplash(avatar) {
   avatarEl.innerHTML = avatar.svg;
   moodEl.textContent = avatar.label;
   el.classList.add('show');
-  setTimeout(() => {
+
+  function dismissSplash() {
+    el.removeEventListener('click', dismissSplash);
+    clearTimeout(el._splashTimer);
     el.style.transition = 'opacity .8s ease';
     el.style.opacity = '0';
     setTimeout(() => {
@@ -5266,7 +5269,10 @@ function showLoginSplash(avatar) {
       el.style.opacity = '';
       el.style.transition = '';
     }, 800);
-  }, 2200);
+  }
+
+  el.addEventListener('click', dismissSplash);
+  el._splashTimer = setTimeout(dismissSplash, 4000);
 }
 
 // ── Toast ──
