@@ -3745,6 +3745,18 @@ window.getAiSearchesData = async function() {
 };
 
 // ── Unsave recipe from profile ──
+window.openSavedAiRecipe = async function(idx) {
+  if (!currentUser) return;
+  const snap = await getDoc(doc(db, 'users', currentUser.uid));
+  const list = snap.data()?.savedAiRecipes || [];
+  const recipe = list[idx];
+  if (!recipe) return;
+  window._pendingRecipe = recipe;
+  window._openedFromProfile = true; // flag pt butoane
+  closeProfileModal();
+  showPublishPreview(recipe);
+};
+
 window.unsaveAiFromProfile = async function(idx) {
   if (!currentUser) return;
   const ref = doc(db, 'users', currentUser.uid);
@@ -3967,9 +3979,9 @@ window.loadProfileData = async function() {
             <button class="profile-saved-rm" onclick="unsaveFromProfile('${id}')">✕ sterge</button>
           </div>`),
         ...savedAi.map((r, i) => `
-          <div class="profile-saved-item">
+          <div class="profile-saved-item" style="cursor:pointer" onclick="openSavedAiRecipe(${i})">
             <span>${r.emoji || '🍽️'} ${r.titlu || '—'} <span style="font-size:10px;opacity:.5">AI</span></span>
-            <button class="profile-saved-rm" onclick="unsaveAiFromProfile(${i})">✕ sterge</button>
+            <button class="profile-saved-rm" onclick="event.stopPropagation();unsaveAiFromProfile(${i})">✕ sterge</button>
           </div>`)
       ].join('')
     : '<div style="font-size:13px;color:rgba(43,43,43,.4);font-style:italic;padding:8px 0">Nicio reteta salvata inca. Apasa ♡ pe un card sau salveaza din Preview.</div>';
@@ -4033,13 +4045,14 @@ Returneaza EXACT un obiect JSON (fara text inainte sau dupa):
 
 REGULI OBLIGATORII:
 1. ZERO diacritice — scrie a/i/s/t simplu (ex: "reteta", "treapta", "faina")
-2. Ton: umor + sarcasm autentic — Panda comenteaza la fiecare pas
-3. Toate cantitatile in GRAME (sistem metric)
-4. Linkuri REALE pentru ingrediente de pe: freshful.ro, carrefour.ro, bringo.ro, megaimage.ro (URL-uri care probabil exista)
-5. Temperatura cuptor: grade Celsius + mod circulatie aer + TREAPTA ZANUSSI (scala 1-8, ex: Treapta 4-5)
-6. Minimum 5 pasi detaliati, maximum 8
-7. Exact 3 sfaturi finale utile si amuzante
-8. Tags din lista: dulciuri, healthy, proteic, desert, snack, mic-dejun, italian, arab
+2. UMOR SI SARCASM SPECIFIC — nu generic. Exemple de sarcasm BUN: "Panda a mancat jumatate din ciocolata inainte sa ajunga in bol. Nu e singur in asta." / "Da, o furculita merge. Nu ai nevoie de mixerul KitchenAid de 800 lei pentru asta." / "La 12 min par crude. Normal — se intaresc la racire. La 20 min = pavaj. Panda avertizeaza." Fiecare pas sa aiba comentariu DIFERIT si AMUZANT.
+3. Descrierea pasului (descriere) sa contina si ea umor inline, nu doar in campul sarcasm
+4. Toate cantitatile in GRAME (sistem metric)
+5. Linkuri REALE pentru ingrediente de pe: freshful.ro, carrefour.ro, bringo.ro, megaimage.ro
+6. Temperatura cuptor: grade Celsius + mod circulatie aer + TREAPTA ZANUSSI (scala 1-8)
+7. Minimum 5 pasi detaliati, maximum 8
+8. Exact 3 sfaturi finale utile si amuzante
+9. Tags din lista: dulciuri, healthy, proteic, desert, snack, mic-dejun, italian, arab
 
 Returneaza DOAR JSON-ul, nimic altceva.`;
 
