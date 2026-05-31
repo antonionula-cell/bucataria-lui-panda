@@ -3443,14 +3443,20 @@ async function loadUsers() {
           <div class="user-row-email">${u.email || '—'}</div>
           <div class="user-row-meta" id="umeta-${u.id}"></div>
         </div>
-        <span class="user-role-badge ${u.role === 'admin' ? 'admin' : ''}">${u.role || 'user'}</span>
-        <button class="ps-item-copy" onclick="resetAiSearches('${u.id}', '${u.email}')" title="Reset cautari AI" style="background:var(--bamboo-pale);color:var(--bamboo-dark)">
+        ${(() => {
+          const isOwner = u.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+          const isAdmin = isOwner || u.role === 'admin';
+          const badge = isOwner
+            ? '<span style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#4E7C3F;background:#EDF5E7;border:2px solid #C8E6B8;border-radius:20px;padding:4px 10px">👑 OWNER</span>'
+            : isAdmin
+              ? '<span style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--bamboo);background:var(--panda-dark);border:2px solid var(--panda-dark);border-radius:20px;padding:4px 10px">🛡 ADMIN</span>'
+              : '<span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(43,43,43,.35);background:transparent;border:1px solid var(--panda-grey-light);border-radius:20px;padding:3px 9px">user</span>';
+          const roleBtn = isOwner ? '' : `<button class="ps-item-copy" onclick="setUserRole('${u.id}', '${isAdmin ? 'user' : 'admin'}')" style="font-size:11px">${isAdmin ? '⬇ Revoca admin' : '⬆ Fa admin'}</button>`;
+          return badge + roleBtn;
+        })()}
+        <button onclick="resetAiSearches('${u.id}', '${u.email}')" style="font-family:Nunito,sans-serif;font-size:11px;font-weight:900;background:none;color:var(--bamboo-dark);border:2px solid var(--bamboo-light);border-radius:20px;padding:5px 12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='var(--bamboo)';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='var(--bamboo-dark)'">
           🔄 Reset AI
         </button>
-        ${u.email?.toLowerCase() !== ADMIN_EMAIL.toLowerCase() ? `
-          <button class="ps-item-copy" onclick="setUserRole('${u.id}', '${u.role === 'admin' ? 'user' : 'admin'}')">
-            ${u.role === 'admin' ? '⬇ Revoca admin' : '⬆ Fa admin'}
-          </button>` : '<span style="font-size:11px;opacity:.4">Owner</span>'}
       </div>`;}).join('');
     users.forEach(u => {
       const el = document.getElementById('umeta-' + u.id);
