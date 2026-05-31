@@ -1,6 +1,13 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "builds": [
+    { "src": "api/gemini.js", "use": "@vercel/node" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "*.json", "use": "@vercel/static" },
+    { "src": "*.png", "use": "@vercel/static" },
+    { "src": "*.js", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/gemini", "dest": "/api/gemini.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
