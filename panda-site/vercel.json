@@ -8,6 +8,9 @@
   ],
   "routes": [
     { "src": "/api/gemini", "dest": "/api/gemini.js" },
+    { "src": "/og.png", "dest": "/og.png" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "/sw.js", "dest": "/sw.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
