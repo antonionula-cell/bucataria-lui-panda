@@ -4143,6 +4143,10 @@ window.showPublishPreview = function(recipe) {
     </div>` : ''}`;
 
   // Butoane dinamice: admin = Publica, user normal = Salveaza la Favorite
+  // Tag dinamic in functie de rol
+  const tagEl = document.getElementById('preview-modal-tag');
+  if (tagEl) tagEl.textContent = isAdminUser ? '🎋 Preview Reteta — Admin' : '🎋 Preview Reteta';
+
   const actionsEl = document.getElementById('publish-preview-actions');
   if (actionsEl) {
     const cancelBtn = `<button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Inchide</button>`;
@@ -5830,8 +5834,8 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   <div class="legal-modal" style="max-width:760px">
     <div class="legal-mhead">
       <button class="legal-mclose" onclick="closePublishPreview()">✕</button>
-      <div class="legal-tag">🎋 Preview Reteta — Admin</div>
-      <div class="legal-mtitle">Verifica reteta inainte de a o salva</div>
+      <div class="legal-tag" id="preview-modal-tag">🎋 Preview Reteta</div>
+      <div class="legal-mtitle">Verifica reteta inainte de a o salva sau propune</div>
       <div class="legal-msub">Generata de Panda AI · Respecta toate regulile de stil</div>
     </div>
     <div class="legal-mbody" id="publish-preview-body" style="max-height:60vh;overflow-y:auto"></div>
