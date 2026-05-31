@@ -2043,6 +2043,30 @@ body {
     <a href="https://www.kaufland.ro" target="_blank" class="sbadge">🛒 Kaufland.ro</a>
   </div>
 
+  <!-- ═══ PWA INSTALL CTA ═══ -->
+  <div class="pwa-cta" id="pwa-cta" style="display:none">
+    <div class="pwa-cta-inner">
+      <div class="pwa-cta-left">
+        <div class="pwa-cta-icon">📱</div>
+        <div>
+          <div class="pwa-cta-title">Ai Panda mereu cu tine</div>
+          <div class="pwa-cta-sub">Instaleaza aplicatia si gateste oricand, chiar si offline. Zero bambus necesar.</div>
+          <div class="pwa-cta-counter" id="pwa-counter" style="display:none">
+            <span id="pwa-count">0</span> persoane au Panda pe telefon 🐼
+          </div>
+        </div>
+      </div>
+      <div class="pwa-cta-right">
+        <button class="pwa-install-btn" id="pwa-install-btn" onclick="installPWA()">
+          📲 Instaleaza Panda
+        </button>
+        <div class="pwa-ios-hint" id="pwa-ios-hint" style="display:none">
+          Pe iPhone: dai tap pe <strong>⎋ Share</strong> → <strong>Add to Home Screen</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══ PROPUNE O RETETA ═══ -->
   <div class="divider" id="propune">🐼 Propune o reteta lui Panda</div>
 
@@ -3407,6 +3431,35 @@ document.addEventListener('click', () => {
 // ── Auth functions expuse global ──
 window.logoutUser = function() { signOut(auth); };
 
+// ── PWA counter — Firestore ──
+window.trackPWAInstall = async function() {
+  try {
+    const ref = doc(db, 'stats', 'pwa');
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      await updateDoc(ref, { installCount: (snap.data().installCount || 0) + 1 });
+    } else {
+      await setDoc(ref, { installCount: 1 });
+    }
+    loadPWACount();
+  } catch(e) { /* silentios */ }
+};
+
+window.loadPWACount = async function() {
+  try {
+    const snap = await getDoc(doc(db, 'stats', 'pwa'));
+    if (snap.exists()) {
+      const count = snap.data().installCount || 0;
+      const countEl = document.getElementById('pwa-count');
+      const counterEl = document.getElementById('pwa-counter');
+      if (countEl && count > 0) {
+        countEl.textContent = count;
+        if (counterEl) counterEl.style.display = 'block';
+      }
+    }
+  } catch(e) { /* silentios */ }
+};
+
 // ── Strip diacritice din text AI ──
 function stripDiac(str) {
   if (!str) return '';
@@ -4534,6 +4587,84 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .save-btn.saved::before { content: '♥'; color: white; }
 .save-btn.saved:hover { background: var(--bamboo-dark); border-color: var(--bamboo-dark); }
 
+/* ── PWA Install CTA ── */
+.pwa-cta {
+  background: linear-gradient(135deg, var(--panda-dark), #3a3a3a);
+  border-radius: 24px;
+  padding: 32px 40px;
+  margin: 50px 0;
+  border: 2px solid rgba(127,176,105,0.2);
+  position: relative;
+  overflow: hidden;
+}
+.pwa-cta::before {
+  content: '📱';
+  position: absolute;
+  right: 30px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 100px;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.pwa-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.pwa-cta-left { display: flex; align-items: flex-start; gap: 20px; flex: 1; }
+.pwa-cta-icon { font-size: 40px; flex-shrink: 0; animation: float 3s ease-in-out infinite; }
+.pwa-cta-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.pwa-cta-sub {
+  font-size: 13px;
+  color: rgba(250,250,248,0.5);
+  line-height: 1.6;
+  max-width: 400px;
+}
+.pwa-cta-counter {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--bamboo);
+  letter-spacing: 0.05em;
+}
+.pwa-cta-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+.pwa-install-btn {
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
+  background: var(--bamboo);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 6px 20px rgba(127,176,105,0.4);
+  white-space: nowrap;
+}
+.pwa-install-btn:hover { background: var(--bamboo-dark); transform: scale(1.05); }
+.pwa-install-btn.installed { background: var(--panda-dark); border: 2px solid var(--bamboo); cursor: default; transform: none; }
+.pwa-ios-hint {
+  font-size: 12px;
+  color: rgba(250,250,248,0.45);
+  text-align: right;
+  line-height: 1.5;
+  max-width: 220px;
+}
+.pwa-ios-hint strong { color: rgba(250,250,248,0.7); }
+@media(max-width:600px) {
+  .pwa-cta { padding: 24px 20px; }
+  .pwa-cta-inner { flex-direction: column; gap: 20px; }
+  .pwa-cta-right { align-items: flex-start; width: 100%; }
+  .pwa-install-btn { width: 100%; text-align: center; }
+}
+
 /* ── Donate section ── */
 .donate-wrap { margin: 50px 0; }
 .donate-card {
@@ -5424,6 +5555,47 @@ window.closeKofiModal = function() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && document.getElementById('kofi-modal')?.classList.contains('open')) closeKofiModal();
 });
+
+// ── PWA Install ──
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  showPWACta('install');
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  showPWACta('installed');
+  trackPWAInstall();
+});
+
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+if (isIOS && !isStandalone) setTimeout(() => showPWACta('ios'), 2000);
+
+function showPWACta(type) {
+  const cta = document.getElementById('pwa-cta');
+  const btn = document.getElementById('pwa-install-btn');
+  const iosHint = document.getElementById('pwa-ios-hint');
+  if (!cta) return;
+  cta.style.display = 'block';
+  if (type === 'ios') {
+    if (btn) btn.style.display = 'none';
+    if (iosHint) iosHint.style.display = 'block';
+  } else if (type === 'installed') {
+    if (btn) { btn.textContent = '✅ Panda instalat!'; btn.classList.add('installed'); btn.disabled = true; }
+  }
+  loadPWACount();
+}
+
+window.installPWA = async function() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  if (outcome === 'accepted') deferredInstallPrompt = null;
+};
 
 window.setCookieConsent = function(accepted) {
   localStorage.setItem('cookieConsent', accepted ? 'yes' : 'no');
