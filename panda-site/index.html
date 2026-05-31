@@ -4268,12 +4268,12 @@ window.submitRegister = async function() {
 
   btn.disabled = true; btn.textContent = '⏳ Se creeaza contul...';
   try {
-    splashPending = true;
+    splashPending = false; // Nu aratam splash pana nu e verificat emailul
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await sendEmailVerification(cred.user);
+    await signOut(auth); // Logout pana verifica emailul
     closeAuthModal();
-    // Toast bun venit
-    showToast('🐼 Cont creat! Verifica emailul pentru confirmare.', 'bamboo');
+    showToast('📧 Cont creat! Verifică emailul înainte de a te loga.', 'bamboo');
   } catch(e) {
     err.textContent = authErrMsg(e.code);
   } finally {
@@ -4290,7 +4290,15 @@ window.submitLogin = async function() {
   btn.disabled = true; btn.textContent = '⏳ Se verifica...';
   try {
     splashPending = true;
-    await signInWithEmailAndPassword(auth, email, pass);
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    if (!cred.user.emailVerified) {
+      await signOut(auth);
+      splashPending = false;
+      err.style.color = 'var(--accent-red)';
+      err.innerHTML = '📧 Emailul nu este verificat. Verifică inbox-ul.<br><button onclick="resendVerificationEmail(\'' + email + '\')" style="margin-top:8px;background:none;border:none;color:var(--bamboo-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:13px;padding:0">Retrimite email de verificare</button>';
+      btn.disabled = false; btn.textContent = '🎋 Autentificare';
+      return;
+    }
     closeAuthModal();
   } catch(e) {
     err.textContent = authErrMsg(e.code);
@@ -4313,6 +4321,19 @@ window.submitGoogle = async function() {
     if (!ignored.includes(e.code) && err) {
       err.textContent = authErrMsg(e.code);
     }
+  }
+};
+
+window.resendVerificationEmail = async function(email) {
+  const pass = document.getElementById('login-pass')?.value;
+  if (!pass) { showToast('Introdu parola si incearca din nou', ''); return; }
+  try {
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    await sendEmailVerification(cred.user);
+    await signOut(auth);
+    showToast('📧 Email de verificare retrimis! Verifica inbox-ul.', 'bamboo');
+  } catch(e) {
+    showToast('❌ ' + authErrMsg(e.code), '');
   }
 };
 
