@@ -1509,6 +1509,17 @@ body {
 }
 .rcard-result-link:hover { background: var(--bamboo); }
 
+/* ── Ingrediente cheie in card rezultat AI ── */
+.ring-list { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
+.ring-pill {
+  font-size: 11px; font-weight: 700;
+  background: var(--bamboo-pale);
+  color: var(--bamboo-dark);
+  border: 1px solid var(--bamboo-light);
+  border-radius: 10px;
+  padding: 3px 9px;
+}
+
 .publish-recipe-btn {
   margin-top: 8px;
   font-family: 'Nunito', sans-serif;
@@ -3379,6 +3390,48 @@ document.addEventListener('click', () => {
 // ── Auth functions expuse global ──
 window.logoutUser = function() { signOut(auth); };
 
+// ── Strip diacritice din text AI ──
+function stripDiac(str) {
+  if (!str) return '';
+  return str
+    .replace(/[ăÅ]/g, 'a').replace(/[â]/g, 'a').replace(/[Â]/g, 'A').replace(/[Ă]/g, 'A')
+    .replace(/[î]/g, 'i').replace(/[Î]/g, 'I')
+    .replace(/[ș]/g, 's').replace(/[Ș]/g, 'S').replace(/[ş]/g, 's').replace(/[Ş]/g, 'S')
+    .replace(/[ț]/g, 't').replace(/[Ț]/g, 'T').replace(/[ţ]/g, 't').replace(/[Ţ]/g, 'T');
+}
+function cleanRecipe(r) {
+  if (!r) return r;
+  return {
+    ...r,
+    titlu: stripDiac(r.titlu),
+    descriere: stripDiac(r.descriere),
+    sarcasm: stripDiac(r.sarcasm),
+  };
+}
+
+// ── Salveaza reteta AI la Favorite (useri normali) ──
+window.saveAiRecipeToFavorites = async function() {
+  const recipe = window._pendingRecipe;
+  if (!recipe || !currentUser) return;
+  const btn = document.getElementById('btn-save-favorite');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Se salveaza...'; }
+  try {
+    const ref = doc(db, 'users', currentUser.uid);
+    const snap = await getDoc(ref);
+    const existing = snap.data()?.savedAiRecipes || [];
+    // evita duplicate
+    if (!existing.find(r => r.titlu === recipe.titlu)) {
+      await updateDoc(ref, { savedAiRecipes: arrayUnion({ ...recipe, savedAt: new Date().toISOString() }) });
+    }
+    closePublishPreview();
+    showToast('🔖 Reteta salvata la favorite!', 'bamboo');
+    window._pendingRecipe = null;
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.textContent = '🔖 Salveaza la Favorite'; }
+    showToast('❌ Eroare: ' + e.message, '');
+  }
+};
+
 // ── Share reteta ──
 window.shareRecipe = async function(title, desc) {
   const url = 'https://bucataria-lui-panda.vercel.app/';
@@ -3592,6 +3645,20 @@ window.showPublishPreview = function(recipe) {
     ${recipe.sursa ? `<div style="margin-top:20px;padding-top:14px;border-top:2px dashed var(--panda-grey-light);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
       🔗 Sursa / Credits: <a href="${recipe.sursa}" target="_blank" rel="noopener" style="color:var(--bamboo-dark)">${recipe.sursa}</a>
     </div>` : ''}`;
+
+  // Butoane dinamice: admin = Publica, user normal = Salveaza la Favorite
+  const actionsEl = document.getElementById('publish-preview-actions');
+  if (actionsEl) {
+    if (isAdminUser) {
+      actionsEl.innerHTML = `
+        <button class="pf-submit" id="btn-confirm-publish" onclick="confirmPublishRecipe()" style="font-size:15px;padding:12px 24px">✅ Publica acum in site</button>
+        <button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Anuleaza</button>`;
+    } else {
+      actionsEl.innerHTML = `
+        <button class="pf-submit" id="btn-save-favorite" onclick="saveAiRecipeToFavorites()" style="font-size:15px;padding:12px 24px;background:var(--bamboo)">🔖 Salveaza la Favorite</button>
+        <button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Inchide</button>`;
+    }
+  }
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -4182,13 +4249,13 @@ TIP: ${selectedTaste}
 
 REGULI IMPORTANTE:
 1. Returneaza EXACT un JSON array cu 10 obiecte, fara text inainte sau dupa
-2. Fiecare obiect are: "titlu", "timp", "dificultate" (Usor/Mediu/Greu), "descriere" (max 2 propozitii), "sarcasm" (comentariu amuzant de panda, max 1 propozitie), "link" (URL real catre o reteta de pe un site cunoscut: jamila.ro, gustos.ro, bucataras.ro, allrecipes.com, sbs.com.au/food, sau altele cunoscute — URL REAL care probabil exista)
+2. Fiecare obiect are: "titlu", "timp", "dificultate" (Usor/Mediu/Greu), "descriere" (max 2 propozitii), "sarcasm" (comentariu amuzant de panda, max 1 propozitie), "ingrediente_cheie" (array cu 4-6 ingrediente principale cu cantitati, ex: ["200g faina", "3 oua", "100ml lapte"])
 3. Retetele trebuie sa foloseasca in principal ingredientele disponibile
 4. Comentariile trebuie sa fie AMUZANTE si SARCASTICE in stilul unui panda care nu vrea sa gateasca
-5. Limba: romana
+5. Limba: romana, FARA diacritice (scrie a/i/s/t simplu, ex: "reteta" nu "rețetă")
 
 Exemplu format JSON:
-[{"titlu":"Omleta cu ciocolata","timp":"10 minute","dificultate":"Usor","descriere":"O reteta pe care o poate face si un panda adormit. Literalmente.","sarcasm":"Panda aproba, desi ar prefera bambus cu unt.","link":"https://jamila.ro/omleta"}]
+[{"titlu":"Omleta cu ciocolata","timp":"10 minute","dificultate":"Usor","descriere":"O reteta pe care o poate face si un panda adormit. Literalmente.","sarcasm":"Panda aproba, desi ar prefera bambus cu unt.","ingrediente_cheie":["3 oua","50g ciocolata","1 lingura unt"]}]
 
 Returneaza DOAR JSON-ul, nimic altceva.`;
 
@@ -4222,7 +4289,11 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
       'Pentru: ' + allIngredients.slice(0,4).join(', ') + (allIngredients.length > 4 ? '...' : '') +
       ' · ' + selectedTime + ' · ' + selectedTaste;
 
-    resultsList.innerHTML = recipes.map((r, i) => `
+    const cleanedRecipes = recipes.map(cleanRecipe);
+    resultsList.innerHTML = cleanedRecipes.map((r, i) => {
+      const ing = (r.ingrediente_cheie || []).map(x => `<span class="ring-pill">${x}</span>`).join('');
+      const googleSearch = `https://www.google.com/search?q=${encodeURIComponent(r.titlu + ' reteta')}`;
+      return `
       <div class="rcard-result">
         <div class="rcard-num">${i + 1}</div>
         <div class="rcard-result-body">
@@ -4232,16 +4303,15 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
             <span class="rmeta-pill">📊 ${r.dificultate}</span>
           </div>
           <div class="rcard-result-desc">${r.descriere}</div>
+          ${ing ? `<div class="ring-list">${ing}</div>` : ''}
           <div class="rcard-result-sarcasm">🐼 ${r.sarcasm}</div>
-          ${isAdminUser ? `<button class="publish-recipe-btn" onclick="publishAiRecipe(${i})" data-idx="${i}">🎋 Publica in Panda</button>` : ''}
+          ${currentUser ? `<button class="publish-recipe-btn" onclick="publishAiRecipe(${i})" data-idx="${i}">🔍 Preview reteta completa</button>` : `<button class="publish-recipe-btn" onclick="openAuthModal('login')">🔍 Preview reteta completa</button>`}
         </div>
-        <a class="rcard-result-link" href="${r.link}" target="_blank" rel="noopener">
-          🍳 Reteta →
+        <a class="rcard-result-link" href="${googleSearch}" target="_blank" rel="noopener">
+          🔎 Cauta →
         </a>
-      </div>
-    `).join('');
-    // Salveaza recipes in window pt acces din publish
-    window._lastAiRecipes = recipes;
+      </div>`; }).join('');
+    window._lastAiRecipes = cleanedRecipes;
 
   } catch(e) {
     loading.style.display = 'none';
@@ -5091,9 +5161,8 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
       <div class="legal-msub">Generata de Panda AI · Respecta toate regulile de stil</div>
     </div>
     <div class="legal-mbody" id="publish-preview-body" style="max-height:60vh;overflow-y:auto"></div>
-    <div style="padding:20px 44px 28px;display:flex;gap:12px;border-top:2px solid var(--panda-grey-light)">
-      <button class="pf-submit" id="btn-confirm-publish" onclick="confirmPublishRecipe()" style="font-size:15px;padding:12px 24px">✅ Publica acum in site</button>
-      <button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Anuleaza</button>
+    <div id="publish-preview-actions" style="padding:20px 44px 28px;display:flex;gap:12px;flex-wrap:wrap;border-top:2px solid var(--panda-grey-light)">
+      <!-- butoanele se injecteaza dinamic in showPublishPreview -->
     </div>
   </div>
 </div>
