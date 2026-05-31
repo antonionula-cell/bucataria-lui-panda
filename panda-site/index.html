@@ -3564,12 +3564,19 @@ async function ensureUserDoc(user) {
       createdAt: new Date().toISOString(),
       read: false
     });
-    // Email notificare via Vercel function (silentios daca nu e configurat)
+    const provider = user.providerData?.[0]?.providerId || 'email';
+    // Notificare admin
     fetch('/api/notify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'new_user', data: { email: user.email, createdAt: new Date().toLocaleString('ro-RO'), provider: user.providerData?.[0]?.providerId || 'email' } })
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'new_user', data: { email: user.email, createdAt: new Date().toLocaleString('ro-RO'), provider } })
     }).catch(() => {});
+    // Welcome email catre user (doar daca nu e Google — Google nu trimite email de verificare)
+    if (provider !== 'google.com') {
+      fetch('/api/notify', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'welcome_user', data: { email: user.email } })
+      }).catch(() => {});
+    }
   } else {
     // Verifica daca e admin din Firestore
     const data = snap.data();
@@ -4289,13 +4296,30 @@ window.submitForgotPassword = async function() {
   const email = document.getElementById('login-email').value.trim();
   const err   = document.getElementById('err-login');
   if (!email) { err.textContent = 'Scrie emailul mai intai.'; return; }
+  err.style.color = 'var(--bamboo-dark)';
+  err.textContent = '⏳ Se trimite emailul...';
   try {
-    await sendPasswordResetEmail(auth, email);
-    err.style.color = 'var(--bamboo-dark)';
-    err.textContent = '✓ Email de resetare trimis. Verifica inbox-ul.';
+    const resp = await fetch('/api/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await resp.json();
+    if (data.message === 'google_user') {
+      err.style.color = 'var(--accent-red)';
+      err.textContent = 'Contul tau foloseste Google Sign-In. Reseteaza parola din contul Google.';
+    } else {
+      err.textContent = '✓ Email trimis! Verifica inbox-ul (si spam-ul, ca Panda e timid).';
+    }
   } catch(e) {
-    err.style.color = '';
-    err.textContent = authErrMsg(e.code);
+    // Fallback la Firebase daca API-ul nu e disponibil
+    try {
+      await sendPasswordResetEmail(auth, email);
+      err.textContent = '✓ Email de resetare trimis. Verifica inbox-ul.';
+    } catch(fe) {
+      err.style.color = '';
+      err.textContent = authErrMsg(fe.code);
+    }
   }
 };
 
