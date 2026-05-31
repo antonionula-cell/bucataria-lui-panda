@@ -10,28 +10,7 @@
   "categories": ["food", "lifestyle"],
   "lang": "ro",
   "icons": [
-    {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/og.png",
-      "sizes": "1200x630",
-      "type": "image/png"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Gaseste retete",
-      "url": "/",
-      "description": "Cauta retete cu AI"
-    },
-    {
-      "name": "Retetele lui Panda",
-      "url": "/",
-      "description": "Vezi toate retetele"
-    }
+    { "src": "/icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" }
   ]
 }
