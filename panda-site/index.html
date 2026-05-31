@@ -1509,6 +1509,23 @@ body {
 }
 .rcard-result-link:hover { background: var(--bamboo); }
 
+/* ── Preview Loading Overlay ── */
+.preview-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9700;
+  background: rgba(26,26,26,0.92);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.preview-loading-overlay.show { opacity: 1; pointer-events: all; }
+.preview-loading-inner { text-align: center; }
+
 /* ── Ingrediente cheie in card rezultat AI ── */
 .ring-list { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
 .ring-pill {
@@ -3409,6 +3426,29 @@ function cleanRecipe(r) {
   };
 }
 
+// ── Propune reteta AI salvata pentru publicare pe site ──
+window.proposeAiRecipeForSite = async function() {
+  const recipe = window._pendingRecipe;
+  if (!recipe || !currentUser) return;
+  const btn = document.getElementById('btn-propose-recipe');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Se trimite...'; }
+  try {
+    await addDoc(collection(db, 'pendingRecipes'), {
+      ...recipe,
+      proposedBy: currentUser.email,
+      proposedByUid: currentUser.uid,
+      proposedAt: new Date().toISOString(),
+      status: 'proposed'
+    });
+    closePublishPreview();
+    showToast('🎋 Reteta propusa! Panda o analizeaza.', 'bamboo');
+    window._pendingRecipe = null;
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.textContent = '🎋 Propune pentru site'; }
+    showToast('❌ Eroare: ' + e.message, '');
+  }
+};
+
 // ── Salveaza reteta AI la Favorite (useri normali) ──
 window.saveAiRecipeToFavorites = async function() {
   const recipe = window._pendingRecipe;
@@ -3528,7 +3568,9 @@ window.publishAiRecipe = async function(idx) {
   if (!recipes || !recipes[idx]) return;
   const r = recipes[idx];
   const btn = document.querySelector(`[data-idx="${idx}"].publish-recipe-btn`);
-  if (btn) { btn.disabled = true; btn.textContent = '⏳ Panda genereaza reteta completa...'; }
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Panda genereaza...'; }
+  // Spinner overlay
+  document.getElementById('preview-loading-overlay').classList.add('show');
 
   const prompt = `Esti un chef panda sarcastict din Romania. Genereaza o reteta COMPLETA, DETALIATA si cu mult UMOR pentru: "${r.titlu}" (${r.descriere})
 
@@ -3576,10 +3618,12 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     const recipe = JSON.parse(jsonMatch[0]);
     recipe._sourceIdx = idx;
     recipe.sursa = window._lastAiRecipes[idx]?.link || null;
+    document.getElementById('preview-loading-overlay').classList.remove('show');
     showPublishPreview(recipe);
-    if (btn) { btn.disabled = false; btn.textContent = '🎋 Publica in Panda'; }
+    if (btn) { btn.disabled = false; btn.textContent = '🔍 Preview reteta completa'; }
   } catch(e) {
-    if (btn) { btn.disabled = false; btn.textContent = '🎋 Publica in Panda'; }
+    document.getElementById('preview-loading-overlay').classList.remove('show');
+    if (btn) { btn.disabled = false; btn.textContent = '🔍 Preview reteta completa'; }
     showToast('❌ Eroare la generare: ' + e.message, '');
   }
 };
@@ -3649,14 +3693,18 @@ window.showPublishPreview = function(recipe) {
   // Butoane dinamice: admin = Publica, user normal = Salveaza la Favorite
   const actionsEl = document.getElementById('publish-preview-actions');
   if (actionsEl) {
+    const cancelBtn = `<button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Inchide</button>`;
+    const saveBtn = `<button class="pf-submit" id="btn-save-favorite" onclick="saveAiRecipeToFavorites()" style="font-size:15px;padding:12px 24px;background:var(--bamboo)">🔖 Salveaza la Favorite</button>`;
     if (isAdminUser) {
       actionsEl.innerHTML = `
         <button class="pf-submit" id="btn-confirm-publish" onclick="confirmPublishRecipe()" style="font-size:15px;padding:12px 24px">✅ Publica acum in site</button>
-        <button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Anuleaza</button>`;
+        ${saveBtn}
+        ${cancelBtn}`;
     } else {
       actionsEl.innerHTML = `
-        <button class="pf-submit" id="btn-save-favorite" onclick="saveAiRecipeToFavorites()" style="font-size:15px;padding:12px 24px;background:var(--bamboo)">🔖 Salveaza la Favorite</button>
-        <button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:Nunito,sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Inchide</button>`;
+        ${saveBtn}
+        <button class="pf-submit" id="btn-propose-recipe" onclick="proposeAiRecipeForSite()" style="font-size:15px;padding:12px 24px;background:var(--panda-dark)">🎋 Propune pentru site</button>
+        ${cancelBtn}`;
     }
   }
 
@@ -5150,6 +5198,16 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   .legal-mtitle { font-size: 20px; }
 }
 </style>
+
+<!-- ── Preview Loading Overlay ── -->
+<div id="preview-loading-overlay" class="preview-loading-overlay">
+  <div class="preview-loading-inner">
+    <div class="loading-panda" style="font-size:72px">🐼</div>
+    <div class="loading-txt">Panda genereaza reteta completa...</div>
+    <div class="loading-sub">Cu tot sarcasticul inclus. Rabdare.</div>
+    <div class="loading-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
 
 <!-- ── Publish Preview Modal ── -->
 <div class="legal-overlay" id="publish-preview-modal" onclick="if(event.target===this)closePublishPreview()" style="z-index:9600">
