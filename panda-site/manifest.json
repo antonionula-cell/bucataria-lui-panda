@@ -1,23 +1,23 @@
 {
   "name": "Bucataria lui Panda",
   "short_name": "🐼 Panda",
-  "description": "Retete din toata lumea cu umor si sarcasm. Verificate de Panda.",
+  "description": "Bucataria unde AI-ul gateste si Panda comenteaza. Retete cu sarcasm, macro-uri si tot ce trebuie. Zero bambus, maxim gust.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1A1A1A",
+  "background_color": "#4E7C3F",
   "theme_color": "#7FB069",
   "orientation": "any",
   "categories": ["food", "lifestyle"],
   "lang": "ro",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%231A1A1A'/%3E%3Ccircle cx='256' cy='270' r='160' fill='white'/%3E%3Ccircle cx='130' cy='140' r='70' fill='%231A1A1A'/%3E%3Ccircle cx='382' cy='140' r='70' fill='%231A1A1A'/%3E%3Ccircle cx='130' cy='140' r='45' fill='%23333'/%3E%3Ccircle cx='382' cy='140' r='45' fill='%23333'/%3E%3Cellipse cx='210' cy='240' rx='55' ry='48' fill='%231A1A1A'/%3E%3Cellipse cx='302' cy='240' rx='55' ry='48' fill='%231A1A1A'/%3E%3Ccircle cx='210' cy='240' r='26' fill='white'/%3E%3Ccircle cx='302' cy='240' r='26' fill='white'/%3E%3Ccircle cx='216' cy='234' r='12' fill='%231A1A1A'/%3E%3Ccircle cx='308' cy='234' r='12' fill='%231A1A1A'/%3E%3Cellipse cx='256' cy='296' rx='22' ry='16' fill='%231A1A1A'/%3E%3Cpath d='M200 330 Q256 370 312 330' stroke='%231A1A1A' stroke-width='10' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='170' cy='310' r='28' fill='%23FFB3B3' opacity='0.5'/%3E%3Ccircle cx='342' cy='310' r='28' fill='%23FFB3B3' opacity='0.5'/%3E%3C/svg%3E",
+      "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "og.png",
+      "src": "/og.png",
       "sizes": "1200x630",
       "type": "image/png"
     }
@@ -25,12 +25,12 @@
   "shortcuts": [
     {
       "name": "Gaseste retete",
-      "url": "/?tab=search",
+      "url": "/",
       "description": "Cauta retete cu AI"
     },
     {
       "name": "Retetele lui Panda",
-      "url": "/?tab=recipes",
+      "url": "/",
       "description": "Vezi toate retetele"
     }
   ]
