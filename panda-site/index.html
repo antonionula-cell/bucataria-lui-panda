@@ -3510,7 +3510,7 @@ REGULI OBLIGATORII:
 Returneaza DOAR JSON-ul, nimic altceva.`;
 
   try {
-    const resp = await fetch('/.netlify/functions/gemini', {
+    const resp = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
@@ -4186,7 +4186,7 @@ Exemplu format JSON:
 Returneaza DOAR JSON-ul, nimic altceva.`;
 
   try {
-    const response = await fetch('/.netlify/functions/gemini', {
+    const response = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
