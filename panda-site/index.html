@@ -715,7 +715,9 @@ body {
 /* ══════════════════════════════════
    SHOPS
 ══════════════════════════════════ */
-.shops { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; justify-content: center; }
+.shops { display: grid; grid-template-columns: repeat(5, auto); gap: 10px; margin-top: 16px; justify-content: center; }
+@media(max-width:720px) { .shops { grid-template-columns: repeat(3, auto); } }
+@media(max-width:480px) { .shops { grid-template-columns: repeat(2, auto); } }
 .sbadge {
   font-size: 12px; font-weight: 900;
   padding: 10px 20px;
@@ -2106,6 +2108,7 @@ body {
     <a href="https://www.kaufland.ro" target="_blank" class="sbadge">🛒 Kaufland.ro</a>
     <a href="https://www.selgros.ro" target="_blank" class="sbadge">🛒 Selgros.ro</a>
     <a href="https://www.metro.ro" target="_blank" class="sbadge">🛒 Metro.ro</a>
+    <a href="https://www.auchan.ro" target="_blank" class="sbadge">🛒 Auchan.ro</a>
   </div>
 
   <!-- ═══ PWA INSTALL CTA ═══ -->
