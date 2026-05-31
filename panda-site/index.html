@@ -1623,9 +1623,17 @@ body {
 .chef-error-txt { font-family: "Fredoka One", cursive; font-size: 18px; color: #dc2626; margin-bottom: 8px; }
 .chef-error-sub { font-size: 13px; color: rgba(43,43,43,0.55); font-style: italic; }
 
+@media(max-width:600px) {
+  /* Ascunde textul taburilor — raman doar iconitele, elibereaza spatiu pt profil */
+  .tab-text { display: none; }
+  .tab-btn { padding: 14px 20px; font-size: 13px; }
+  .tab-icon { font-size: 22px; }
+  .tabs-inner { padding: 0 12px; gap: 0; }
+  .auth-login-btn { padding: 8px 14px; font-size: 13px; }
+  .auth-header-area { padding: 0 4px; }
+}
 @media(max-width:480px) {
-  .tabs-inner { padding: 0 16px; }
-  .tab-btn { padding: 14px 16px; font-size: 13px; }
+  .tabs-inner { padding: 0 8px; }
   .tab-icon { font-size: 16px; }
   .chef-form { padding: 20px 16px; }
   .cf-row { grid-template-columns: 1fr; }
@@ -4984,9 +4992,9 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   border: 3px solid var(--bamboo);
 }
 
-/* ── Ko-fi overlay widget repositioning (deasupra butonului nostru) ── */
-.floatingchat-container-wrap { bottom: 90px !important; right: 20px !important; }
-.floatingchat-container-wrap-mobi { bottom: 80px !important; right: 12px !important; }
+/* ── Ko-fi overlay widget — aliniat cu butonul Sustine Panda ── */
+.floatingchat-container-wrap { bottom: 28px !important; left: 28px !important; right: auto !important; }
+.floatingchat-container-wrap-mobi { bottom: 20px !important; left: 12px !important; right: auto !important; }
 
 /* ── Ko-fi floating button ── */
 .kofi-float {
