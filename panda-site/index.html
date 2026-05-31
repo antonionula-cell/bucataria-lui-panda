@@ -3369,6 +3369,40 @@ window.adminLogin = async function() {
 
 window.adminLogout = function() { signOut(auth); };
 
+// ── Deschide admin panel direct pe un tab specific ──
+window.openAdminTab = function(tabId) {
+  const dd = document.getElementById('auth-dropdown');
+  if (dd) dd.classList.remove('open');
+  // Arata admin panel
+  const panel = document.getElementById('admin-panel');
+  const btn = document.getElementById('admin-toggle-btn');
+  if (panel) panel.style.display = 'block';
+  if (btn) btn.textContent = '✕ Inchide zona admin';
+  // Scroll la admin panel
+  panel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Schimba tab-ul
+  setTimeout(() => {
+    const tabBtn = document.querySelector(`.admin-tab-btn[onclick*="${tabId}"]`);
+    if (tabBtn) switchAdminTab(tabId, tabBtn);
+  }, 300);
+};
+
+// ── Update badges in dropdown ──
+window.updateDropdownBadges = function() {
+  const sync = (ddId, panelId) => {
+    const panelBadge = document.getElementById(panelId);
+    const ddBadge = document.getElementById(ddId);
+    if (!ddBadge || !panelBadge) return;
+    const n = panelBadge.textContent;
+    const visible = panelBadge.style.display !== 'none' && n > 0;
+    ddBadge.textContent = n;
+    ddBadge.style.display = visible ? 'inline-flex' : 'none';
+  };
+  sync('dd-badge-proposals', 'badge-proposals');
+  sync('dd-badge-ai', 'badge-ai');
+  sync('dd-badge-notif', 'badge-notif');
+};
+
 // ── Admin tabs ──
 window.switchAdminTab = function(tabId, btn) {
   document.querySelectorAll('.admin-tab-content').forEach(t => t.classList.remove('on'));
@@ -3537,7 +3571,11 @@ onAuthStateChanged(auth, async user => {
   if (user && user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
     login.style.display   = 'none';
     savedEl.style.display = 'block';
+    // Ascunde butonul de jos — accesul e prin dropdown
+    const toggleBtn = document.getElementById('admin-toggle-btn');
+    if (toggleBtn) toggleBtn.style.display = 'none';
     loadProposals(); loadAiProposals(); loadUsers(); loadNotifications();
+    setTimeout(updateDropdownBadges, 2000);
   } else {
     login.style.display   = 'flex';
     savedEl.style.display = 'none';
@@ -3621,6 +3659,7 @@ function updateAuthHeader(user) {
   if (user && user.email !== ADMIN_EMAIL) {
     const name = user.displayName || user.email.split('@')[0];
     const av = PANDA_AVATARS.find(a => a.id === currentAvatarId) || PANDA_AVATARS[0];
+    const isOwnerOrAdmin = isAdminUser;
     area.innerHTML = `
       <div class="auth-user-chip" onclick="toggleUserDropdown(event)">
         <span class="auth-avatar panda-chip-av" style="background:${av.bg};padding:2px">${av.svg}</span>
@@ -3630,6 +3669,14 @@ function updateAuthHeader(user) {
       <div class="auth-dropdown" id="auth-dropdown">
         <div class="auth-dd-email">${user.email}</div>
         <button class="auth-dd-btn" onclick="openProfileModal()">🐼 Profilul meu</button>
+        ${isOwnerOrAdmin ? `
+        <div style="height:1px;background:var(--panda-grey-light);margin:6px 0"></div>
+        <div style="font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:rgba(43,43,43,.3);padding:4px 10px 2px">Admin</div>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-proposals')">📋 Propuneri <span id="dd-badge-proposals" style="display:none;background:var(--accent-red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-ai-proposals')">🤖 AI Propuse <span id="dd-badge-ai" style="display:none;background:var(--accent-red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-users')">👥 Useri</button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-notifications')">🔔 Notificari <span id="dd-badge-notif" style="display:none;background:var(--accent-red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <div style="height:1px;background:var(--panda-grey-light);margin:6px 0"></div>` : ''}
         <button class="auth-dd-btn" onclick="logoutUser()" style="color:#c0392b">🚪 Deconectare</button>
       </div>`;
   } else {
