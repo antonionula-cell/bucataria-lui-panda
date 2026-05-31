@@ -3629,8 +3629,8 @@ async function ensureUserDoc(user) {
       role: 'user'
     };
     await setDoc(ref, userData);
-    // Notificare admin — Firestore
-    await addDoc(collection(db, 'notifications'), {
+    // Notificare admin — Firestore (UID ca document ID = fara duplicate)
+    await setDoc(doc(db, 'notifications', user.uid + '_reg'), {
       type: 'new_user',
       email: user.email,
       createdAt: new Date().toISOString(),
