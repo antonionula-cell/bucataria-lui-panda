@@ -3745,6 +3745,18 @@ window.getAiSearchesData = async function() {
 };
 
 // ── Unsave recipe from profile ──
+window.unsaveAiFromProfile = async function(idx) {
+  if (!currentUser) return;
+  const ref = doc(db, 'users', currentUser.uid);
+  const snap = await getDoc(ref);
+  const list = snap.data()?.savedAiRecipes || [];
+  const item = list[idx];
+  if (!item) return;
+  await updateDoc(ref, { savedAiRecipes: arrayRemove(item) });
+  showToast('✕ Reteta AI stearsa din favorite', '');
+  loadProfileData();
+};
+
 window.unsaveFromProfile = async function(recipeId) {
   if (!currentUser) return;
   savedRecipes.delete(recipeId);
@@ -3866,13 +3878,16 @@ window.saveAiRecipeToFavorites = async function() {
     const ref = doc(db, 'users', currentUser.uid);
     const snap = await getDoc(ref);
     const existing = snap.data()?.savedAiRecipes || [];
-    // evita duplicate
     if (!existing.find(r => r.titlu === recipe.titlu)) {
       await updateDoc(ref, { savedAiRecipes: arrayUnion({ ...recipe, savedAt: new Date().toISOString() }) });
     }
-    closePublishPreview();
+    // Nu inchidem modalul — schimbam butonul in "Salvat"
+    if (btn) {
+      btn.textContent = '✅ Salvata la Favorite!';
+      btn.style.background = 'var(--bamboo-dark)';
+      btn.disabled = true;
+    }
     showToast('🔖 Reteta salvata la favorite!', 'bamboo');
-    window._pendingRecipe = null;
   } catch(e) {
     if (btn) { btn.disabled = false; btn.textContent = '🔖 Salveaza la Favorite'; }
     showToast('❌ Eroare: ' + e.message, '');
@@ -3934,6 +3949,7 @@ window.loadProfileData = async function() {
   const snap = await getDoc(doc(db, 'users', user.uid));
   const data = snap.data() || {};
   const saved = data.savedRecipes || [];
+  const savedAi = data.savedAiRecipes || [];
   if (!currentAvatarId && data.avatarId) currentAvatarId = data.avatarId;
   const searches = data.aiSearches || { count: 0, resetAt: null };
   const createdAt = data.createdAt ? new Date(data.createdAt).toLocaleDateString('ro-RO') : '—';
@@ -3943,13 +3959,20 @@ window.loadProfileData = async function() {
   const searchesLeft = Math.max(0, AI_DAILY_LIMIT - searchesUsed);
   const pct = Math.round((searchesUsed / AI_DAILY_LIMIT) * 100);
 
-  const savedHTML = saved.length
-    ? saved.map(id => `
-        <div class="profile-saved-item">
-          <span>${RECIPE_NAMES[id] || id}</span>
-          <button class="profile-saved-rm" onclick="unsaveFromProfile('${id}')">✕ sterge</button>
-        </div>`).join('')
-    : '<div style="font-size:13px;color:rgba(43,43,43,.4);font-style:italic;padding:8px 0">Nicio reteta salvata inca. Apasa ♡ pe un card.</div>';
+  const savedHTML = (saved.length + savedAi.length) > 0
+    ? [
+        ...saved.map(id => `
+          <div class="profile-saved-item">
+            <span>${RECIPE_NAMES[id] || id}</span>
+            <button class="profile-saved-rm" onclick="unsaveFromProfile('${id}')">✕ sterge</button>
+          </div>`),
+        ...savedAi.map((r, i) => `
+          <div class="profile-saved-item">
+            <span>${r.emoji || '🍽️'} ${r.titlu || '—'} <span style="font-size:10px;opacity:.5">AI</span></span>
+            <button class="profile-saved-rm" onclick="unsaveAiFromProfile(${i})">✕ sterge</button>
+          </div>`)
+      ].join('')
+    : '<div style="font-size:13px;color:rgba(43,43,43,.4);font-style:italic;padding:8px 0">Nicio reteta salvata inca. Apasa ♡ pe un card sau salveaza din Preview.</div>';
 
   // Counter propuneri trimise
   let proposalsCount = 0;
@@ -3962,7 +3985,7 @@ window.loadProfileData = async function() {
   document.getElementById('profile-body').innerHTML = `
     <div class="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val">${createdAt}</div><div class="profile-stat-lbl">Membru din</div></div>
-      <div class="profile-stat"><div class="profile-stat-val">${saved.length}</div><div class="profile-stat-lbl">Retete salvate</div></div>
+      <div class="profile-stat"><div class="profile-stat-val">${saved.length + savedAi.length}</div><div class="profile-stat-lbl">Retete salvate</div></div>
       <div class="profile-stat"><div class="profile-stat-val" style="color:${searchesLeft < 3 ? '#e05c5c' : 'var(--bamboo-dark)'}">${searchesLeft}</div><div class="profile-stat-lbl">Cautari AI azi</div></div>
       <div class="profile-stat"><div class="profile-stat-val">${proposalsCount}</div><div class="profile-stat-lbl">Retete propuse</div></div>
     </div>
