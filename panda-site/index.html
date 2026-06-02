@@ -4167,7 +4167,7 @@ Returneaza EXACT un obiect JSON (fara text inainte sau dupa):
   "subtitlu": "subtitlu scurt si sarcastic, fara diacritice",
   "macros": { "calorii": "130", "proteine": "6g", "carbs": "15g", "grasimi": "5g" },
   "ingrediente": [
-    { "nume": "Iaurt grecesc", "cantitate": "200g", "link": "https://www.freshful.ro/search?q=iaurt+grecesc", "sursa": "Freshful" }
+    { "nume": "Iaurt grecesc", "cantitate": "200g", "link": "https://www.freshful.ro/search?q=iaurt+grecesc", "sursa": "Freshful", "sarcasm": "optional — o propozitie amuzanta despre acest ingredient, doar daca e relevanta" }
   ],
   "cuptor": { "temperatura": "180°C", "mod": "convectie / aer circulant", "zanussi": "Treapta 4-5", "timp": "20-25 min", "nota": "tremura usor la mijloc = perfect" },
   "pasi": [
@@ -4221,7 +4221,7 @@ window.showPublishPreview = function(recipe) {
 
   const ingredients = (recipe.ingrediente || []).map(ing => `
     <tr>
-      <td><strong>${ing.nume}</strong></td>
+      <td><strong>${ing.nume}</strong>${ing.sarcasm ? `<div class="ssarc" style="margin-top:4px;font-size:11px">🐼 ${ing.sarcasm}</div>` : ''}</td>
       <td>${ing.cantitate}</td>
       <td><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></td>
     </tr>`).join('');
