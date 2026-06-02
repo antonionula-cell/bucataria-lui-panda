@@ -2157,7 +2157,7 @@ body {
 
     <div class="propose-form" id="propose-form">
 
-      <textarea class="pf-input pf-textarea pf-big" id="pf-text" rows="7"
+      <textarea class="pf-input pf-textarea pf-big" id="pf-text" rows="7" maxlength="2000"
         placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa, limba in care vrei...&#10;&#10;Panda citeste tot si se descurca. 🐼"></textarea>
 
       <div class="pf-photo-zone" id="pf-photo-zone" onclick="document.getElementById('pf-file').click()">
@@ -3111,6 +3111,25 @@ const googleProvider = new GoogleAuthProvider();
 const ADMIN_EMAIL = 'Antonio.nula@gmail.com';
 const AI_DAILY_LIMIT = 10;
 
+// ── Security helpers ──
+function escHtml(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function safeUrl(url) {
+  if (!url) return '#';
+  try {
+    const u = new URL(url);
+    return ['http:','https:'].includes(u.protocol) ? url : '#';
+  } catch { return '#'; }
+}
+function sanitizePromptInput(s) {
+  if (!s) return '';
+  return String(s).replace(/[<>"'`\\]/g, '').slice(0, 300);
+}
+
 // ══════════════════════════════════
 // PANDA AVATARS
 // ══════════════════════════════════
@@ -3264,6 +3283,8 @@ window.handleProposePhotos = async function(input) {
   if (!files.length) return;
 
   for (const file of files) {
+    if (!file.type.startsWith('image/')) { showToast('Doar imagini acceptate.', ''); continue; }
+    if (file.size > 10 * 1024 * 1024) { showToast('Poza prea mare. Max 10MB.', ''); continue; }
     const compressed = await compressImage(file, 1200, 1200, 0.7);
     proposePhotos.push(compressed);
     renderProposeThumbs();
@@ -3442,7 +3463,7 @@ async function loadNotifications() {
         <div style="font-size:24px">${n.type === 'new_user' ? '👤' : '🎋'}</div>
         <div style="flex:1">
           <div style="font-weight:700;font-size:13px">${n.type === 'new_user' ? 'User nou' : 'Propunere noua'}</div>
-          <div style="font-size:12px;color:rgba(43,43,43,.5)">${n.email || ''} · ${n.createdAt ? new Date(n.createdAt).toLocaleString('ro-RO') : ''}</div>
+          <div style="font-size:12px;color:rgba(43,43,43,.5)">${escHtml(n.email || '')} · ${n.createdAt ? new Date(n.createdAt).toLocaleString('ro-RO') : ''}</div>
         </div>
         ${!n.read ? `<button class="ps-item-rm" onclick="markNotifRead('${n.id}')">✓ Citit</button>` : ''}
       </div>`).join('') : '<div style="padding:20px;text-align:center;opacity:.4;font-style:italic">Nicio notificare inca.</div>';
@@ -3486,7 +3507,7 @@ async function loadUsers() {
           ${(u.email || '?').charAt(0).toUpperCase()}
         </div>
         <div class="user-row-info">
-          <div class="user-row-email">${u.email || '—'}</div>
+          <div class="user-row-email">${escHtml(u.email || '—')}</div>
           <div class="user-row-meta" id="umeta-${u.id}"></div>
         </div>
         ${(() => {
@@ -4102,7 +4123,7 @@ window.showPublishPreview = function(recipe) {
     <tr>
       <td><strong>${ing.nume}</strong></td>
       <td>${ing.cantitate}</td>
-      <td><a class="slink" href="${ing.link}" target="_blank">🛒 ${ing.sursa || 'Cumara'}</a></td>
+      <td><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></td>
     </tr>`).join('');
 
   const steps = (recipe.pasi || []).map((p, i) => `
@@ -4256,7 +4277,7 @@ function renderDynamicRecipe(r) {
 
   // Modal
   const ingredients = (r.ingrediente||[]).map(ing =>
-    `<tr><td>${ing.nume}</td><td>${ing.cantitate}</td><td><a class="slink" href="${ing.link||'#'}" target="_blank">🛒 ${ing.sursa||'Cumpara'}</a></td></tr>`).join('');
+    `<tr><td>${escHtml(ing.nume)}</td><td>${escHtml(ing.cantitate)}</td><td><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></td></tr>`).join('');
 
   const steps = (r.pasi||[]).map((p,i) =>
     `<li class="sitem"><div class="snum">${i+1}</div><div>
@@ -4511,8 +4532,8 @@ function renderProposalsList() {
   if (listEl) listEl.innerHTML = pending.map(p => `
     <div class="ps-item" id="psitem-${p.id}">
       <button class="ps-item-rm" onclick="removeProposal(&quot;${p.id}&quot;)">sterge</button>
-      <div class="ps-item-meta">${p.timestampDisplay || p.timestamp}</div>
-      <div class="ps-item-text-full">${p.text || '(doar poze, fara text)'}</div>
+      <div class="ps-item-meta">${escHtml(p.timestampDisplay || p.timestamp)}</div>
+      <div class="ps-item-text-full">${escHtml(p.text) || '(doar poze, fara text)'}</div>
       ${p.photos && p.photos.length ? `
         <div class="ps-item-photos" style="margin-top:12px">
           ${p.photos.map((ph, i) => `
@@ -4576,9 +4597,10 @@ window.acceptTextProposal = async function(id) {
   const p = proposalCache.find(x => x.id === id);
   if (!p) return;
   // Genereaza reteta completa din textul propunerii
+  const safeProposalText = sanitizePromptInput(p.text || '').slice(0, 500);
   const prompt = `Esti un chef panda sarcastict din Romania. Genereaza o reteta COMPLETA bazata pe urmatoarea propunere:
 
-"${p.text}"
+<propunere>${safeProposalText}</propunere>
 
 Returneaza EXACT un obiect JSON:
 {"titlu":"...","emoji":"...","categorie":"...","tags":[],"subtitlu":"...","macros":{"calorii":"","proteine":"","carbs":"","grasimi":""},"ingrediente":[{"nume":"","cantitate":"","link":"","sursa":""}],"cuptor":{"temperatura":"","mod":"","zanussi":"","timp":"","nota":""},"pasi":[{"titlu":"","descriere":"","sarcasm":""}],"sfaturi":[]}
@@ -4841,10 +4863,11 @@ window.searchRecipes = async function() {
   results.style.display = 'none';
   loading.style.display = 'block';
 
-  const dishName = document.getElementById('dish-name')?.value?.trim() || '';
+  const dishName = sanitizePromptInput(document.getElementById('dish-name')?.value?.trim() || '');
+  const safeIngredients = allIngredients.map(i => sanitizePromptInput(i));
   const prompt = `Esti un chef panda sarcastict si amuzant din Romania. Cauta si propune TOP 10 retete concrete bazate pe urmatoarele criterii:
 
-INGREDIENTE DISPONIBILE: ${allIngredients.join(', ')}${dishName ? `\nPREPARAT DORIT: ${dishName}` : ''}
+INGREDIENTE DISPONIBILE: ${safeIngredients.join(', ')}${dishName ? `\nPREPARAT DORIT: ${dishName}` : ''}
 TIMP MAXIM: ${selectedTime}
 CUPTOR: ${selectedOven}
 TIP: ${selectedTaste}
