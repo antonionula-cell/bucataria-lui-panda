@@ -598,6 +598,18 @@ body[data-time="night"] {
 .itable td:first-child { font-weight: 700; width: 140px; color: var(--panda-dark); }
 .itable td:nth-child(2) { color: rgba(43,43,43,0.6); font-size: 13px; }
 .itable td:last-child { text-align: right; }
+/* Preview AI — ingredient list flexbox */
+.ing-list { display: flex; flex-direction: column; }
+.ing-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 8px; border-bottom: 2px dashed var(--panda-grey-light);
+  transition: background .15s;
+}
+.ing-row:last-child { border-bottom: none; }
+.ing-row:hover { background: var(--bamboo-pale); border-radius: 8px; }
+.ing-name { flex: 1; font-weight: 700; font-size: 14px; color: var(--panda-dark); }
+.ing-qty { font-size: 13px; color: rgba(43,43,43,0.6); white-space: nowrap; min-width: 48px; text-align: right; }
+.ing-link { white-space: nowrap; }
 
 .slink {
   display: inline-flex; align-items: center; gap: 4px;
@@ -4220,11 +4232,14 @@ window.showPublishPreview = function(recipe) {
   if (!modal || !body) return;
 
   const ingredients = (recipe.ingrediente || []).map(ing => `
-    <tr>
-      <td><strong>${ing.nume}</strong></td>
-      <td>${ing.cantitate}</td>
-      <td><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></td>
-    </tr>${ing.sarcasm ? `<tr><td colspan="3"><div class="ssarc" style="margin:0 0 4px;font-size:11px;border-radius:6px">🐼 ${ing.sarcasm}</div></td></tr>` : ''}`).join('');
+    <div class="ing-row">
+      <div class="ing-name">
+        <strong>${ing.nume}</strong>
+        ${ing.sarcasm ? `<div class="ssarc" style="margin-top:5px;font-size:11px">🐼 ${ing.sarcasm}</div>` : ''}
+      </div>
+      <div class="ing-qty">${ing.cantitate}</div>
+      <div class="ing-link"><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></div>
+    </div>`).join('');
 
   const steps = (recipe.pasi || []).map((p, i) => `
     <li class="sitem">
@@ -4265,7 +4280,7 @@ window.showPublishPreview = function(recipe) {
     </div>
     ${macros}
     <div class="rstitle" style="margin-top:20px">🛒 Ingrediente</div>
-    <table class="itable">${ingredients}</table>
+    <div class="ing-list">${ingredients}</div>
     ${oven}
     <div class="rstitle" style="margin-top:20px">🐼 Pasi</div>
     <ol class="slist">${steps}</ol>
