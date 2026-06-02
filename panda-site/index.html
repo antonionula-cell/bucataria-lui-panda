@@ -2272,7 +2272,7 @@ body {
 </main>
 
 <footer class="site-footer">
-  <div class="ftxt">Bucataria lui Panda · Proiect personal · Claude 🤖 + Panda 🐼 · Linkuri magazine romanesti · Setari Zanussi incluse</div>
+  <div class="ftxt">Bucataria lui Panda · Proiect personal · Panda 🐼 · Linkuri magazine romanesti · Setari Zanussi incluse</div>
   <div class="footer-legal">
     <button class="flegal-btn" onclick="openLegalModal('privacy')">Politică de Confidențialitate</button>
     <span class="flegal-sep">·</span>
@@ -5273,6 +5273,52 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   .donate-panda { font-size: 52px; }
 }
 
+/* ── Panda Disclaimer Popup ── */
+.panda-disclaimer-overlay {
+  position: fixed; inset: 0; z-index: 999998;
+  background: rgba(26,26,26,0.92);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.panda-disclaimer-box {
+  background: var(--white);
+  border-radius: 28px;
+  padding: 40px 36px 32px;
+  max-width: 520px; width: 100%;
+  text-align: center;
+  border: 3px solid var(--bamboo);
+  animation: popIn .5s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.panda-disclaimer-panda { font-size: 72px; line-height: 1; margin-bottom: 16px; animation: float 3s ease-in-out infinite; }
+.panda-disclaimer-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 26px; color: var(--panda-dark); margin-bottom: 20px;
+}
+.panda-disclaimer-body {
+  text-align: left; font-size: 14px; color: rgba(43,43,43,.75);
+  line-height: 1.7; margin-bottom: 24px;
+}
+.panda-disclaimer-body ul { margin: 10px 0 10px 20px; display: flex; flex-direction: column; gap: 8px; }
+.panda-disclaimer-body li { line-height: 1.5; }
+.panda-disclaimer-btn {
+  width: 100%;
+  font-family: 'Fredoka One', cursive; font-size: 17px;
+  background: var(--bamboo); color: white; border: none;
+  border-radius: 30px; padding: 16px 24px; cursor: pointer;
+  transition: all .25s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 6px 20px rgba(127,176,105,.4);
+  margin-bottom: 10px;
+}
+.panda-disclaimer-btn:hover { background: var(--bamboo-dark); transform: scale(1.03); }
+.panda-disclaimer-skip {
+  background: none; border: none; font-size: 12px; color: rgba(43,43,43,.35);
+  cursor: pointer; font-family: 'Nunito', sans-serif; font-style: italic;
+  padding: 4px; transition: color .2s;
+}
+.panda-disclaimer-skip:hover { color: rgba(43,43,43,.6); }
+
 /* ── Panda Login Splash ── */
 .panda-splash-overlay {
   position: fixed;
@@ -5880,6 +5926,32 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   </div>
 </div>
 
+<!-- ── Panda Disclaimer Popup (prima vizita) ── -->
+<div id="panda-disclaimer" class="panda-disclaimer-overlay" style="display:none">
+  <div class="panda-disclaimer-box">
+    <div class="panda-disclaimer-panda">🐼</div>
+    <div class="panda-disclaimer-title">Bun venit in Bucataria lui Panda</div>
+    <div class="panda-disclaimer-body">
+      <p>Inainte sa intri, cateva lucruri pe care Panda vrea sa le stii:</p>
+      <ul>
+        <li>🎭 Panda <strong>te va lua la misto</strong> la fiecare reteta. Cu bun gust. Probabil.</li>
+        <li>🤖 Retetele sunt <strong>generate cu AI</strong> — gustul final e responsabilitatea ta.</li>
+        <li>🍫 Panda nu se face responsabil daca mananci toata ciocolata inainte sa ajunga in reteta.</li>
+        <li>😐 Sarcasticul e inclus gratuit. Nu se poate dezactiva.</li>
+      </ul>
+      <p style="font-size:12px;color:rgba(43,43,43,.5);margin-top:12px;font-style:italic">
+        Prin continuare confirmi ca ai simtul umorului si nu te superi pe un panda imaginar.
+      </p>
+    </div>
+    <button class="panda-disclaimer-btn" onclick="dismissDisclaimer()">
+      🐼 Sunt pregătit! Mânânc sarcasm la micul dejun
+    </button>
+    <button class="panda-disclaimer-skip" onclick="dismissDisclaimer()">
+      Nu am simtul umorului dar intru oricum
+    </button>
+  </div>
+</div>
+
 <!-- ── Panda Login Splash ── -->
 <div id="panda-splash" class="panda-splash-overlay">
   <div class="panda-splash-inner">
@@ -6121,6 +6193,22 @@ window.installPWA = async function() {
   if (outcome === 'accepted') deferredInstallPrompt = null;
 };
 
+// ── Disclaimer popup — prima vizita ──
+(function() {
+  if (!localStorage.getItem('pandaDisclaimer')) {
+    setTimeout(function() {
+      document.getElementById('panda-disclaimer').style.display = 'flex';
+    }, 800);
+  }
+})();
+window.dismissDisclaimer = function() {
+  localStorage.setItem('pandaDisclaimer', '1');
+  const el = document.getElementById('panda-disclaimer');
+  el.style.transition = 'opacity .4s';
+  el.style.opacity = '0';
+  setTimeout(() => el.style.display = 'none', 400);
+};
+
 window.setCookieConsent = function(accepted) {
   localStorage.setItem('cookieConsent', accepted ? 'yes' : 'no');
   var cb = document.getElementById('cookie-banner');
@@ -6238,13 +6326,23 @@ var LEGAL_CONTENT = {
       <h3>5. Serviciul AI (Tab 2)</h3>
       <p>Funcția „Hai să gătim cu ce avem" utilizează Google Gemini AI pentru a genera sugestii de rețete. Sugestiile sunt generate automat și pot conține erori. Verifică întotdeauna ingredientele și instrucțiunile înainte de a găti. Nu suntem responsabili pentru rezultatele culinare bazate pe sugestiile AI.</p>
 
-      <h3>6. Limitarea răspunderii</h3>
-      <p>Rețetele sunt furnizate „ca atare", cu scop informativ și de divertisment. Nu suntem responsabili pentru rezultatele culinare, reacții alergice sau orice daune rezultate din utilizarea rețetelor. Consultă întotdeauna etichetele produselor pentru informații despre alergeni.</p>
+      <h3>6. Rețete generate cu Inteligență Artificială</h3>
+      <p>Rețetele disponibile pe acest site sunt <strong>generate automat cu ajutorul Inteligenței Artificiale (Google Gemini)</strong>. Deși ne străduim să oferim sugestii utile și corecte, AI-ul poate genera informații inexacte, incomplete sau nepotrivite pentru anumite situații.</p>
+      <ul>
+        <li>Nu garantăm acuratețea cantităților, timpilor de preparare sau tehnicilor descrise</li>
+        <li>Verifică întotdeauna ingredientele pentru posibili alergeni înainte de preparare</li>
+        <li>Consultă un specialist (medic, nutriționist) dacă ai restricții alimentare</li>
+        <li>Rezultatele culinare pot varia în funcție de echipament, ingrediente și experiență</li>
+      </ul>
+      <p><strong>Tonul sarcastic și cu umor</strong> al comentariilor este exclusiv în scop de divertisment. Panda nu judecă pe nimeni — e doar felul lui de a fi.</p>
 
-      <h3>7. Modificări ale termenilor</h3>
+      <h3>7. Limitarea răspunderii</h3>
+      <p>Rețetele sunt furnizate „ca atare", cu scop informativ și de divertisment. Nu ne asumăm nicio responsabilitate pentru rezultatele culinare, reacții alergice, daune materiale sau orice alte consecințe rezultate din utilizarea rețetelor generate de AI. Utilizarea site-ului se face pe propria răspundere. Consultă întotdeauna etichetele produselor pentru informații despre alergeni.</p>
+
+      <h3>8. Modificări ale termenilor</h3>
       <p>Ne rezervăm dreptul de a modifica acești termeni. Utilizatorii cu cont vor fi notificați prin email cu cel puțin <strong>30 de zile</strong> înainte de modificări semnificative.</p>
 
-      <h3>8. Legea aplicabilă</h3>
+      <h3>9. Legea aplicabilă</h3>
       <p>Acești termeni sunt guvernați de <strong>legea română</strong>. Orice dispute vor fi soluționate de instanțele competente din <strong>Constanța, România</strong>.</p>
     `
   }
