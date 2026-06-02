@@ -4221,10 +4221,10 @@ window.showPublishPreview = function(recipe) {
 
   const ingredients = (recipe.ingrediente || []).map(ing => `
     <tr>
-      <td><strong>${ing.nume}</strong>${ing.sarcasm ? `<div class="ssarc" style="margin-top:4px;font-size:11px">🐼 ${ing.sarcasm}</div>` : ''}</td>
+      <td><strong>${ing.nume}</strong></td>
       <td>${ing.cantitate}</td>
       <td><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></td>
-    </tr>`).join('');
+    </tr>${ing.sarcasm ? `<tr><td colspan="3"><div class="ssarc" style="margin:0 0 4px;font-size:11px;border-radius:6px">🐼 ${ing.sarcasm}</div></td></tr>` : ''}`).join('');
 
   const steps = (recipe.pasi || []).map((p, i) => `
     <li class="sitem">
