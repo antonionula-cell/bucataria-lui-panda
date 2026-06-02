@@ -91,6 +91,31 @@ body {
 }
 
 /* ══════════════════════════════════
+   PALETA CONTEXTUALA ORA DIN ZI
+══════════════════════════════════ */
+body[data-time="morning"] {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(245,200,66,0.09) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(127,176,105,0.06) 0%, transparent 50%);
+}
+body[data-time="evening"] {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(224,120,60,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(180,80,60,0.05) 0%, transparent 50%);
+}
+body[data-time="night"] {
+  background-color: #EEECE6;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(60,60,90,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(43,43,43,0.06) 0%, transparent 50%);
+}
+.time-greeting {
+  font-size:12px; font-weight:700; letter-spacing:0.08em;
+  color:rgba(250,250,248,0.55); text-align:center;
+  padding:4px 0 2px; font-style:italic;
+}
+
+/* ══════════════════════════════════
    SVG PANDA DECORATIONS
 ══════════════════════════════════ */
 .panda-deco {
@@ -629,6 +654,23 @@ body {
   font-size: 12px; font-style: italic;
   color: rgba(43,43,43,0.6); line-height: 1.5;
 }
+
+/* ── Easter egg tooltip pe ingrediente ── */
+.ing-egg-tip {
+  position: fixed; z-index: 9999;
+  background: var(--panda-dark); color: white;
+  font-size: 12px; font-style: italic; line-height: 1.45;
+  padding: 8px 13px; border-radius: 10px;
+  max-width: 240px; pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  animation: eggIn .22s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes eggIn { from { opacity:0; transform:scale(.85) translateY(4px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.ing-egg-tip::after {
+  content:''; position:absolute; top:100%; left:18px;
+  border:6px solid transparent; border-top-color: var(--panda-dark);
+}
+td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointer; transition:background .15s; }
 
 /* MACROS */
 .macros { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 28px; }
@@ -1537,6 +1579,28 @@ body {
   gap: 16px;
 }
 .rcard-result:hover { border-color: var(--bamboo); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+@keyframes pandaCommentIn { from { opacity:0; transform:translateY(-8px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+.panda-comment {
+  display:flex; align-items:flex-start; gap:10px;
+  background:var(--bamboo-pale); border-left:4px solid var(--bamboo);
+  border-radius:12px; padding:12px 16px; margin:12px 0 4px;
+  font-size:13px; font-style:italic; color:var(--bamboo-dark);
+  line-height:1.55; animation:pandaCommentIn .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+.panda-comment .pc-emoji { font-size:20px; flex-shrink:0; line-height:1.3; }
+@keyframes cardReveal { from { opacity:0; transform:translateY(18px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+.results-list .rcard-result { opacity:0; }
+.results-list.reveal .rcard-result { animation: cardReveal .38s cubic-bezier(.34,1.56,.64,1) both; }
+.results-list.reveal .rcard-result:nth-child(1){animation-delay:.04s}
+.results-list.reveal .rcard-result:nth-child(2){animation-delay:.10s}
+.results-list.reveal .rcard-result:nth-child(3){animation-delay:.16s}
+.results-list.reveal .rcard-result:nth-child(4){animation-delay:.22s}
+.results-list.reveal .rcard-result:nth-child(5){animation-delay:.28s}
+.results-list.reveal .rcard-result:nth-child(6){animation-delay:.34s}
+.results-list.reveal .rcard-result:nth-child(7){animation-delay:.40s}
+.results-list.reveal .rcard-result:nth-child(8){animation-delay:.46s}
+.results-list.reveal .rcard-result:nth-child(9){animation-delay:.52s}
+.results-list.reveal .rcard-result:nth-child(10){animation-delay:.58s}
 .rcard-num {
   width: 48px; height: 48px;
   border-radius: 14px;
@@ -1691,6 +1755,7 @@ body {
     </svg>
   </div>
 
+  <div id="time-greeting" class="time-greeting" style="display:none"></div>
   <div class="header-inner">
     <div class="header-left">
       <div class="header-badge">🎋 Colectie personala de retete 🎋</div>
@@ -2058,6 +2123,12 @@ body {
       <span class="chef-btn-txt">Gaseste-mi retete, Panda!</span>
     </button>
 
+    <!-- Comentariu contextual Panda -->
+    <div id="panda-comment" class="panda-comment" style="display:none">
+      <span class="pc-emoji">🐼</span>
+      <span class="pc-text"></span>
+    </div>
+
   </div>
 
   <!-- Results -->
@@ -2072,8 +2143,8 @@ body {
   <!-- Loading state -->
   <div class="chef-loading" id="chef-loading" style="display:none">
     <div class="loading-panda">🐼</div>
-    <div class="loading-txt">Panda cauta retete cu disperare...</div>
-    <div class="loading-sub">Verifica internetul, consulta bunica, intreaba vecinii...</div>
+    <div class="loading-txt" id="loading-txt-main">Panda cauta retete cu disperare...</div>
+    <div class="loading-sub" id="loading-sub-main">Verifica internetul, consulta bunica, intreaba vecinii...</div>
     <div class="loading-dots"><span></span><span></span><span></span></div>
   </div>
 
@@ -2150,15 +2221,15 @@ body {
     <div class="propose-intro">
       <div class="propose-panda">🐼</div>
       <div>
-        <h3 class="propose-title">Ai o reteta buna?</h3>
-        <p class="propose-sub">Trimite-o lui Panda. Daca e suficient de buna (sau suficient de ciudata), o adaugam in colectie cu tot cu sarcasm certificat. Panda citeste tot. Panda nu promite nimic.</p>
+        <h3 class="propose-title">Arunci o idee la Panda?</h3>
+        <p class="propose-sub">Daca ai gatit ceva interesant — sau ai vazut o reteta si ti-ai zis "asta ar trebui sa fie pe site" — trimite. Panda citeste. Panda nu judeca (mult). Nicio urgenta.</p>
       </div>
     </div>
 
     <div class="propose-form" id="propose-form">
 
       <textarea class="pf-input pf-textarea pf-big" id="pf-text" rows="7" maxlength="2000"
-        placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa, limba in care vrei...&#10;&#10;Panda citeste tot si se descurca. 🐼"></textarea>
+        placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa... sau scrie doar 'brownie cu dovleac' si Panda se descurca. 🐼"></textarea>
 
       <div class="pf-photo-zone" id="pf-photo-zone" onclick="document.getElementById('pf-file').click()">
         <div class="pf-photo-icon">📸</div>
@@ -2176,7 +2247,7 @@ body {
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADYZeequGONwnrCy" data-theme="light"></div>
 
       <div class="pf-actions">
-        <button class="pf-submit" onclick="submitProposal()">🐼 Trimite lui Panda</button>
+        <button class="pf-submit" onclick="submitProposal()">🐼 Arunc ideea la Panda</button>
         <span class="pf-submit-note">Se trimite direct lui Panda 🐼</span>
       </div>
 
@@ -2305,6 +2376,7 @@ body {
    <div class="mcat">🐼 Dulciuri sanatoase · Desert</div>
    <h2 class="mtitle">Brownies Proteice (~130 cal/bucata)</h2>
    <p class="msub">Brownie-ul care se preface ca e sanatos. Iaurt grecesc, cacao, proteine — si totusi miroase a vinovatie acceptabila. lui Panda ii place.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Panda nota: "proteic" nu inseamna ca poti manca 6 dintr-o data. Panda a incercat. Panda stie.</div>
   </div>
   <div class="mbody">
    <div class="macros">
@@ -2381,6 +2453,7 @@ body {
    <div class="mcat">🌙 Cookies arabe · Dulciuri</div>
    <h2 class="mtitle">Cookies Crocante pe Dinafara, Moi pe Dinauntru</h2>
    <p class="msub">Reteta originala in araba. Ciocolata dubla garantata. Untul MOALE (nu topit!). 20 min la congelator. Panda aproba.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Panda avertizeaza: faci 16 cookies si dintr-o data nu mai sunt 16 cookies. Fenomen fizic inexplicabil. Se intampla tuturor.</div>
   </div>
   <div class="mbody">
    <div class="rsec">
@@ -2447,6 +2520,7 @@ body {
    <div class="mcat">🇮🇹 Desert Italian · Fara alcool</div>
    <h2 class="mtitle">Zabaglione Fara Alcool</h2>
    <p class="msub">Crema pufoasa italiana. Bratul tau te va uri 8–10 minute. Panda considera ca e un pret acceptabil.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Daca nu ai bicepsi, obtii bicepsi. Daca ai, ii mentii. Zabaglione e gym-ul mascat in desert. Panda aproba eficienta.</div>
   </div>
   <div class="mbody">
    <div class="rsec">
@@ -2515,6 +2589,7 @@ body {
    <div class="mcat">🐼 3 Ingrediente · Snack · Desert</div>
    <h2 class="mtitle">Biscuiti cu Nutella & Inghetata</h2>
    <p class="msub">3 ingrediente. Panda poate numara pana la 3. Gata. Servit ca sandvis cu inghetata pentru maximum regret caloric.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Reteta pentru oameni seriosi care nu au timp de complicatii. Sau pentru oameni lenesi. Panda e in ambele categorii simultan.</div>
   </div>
   <div class="mbody">
    <div class="rsec">
@@ -2573,6 +2648,7 @@ body {
    <div class="mcat">🥗 Healthy · Fara faina · Fara zahar adaugat</div>
    <h2 class="mtitle">Prajitura Fara Faina in Cana</h2>
    <p class="msub">Aka "Tort in Canita". Panda mananca bambus cand vrea sa fie sanatos. Tu mananci asta. Fair enough.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Avantaj: o cana = o portie = teoretic nu poti manca mai mult. Dezavantaj: poti face inca una in 5 minute. Panda a descoperit loohole-ul.</div>
   </div>
   <div class="mbody">
    <div class="macros">
@@ -2647,6 +2723,7 @@ body {
    <div class="mcat">🥜 High Protein · Healthy · Snack</div>
    <h2 class="mtitle">Muffin Cups cu Unt de Arahide & Ciocolata</h2>
    <p class="msub">Arata ca niste muffins de cofetarie, sunt facuti in 25 de minute si au proteina. Panda nu intelege cum e posibil, dar accepta rezultatul.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Muffin-ul care se preface ca e serios. Spoiler: e serios si bun. Panda e surprins de fiecare data si refuza sa recunoasca asta.</div>
   </div>
   <div class="mbody">
    <div class="macros">
@@ -2727,6 +2804,7 @@ body {
    <div class="mcat">❄️ No-Bake · High Protein · Fara cuptor</div>
    <h2 class="mtitle">Brownie Ciocolata & Fructe de Padure</h2>
    <p class="msub">Fara cuptor, fara faina, fara scuze. Banane inghetate + cacao + pudra proteica + fructe de padure. Panda aproba si nu intelege fizica asta.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 "Fara cuptor" e cel mai bun feature al acestei retete. Panda uraste sa astepte 25 de minute cand foamea e acum si e urgenta si e reala.</div>
   </div>
   <div class="mbody">
    <div class="macros">
@@ -2803,6 +2881,7 @@ body {
    <div class="mcat" style="color:rgba(255,255,255,0.8)">🍳 Mic Dejun · High Protein</div>
    <h2 class="mtitle" style="color:white">Bagels cu Oua, Bacon &amp; Cottage Cheese</h2>
    <p class="msub" style="color:rgba(255,255,255,0.7)">Credit: @_aussiefitness — 8 portii de bagel care te tin pana la pensie</p>
+   <div class="ssarc" style="margin-top:10px;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.85)">🐼 16 oua. Saisprezece. Panda a numarat de doua ori. Nu e greseala de tipar, e angajament culinar serios.</div>
   </div>
   <div class="mbody">
    <div class="macros">
@@ -2884,6 +2963,7 @@ body {
    <div class="mcat" style="color:rgba(255,255,255,0.8)">🍪 Snack · Healthy · Proteic</div>
    <h2 class="mtitle" style="color:white">Muffin Cups cu Unt de Arahide &amp; Ciocolata</h2>
    <p class="msub" style="color:rgba(255,255,255,0.7)">8 bucati de ~130 cal fiecare. Cookie + muffin + proteina. Ecuatia perfecta.</p>
+   <div class="ssarc" style="margin-top:10px;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.85)">🐼 Ecuatia e perfecta. Problema: se rezolva in aproximativ 10 minute dupa ce ies din cuptor. Panda confirma din experienta personala dureroasa.</div>
   </div>
   <div class="mbody">
    <div class="macros">
@@ -3320,7 +3400,7 @@ window.submitProposal = async function() {
   if (!tsToken) {
     btn.textContent = '🐼 Asteapta verificarea Cloudflare...';
     btn.style.background = '#c0392b';
-    setTimeout(() => { btn.textContent = '🐼 Trimite lui Panda'; btn.style.background = ''; }, 2500);
+    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; }, 2500);
     return;
   }
 
@@ -3328,7 +3408,7 @@ window.submitProposal = async function() {
   if (!text && !proposePhotos.length) {
     btn.textContent = '🐼 Scrie ceva sau urca o poza!';
     btn.style.background = '#c0392b';
-    setTimeout(() => { btn.textContent = '🐼 Trimite lui Panda'; btn.style.background = ''; }, 2500);
+    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; }, 2500);
     return;
   }
 
@@ -3360,13 +3440,13 @@ window.submitProposal = async function() {
     // Reset Turnstile pt urmatoarea trimitere
     if (window.turnstile) window.turnstile.reset();
 
-    btn.textContent = '🎋 Panda a primit reteta!';
+    btn.textContent = '🎋 Primit. Panda a luat nota.';
     btn.style.background = 'var(--bamboo-dark)';
-    setTimeout(() => { btn.textContent = '🐼 Trimite lui Panda'; btn.style.background = ''; btn.disabled = false; }, 2500);
+    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; btn.disabled = false; }, 2500);
   } catch(e) {
     btn.textContent = '❌ Eroare — incearca din nou';
     btn.style.background = '#c0392b';
-    setTimeout(() => { btn.textContent = '🐼 Trimite lui Panda'; btn.style.background = ''; btn.disabled = false; }, 3000);
+    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; btn.disabled = false; }, 3000);
   }
 };
 
@@ -4807,6 +4887,168 @@ function toggleChip(el) {
   el.classList.toggle('sel');
 }
 
+// ── Paleta contextuala ora din zi ──
+(function() {
+  const h = new Date().getHours();
+  let period, greeting;
+  if (h >= 6 && h < 11) {
+    period = 'morning';
+    greeting = ['Buna dimineata. Panda e surprins ca esti treaz la ora asta.', 'Dimineata devreme si deja pe site. Panda aproba ambitia.', 'Buna dimineata. Kefir cu ovaz e in stanga. Retetele sunt in dreapta.'][h % 3];
+  } else if (h >= 11 && h < 17) {
+    period = 'day';
+    greeting = null;
+  } else if (h >= 17 && h < 22) {
+    period = 'evening';
+    greeting = ['Seara buna. Ai gatit azi sau ai comandat din nou?', 'Buna seara. Panda nu judeca comenzile de la livrare. Mult.', 'Seara placuta. Panda verifica daca ai gatit ceva azi. Rezultatele sunt neclare.'][h % 3];
+  } else {
+    period = 'night';
+    greeting = ['E tarziu. Panda doarme. Retele sunt inca aici, stomacul tau evident si el.', 'Program de noapte detectat. Panda saluta spiritele nocturne.', 'Ora ' + h + ':xx. Panda nu comenteaza. Panda comenteaza totusi.'][h % 3];
+  }
+  document.body.setAttribute('data-time', period);
+  if (greeting) {
+    const el = document.getElementById('time-greeting');
+    if (el) { el.textContent = '🐼 ' + greeting; el.style.display = 'block'; }
+  }
+})();
+
+// ── Easter eggs pe ingrediente ──
+(function() {
+  const _eggs = {
+    ou: ["Ou? Verificat. Exista de 3 saptamani in frigider. Panda stie.", "Ouale proaspete se scufunda in apa. Testezi sau riști? Panda a testat. O data.", "Panda a spart ouale cu o laba. Nu recomanda metoda."],
+    oua: ["Oua proaspete vs. oua de luna trecuta — Panda nu face diferenta la gust. Dar face la miros.", "16 oua? Panda calculeaza: asta e angajament serios.", "Panda bate ouale cu o singura laba. Dureza mai mult, dar e autentic."],
+    ciocolata: ["Jumatate a disparut inainte sa ajunga in bol. Fenomen universal.", "Ciocolata neagra 70%+. Sub asta e dulciuri pt copii, nu reteta serioasa.", "Panda numara bucatile. Panda nu e bun la matematica cand e foame."],
+    nutella: ["Nutella: ingredientul care dispare din borcan inainte sa incepi reteta.", "Panda recomanda sa cumperi cu 30% mai mult Nutella decat zice reteta. Trust the process.", "190g Nutella in reteta. 400g Nutella cumparata. Diferenta: explicata de fizica cuantică."],
+    unt: ["UNT MOALE ≠ UNT TOPIT. Panda insista. Panda a patit.", "Unt 82% grasime. Sub 80% e apa costisitoare. Panda are standarde.", "Panda a topit untul o data cand trebuia sa fie moale. A facut biscuiti de asfalt."],
+    iaurt: ["Iaurt grecesc, nu iaurt normal. Diferenta e reala si importanta si Panda e serios acum.", "10% grasime daca vrei rezultate serioase. 2% daca esti erou.", "Iaurtul grecesc e singurul iaurt pe care Panda il respecta. Restul sunt apa cu aromate."],
+    'unt de arahide': ["Unt de arahide cremos > unt de arahide crunchy in retete. Panda a facut testele.", "Panda mananca unt de arahide direct din borcan cu o lingura. Panda nu se scuza.", "Verifica sa nu fie cu zahar adaugat. Panda citeste etichetele. Uneori."],
+    banane: ["Bananele congelate negre sunt mai bune decat cele proaspete galbene. Panda jura.", "Nu arunca bananele innegrite. Congeleaza-le. Panda a salvat sute de banane asa.", "O banana inghetata e practic inghetata gratis. Panda a descoperit asta tarziu."],
+    slanina: ["Slanina: motivul principal pentru care exista aceasta reteta. Restul e decor.", "Panda a mancat jumatate din slanina inainte sa inceapa reteta. O data. De fiecare data.", "Slanina crocanta e o stare de spirit. Panda filosofeaza la tigaie."],
+    faina: ["Faina cernuta vs. nesernuta — conteaza. Panda a verificat. Cu tristete.", "Cantareste faina, nu o masura cu paharul. Densitatea e variabila. Panda a invatat greu.", "Faina are gluten. Daca ai problema cu asta, Panda are retete fara. Daca nu, bucura-te."],
+    miere: ["Miere de salcam > miere de floarea soarelui pentru retete. Panda are preferinte clare.", "Mierea se cristalizeaza. Nu e stricata. Bain-marie 30 secunde. Panda stie.", "40g miere = ~2 linguri. Panda masoara cu lingura si apoi linge lingura. Nu e vina lui."],
+    zahar: ["Zahar brun are melasa, zahar alb nu. Nu sunt interschimbabile in retete serioase.", "Panda a incercat sa reduca zaharul cu 50%. Rezultatul a fost comestibil. Probabil.", "Zaharul caramelizeaza la 160°C. Panda a ars zaharul de 11 ori. Acum stie."],
+    scortisoara: ["Scortisoara de Ceylon vs. scortisoara Cassia — una e buna, una e liver damage la doze mari. Panda lasa la tine.", "Panda pune scortisoara in aproape orice. Inclusiv lucruri in care nu ar trebui.", "½ lingurita scortisoara. Panda pune 1 lingurita. Panda nu respecta cantitatile mici."]
+  };
+
+  let _activeTip = null;
+
+  function _removeTip() {
+    if (_activeTip) { _activeTip.remove(); _activeTip = null; }
+  }
+
+  document.addEventListener('click', function(e) {
+    const td = e.target.closest('td');
+    if (!td || td.cellIndex !== 0) { _removeTip(); return; }
+    const table = td.closest('table');
+    if (!table) { _removeTip(); return; }
+
+    const txt = td.textContent.trim().toLowerCase();
+    let msgs = null;
+    for (const key of Object.keys(_eggs)) {
+      if (txt.includes(key)) { msgs = _eggs[key]; break; }
+    }
+    if (!msgs) { _removeTip(); return; }
+
+    e.stopPropagation();
+    _removeTip();
+
+    const msg = msgs[Math.floor(Math.random() * msgs.length)];
+    const tip = document.createElement('div');
+    tip.className = 'ing-egg-tip';
+    tip.textContent = '🐼 ' + msg;
+    document.body.appendChild(tip);
+    _activeTip = tip;
+
+    const rect = td.getBoundingClientRect();
+    const tipW = 240;
+    let left = rect.left;
+    if (left + tipW > window.innerWidth - 12) left = window.innerWidth - tipW - 12;
+    tip.style.left = left + 'px';
+    tip.style.top = (rect.top - tip.offsetHeight - 10) + 'px';
+    // daca nu incape sus, apare jos
+    if (rect.top - tip.offsetHeight - 10 < 8) {
+      tip.style.top = (rect.bottom + 8) + 'px';
+      tip.style.setProperty('--arrow-top', 'auto');
+    }
+
+    setTimeout(_removeTip, 3500);
+  });
+})();
+
+// ── Sarcasm contextual Panda ──
+function showPandaComment(text) {
+  const el = document.getElementById('panda-comment');
+  if (!el) return;
+  el.querySelector('.pc-text').textContent = text;
+  el.style.display = 'flex';
+  el.style.animation = 'none';
+  void el.offsetHeight;
+  el.style.animation = '';
+}
+function hidePandaComment() {
+  const el = document.getElementById('panda-comment');
+  if (el) el.style.display = 'none';
+}
+function getPandaComment(allIngredients) {
+  const _rand = arr => arr[Math.floor(Math.random() * arr.length)];
+  const h = new Date().getHours();
+  const dishRaw = (document.getElementById('dish-name')?.value || '').toLowerCase();
+  const chipsText = [...document.querySelectorAll('.ichip.sel')].map(c => c.textContent.toLowerCase()).join(' ');
+  const allText = dishRaw + ' ' + chipsText;
+  const isMeat = /vita|steak|carne|porc|costita|miel/.test(allText);
+  const isSweet = /ciocolata|brownie|tort|cookies|prajitura/.test(allText);
+  const isHeavy = isMeat || isSweet;
+  const n = allIngredients.length;
+  const minsSince = window._lastSearchTimestamp ? (Date.now() - window._lastSearchTimestamp) / 60000 : 999;
+
+  // P1: dublu search sub 5 min
+  if (minsSince < 5 && n > 0) {
+    const m = Math.max(1, Math.round(minsSince));
+    return _rand([
+      `Al doilea search in ${m} ${m === 1 ? 'minut' : 'minute'}. Dar ti-e foame, nu gluma. Foame mare mon cher. Urla foamea-n noi sha lalalala.`,
+      `Din nou? Stomacul tau nu asteapta. Panda respecta urgenta, dar e usor ingrijorat.`,
+      `${m} ${m === 1 ? 'minut' : 'minute'} de la ultimul search. Panda a mai cautat retete la 2 noaptea. Panda stie cum e.`
+    ]);
+  }
+  // P2: seara tarzie + mancare grea
+  if (h >= 20 && h < 23 && isMeat) return _rand([
+    `E ${h}:00 seara. Carne grea la ora asta. Auzi, dar o salata nu vrei? Ficatul tau ar fi recunoscator. Panda lasa decizia la tine.`,
+    `Steak la ${h} seara. Panda nu judeca stilul de viata. Ficatul tau, insa, are o parere ferma.`
+  ]);
+  if (h >= 20 && h < 23 && isSweet) return _rand([
+    `Dulciuri la ${h} seara. Panda intelege. Panda a mai mancat brownie la miezul noptii. Panda nu e un model de urmat.`,
+    `Ciocolata si ore tarzii. Un clasic. Panda aproba in secret si dezaproba oficial.`
+  ]);
+  // P3: noapte tarzie
+  if (h >= 23 || h < 5) return _rand([
+    `E ${h === 0 ? 'miezul noptii' : h + ':00'}. Panda doarme teoretic. Tu cauti retete. Stomacul tau are program de noapte, Panda respecta asta.`,
+    `Cautare nocturna. Fie ti-e foame, fie nu poti dormi. In ambele cazuri Panda e alaturi. Trist, dar alaturi.`
+  ]);
+  // P4: dimineata + greu
+  if (h >= 6 && h < 10 && isHeavy) return _rand([
+    `Dimineata si deja ${isMeat ? 'carne grea' : 'dulciuri serioase'}? Panda iti recomanda kefir cu ovaz ca inceput. Ficatul tau multumeste anticipat.`,
+    `Cineva are pofte mari la ${h} dimineata. Panda sugereaza un start mai bland. Panda nu insista, dar noteaza.`
+  ]);
+  if (h >= 6 && h < 10 && n > 0) return _rand([
+    `Buna dimineata. Cineva gateste de dimineata. Panda e impresionat si usor invidios.`,
+    `Dimineata devreme si deja cauti retete. Panda iti recomanda kefir cu ovaz ca warm-up. Dupa care esti liber.`
+  ]);
+  // P5: numar ingrediente
+  if (n >= 8) return _rand([
+    `${n} ingrediente selectate. Cineva a dat drumul pe Freshful fara supervision. Opulenta culinara in toata splendoarea ei.`,
+    `Wow. ${n} ingrediente. Frigider de bogat, skilluri de gatit — sa vedem. Panda investigheaza.`,
+    `${n} ingrediente si inca nu stii ce sa gatesti. Panda te intelege. Panda are acelasi problem cu bambus-ul.`
+  ]);
+  if (n <= 2) {
+    const ingList = allIngredients.slice(0,2).join(' si ');
+    return _rand([
+      `${n === 1 ? 'Un singur ingredient' : 'Doua ingrediente'}. Panda va face minuni. Minuni relative, dar minuni.`,
+      `Cu ${ingList} ai optiuni limitate. Panda le cauta pe toate. Panda nu promite spectacol.`,
+      `Minimalism culinar extrem. Panda accepta provocarea cu stoicism.`
+    ]);
+  }
+  return null;
+}
+
 function selectTime(el, val) {
   selectedTime = val;
   document.querySelectorAll('#time-btns .tbtn').forEach(b => b.classList.remove('on'));
@@ -4853,15 +5095,40 @@ window.searchRecipes = async function() {
     document.getElementById('chef-btn').style.animation = 'shake .4s ease';
     setTimeout(() => document.getElementById('chef-btn').style.animation = '', 400);
     document.getElementById('extra-ing').focus();
-    document.getElementById('extra-ing').placeholder = 'Hei! Selecteaza macar un ingredient! 🐼';
+    const _zeroMsgs = [
+      'Zero ingrediente selectate. Vrei sa gatesti aer? Panda poate sugera si aia, dar nu e nutritiv.',
+      'Saracie mare. Nici un ingredient. Plange frigiderul la fel ca stomacul tau. Selecteaza ceva, orice.',
+      'Panda s-a uitat in formularul tau. E gol. Ca si frigiderul, presupune Panda. Apasa un chip macar.'
+    ];
+    showPandaComment(_zeroMsgs[Math.floor(Math.random() * _zeroMsgs.length)]);
     return;
   }
+
+  // Comentariu contextual Panda
+  const _pandaMsg = getPandaComment(allIngredients);
+  if (_pandaMsg) showPandaComment(_pandaMsg);
+  else hidePandaComment();
 
   // UI: loading
   btn.disabled = true;
   btn.querySelector('.chef-btn-txt').textContent = 'Panda cauta...';
   results.style.display = 'none';
   loading.style.display = 'block';
+  const _loadingMsgs = [
+    ['Panda cauta prin bambus...', 'Algoritmul ruleaza. Incet, dar ruleaza.'],
+    ['Panda calculeaza macro-uri cu degetele...', 'Sunt 10 degete. E suficient pentru 10 retete.'],
+    ['Panda se consulta cu frigiderul...', 'Frigiderul nu raspunde. Panda insista.'],
+    ['Panda citeste retete in 47 de limbi...', 'Inclusiv aramaica. Nu se stie niciodata.'],
+    ['Inteligenta artificiala gandeste...', 'Panda supravegheaza. Cu scepticism.']
+  ];
+  let _lIdx = 0;
+  const _ltxt = document.getElementById('loading-txt-main');
+  const _lsub = document.getElementById('loading-sub-main');
+  const _lInterval = setInterval(() => {
+    _lIdx = (_lIdx + 1) % _loadingMsgs.length;
+    if (_ltxt) _ltxt.textContent = _loadingMsgs[_lIdx][0];
+    if (_lsub) _lsub.textContent = _loadingMsgs[_lIdx][1];
+  }, 1800);
 
   const dishName = sanitizePromptInput(document.getElementById('dish-name')?.value?.trim() || '');
   const safeIngredients = allIngredients.map(i => sanitizePromptInput(i));
@@ -4906,6 +5173,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     const recipes = JSON.parse(jsonMatch[0]);
 
     // Render results
+    clearInterval(_lInterval);
     loading.style.display = 'none';
     results.style.display = 'block';
 
@@ -4914,6 +5182,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
       'Pentru: ' + allIngredients.slice(0,4).join(', ') + (allIngredients.length > 4 ? '...' : '') +
       ' · ' + selectedTime + ' · ' + selectedTaste;
 
+    resultsList.classList.remove('reveal');
     const cleanedRecipes = recipes.map(cleanRecipe);
     resultsList.innerHTML = cleanedRecipes.map((r, i) => {
       const ing = (r.ingrediente_cheie || []).map(x => `<span class="ring-pill">${x}</span>`).join('');
@@ -4937,8 +5206,11 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
         </a>
       </div>`; }).join('');
     window._lastAiRecipes = cleanedRecipes;
+    window._lastSearchTimestamp = Date.now();
+    requestAnimationFrame(() => resultsList.classList.add('reveal'));
 
   } catch(e) {
+    clearInterval(_lInterval);
     loading.style.display = 'none';
     results.style.display = 'block';
     resultsList.innerHTML = `
