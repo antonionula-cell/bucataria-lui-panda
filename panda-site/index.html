@@ -4201,13 +4201,31 @@ REGULI OBLIGATORII:
 
 Returneaza DOAR JSON-ul, nimic altceva.`;
 
+  const _retryMsgs = [
+    '⏳ Panda incearca din nou...',
+    '⏳ Gemini e aglomerat. Panda insista...',
+    '⏳ Ultima incercare. Panda tine degetele incrucisate...'
+  ];
+  const _retryDelays = [1500, 3000];
+  const _sleep = ms => new Promise(r => setTimeout(r, ms));
+
   try {
-    const resp = await fetch('/api/gemini', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
-    if (!resp.ok) throw new Error('API error ' + resp.status);
+    let resp, lastErr;
+    for (let attempt = 0; attempt <= _retryDelays.length; attempt++) {
+      if (attempt > 0) {
+        if (btn) btn.textContent = _retryMsgs[attempt - 1];
+        await _sleep(_retryDelays[attempt - 1]);
+      }
+      resp = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      if (resp.ok) break;
+      lastErr = 'API error ' + resp.status;
+      if (resp.status !== 503 && resp.status !== 529) break; // eroare permanenta, nu retry
+    }
+    if (!resp.ok) throw new Error(lastErr || 'API error');
     const data = await resp.json();
     const cleanedText = (data.text || '').replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
     const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
