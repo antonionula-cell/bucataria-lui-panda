@@ -136,55 +136,56 @@ exports.handler = async function(event, context) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing prompt' }) };
   }
 
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.8,
-            maxOutputTokens: 4096,
-            thinkingConfig: {
-              thinkingBudget: 0
-            }
-          }
-        })
-      }
-    );
+  const RETRYABLE = new Set([503, 529]);
+  const RETRY_DELAYS = [1000, 2000, 3000]; // ms intre incercari
+  const MAX_ATTEMPTS = 4;
 
-    if (!response.ok) {
-      const errText = await response.text();
-      return {
-        statusCode: response.status,
-        headers,
-        body: JSON.stringify({ error: 'Gemini API error: ' + errText })
-      };
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  const geminiBody = JSON.stringify({
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.8,
+      maxOutputTokens: 4096,
+      thinkingConfig: { thinkingBudget: 0 }
+    }
+  });
+
+  let lastErrText = '';
+  let lastStatus  = 500;
+
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    if (attempt > 0) {
+      await sleep(RETRY_DELAYS[attempt - 1]);
+      console.log(`[Gemini] Retry ${attempt}/${MAX_ATTEMPTS - 1} dupa ${lastStatus}...`);
     }
 
-    const data = await response.json();
-    // gemini-2.5-flash are "thinking" parts — luam doar partile non-thought
-    const parts = data?.candidates?.[0]?.content?.parts || [];
-    const text = parts
-      .filter(p => !p.thought)
-      .map(p => p.text || '')
-      .join('\n')
-      || parts.map(p => p.text || '').join('\n')
-      || '';
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: geminiBody }
+      );
 
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ text })
-    };
+      if (!response.ok) {
+        lastStatus  = response.status;
+        lastErrText = await response.text();
+        if (RETRYABLE.has(response.status) && attempt < MAX_ATTEMPTS - 1) continue;
+        return { statusCode: response.status, headers, body: JSON.stringify({ error: 'Gemini API error: ' + lastErrText }) };
+      }
 
-  } catch(e) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'Server error: ' + e.message })
-    };
+      const data = await response.json();
+      const parts = data?.candidates?.[0]?.content?.parts || [];
+      const text = parts.filter(p => !p.thought).map(p => p.text || '').join('\n')
+        || parts.map(p => p.text || '').join('\n')
+        || '';
+
+      return { statusCode: 200, headers, body: JSON.stringify({ text }) };
+
+    } catch(e) {
+      lastErrText = e.message;
+      if (attempt < MAX_ATTEMPTS - 1) continue;
+    }
   }
+
+  return { statusCode: lastStatus, headers, body: JSON.stringify({ error: 'Gemini API error: ' + lastErrText }) };
 };
