@@ -3168,7 +3168,7 @@ document.addEventListener('keydown', function(e) {
 </script>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, where, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove }
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, where, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove, increment }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
          signOut, onAuthStateChanged, signInWithPopup, GoogleAuthProvider,
@@ -3735,7 +3735,8 @@ async function ensureUserDoc(user) {
       createdAt: new Date().toISOString(),
       isPremium: false,
       savedRecipes: [],
-      role: 'user'
+      role: 'user',
+      totalSearches: 0
     };
     await setDoc(ref, userData);
     // Notificare admin — Firestore (UID ca document ID = fara duplicate)
@@ -3840,14 +3841,14 @@ async function checkAndIncrementAiSearch() {
 
   if (!resetAt || now > resetAt) {
     const newReset = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
-    await updateDoc(ref, { aiSearches: { count: 1, resetAt: newReset } });
+    await updateDoc(ref, { aiSearches: { count: 1, resetAt: newReset }, totalSearches: increment(1) });
     return { allowed: true, remaining: AI_DAILY_LIMIT - 1 };
   }
   if (searches.count >= AI_DAILY_LIMIT) {
     const hoursLeft = Math.ceil((new Date(searches.resetAt) - now) / 3600000);
     return { allowed: false, remaining: 0, hoursLeft };
   }
-  await updateDoc(ref, { 'aiSearches.count': searches.count + 1 });
+  await updateDoc(ref, { 'aiSearches.count': searches.count + 1, totalSearches: increment(1) });
   return { allowed: true, remaining: AI_DAILY_LIMIT - searches.count - 1 };
 }
 
@@ -4077,6 +4078,7 @@ window.loadProfileData = async function() {
   const savedAi = data.savedAiRecipes || [];
   if (!currentAvatarId && data.avatarId) currentAvatarId = data.avatarId;
   const searches = data.aiSearches || { count: 0, resetAt: null };
+  const totalSearches = data.totalSearches || 0;
   const createdAt = data.createdAt ? new Date(data.createdAt).toLocaleDateString('ro-RO') : '—';
   const now = new Date();
   const resetAt = searches.resetAt ? new Date(searches.resetAt) : null;
@@ -4107,12 +4109,29 @@ window.loadProfileData = async function() {
     proposalsCount = psnap.docs.filter(d => d.data().userEmail === user.email).length;
   } catch(e) {}
 
+  const _tsComment = (() => {
+    if (totalSearches === 0) return { emoji: '😶', txt: 'Nici o reteta generata. Panda crede ca ti-e frica de AI. Sau de gatit. Probabil amandoua.' };
+    if (totalSearches <= 5) return { emoji: '🥱', txt: `${totalSearches} ${totalSearches === 1 ? 'reteta generata' : 'retete generate'}. E cam slab. Panda a mancat mai mult bambus decat ai gatit tu in viata.` };
+    if (totalSearches <= 15) return { emoji: '🐢', txt: `${totalSearches} retete generate. Inceput modest. Panda aproba directia, nu si ritmul. Mai repede.` };
+    if (totalSearches <= 30) return { emoji: '🔥', txt: `${totalSearches} retete generate. Se incalzeste. Panda incepe sa te respecte marginal. Foarte marginal.` };
+    if (totalSearches <= 50) return { emoji: '💪', txt: `${totalSearches} retete generate. Serios acum. Esti in top utilizatori. Panda e impresionat si refuza sa o arate.` };
+    if (totalSearches <= 100) return { emoji: '🎋', txt: `${totalSearches} retete generate. Devotament culinar real. Panda te considera un discipol serios al bambus-ului.` };
+    return { emoji: '🐼', txt: `${totalSearches} retete generate. Panda te adopta oficial. Esti parte din familia bambus. Felicitari si condoleante.` };
+  })();
+
   document.getElementById('profile-body').innerHTML = `
     <div class="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val">${createdAt}</div><div class="profile-stat-lbl">Membru din</div></div>
       <div class="profile-stat"><div class="profile-stat-val">${saved.length + savedAi.length}</div><div class="profile-stat-lbl">Retete salvate</div></div>
       <div class="profile-stat"><div class="profile-stat-val" style="color:${searchesLeft < 3 ? '#e05c5c' : 'var(--bamboo-dark)'}">${searchesLeft}</div><div class="profile-stat-lbl">Cautari AI azi</div></div>
       <div class="profile-stat"><div class="profile-stat-val">${proposalsCount}</div><div class="profile-stat-lbl">Retete propuse</div></div>
+    </div>
+    <div class="total-searches-block">
+      <div class="tsb-top">
+        <span class="tsb-emoji">${_tsComment.emoji}</span>
+        <div class="tsb-count">${totalSearches}<span class="tsb-label">retete generate total</span></div>
+      </div>
+      <div class="tsb-comment">${_tsComment.txt}</div>
     </div>
     <div class="ai-progress-wrap" title="${searchesUsed}/${AI_DAILY_LIMIT} cautari folosite azi">
       <div class="ai-progress-bar" style="width:${pct}%;background:${pct > 80 ? '#e05c5c' : 'var(--bamboo)'}"></div>
@@ -5755,6 +5774,47 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   border-radius: 6px;
   background: var(--bamboo);
   transition: width .4s;
+}
+
+/* ── Total Searches Block ── */
+.total-searches-block {
+  background: var(--bamboo-pale);
+  border: 2px solid var(--bamboo-light);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin: 16px 0 24px;
+}
+.tsb-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.tsb-emoji { font-size: 32px; line-height: 1; flex-shrink: 0; }
+.tsb-count {
+  font-family: 'Fredoka One', cursive;
+  font-size: 36px;
+  color: var(--bamboo-dark);
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+}
+.tsb-label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(43,43,43,0.45);
+  line-height: 1.4;
+}
+.tsb-comment {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--bamboo-dark);
+  line-height: 1.55;
+  border-top: 1px solid var(--bamboo-light);
+  padding-top: 8px;
 }
 
 /* ── Toast ── */
