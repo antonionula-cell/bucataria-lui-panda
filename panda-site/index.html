@@ -3580,7 +3580,8 @@ async function loadUsers() {
       const resetLabel = hoursLeft > 0 ? ` (reset in ${hoursLeft}h)` : '';
       const dateReg = u.createdAt ? new Date(u.createdAt).toLocaleDateString('ro-RO') : '—';
       const saved = (u.savedRecipes||[]).length;
-      u._metaHtml = `Inregistrat: ${dateReg} · Salvate: ${saved} · <b style="color:${color}">AI: ${count}/10</b><span style="font-size:10px;color:rgba(43,43,43,.35)">${resetLabel}</span>`;
+      const total = u.totalSearches || 0;
+      u._metaHtml = `Inregistrat: ${dateReg} · Salvate: ${saved} · <b style="color:${color}">AI azi: ${count}/10</b><span style="font-size:10px;color:rgba(43,43,43,.35)">${resetLabel}</span> · <b style="color:var(--bamboo-dark)">Total: ${total}</b>`;
       return `
       <div class="user-row">
         <div style="width:36px;height:36px;border-radius:50%;background:var(--bamboo);color:white;font-family:Fredoka One,cursive;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
