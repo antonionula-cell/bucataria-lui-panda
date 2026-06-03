@@ -4254,7 +4254,20 @@ window.showPublishPreview = function(recipe) {
   const body  = document.getElementById('publish-preview-body');
   if (!modal || !body) return;
 
-  const ingredients = (recipe.ingrediente || []).map(ing => `
+  // Curata ingredientele: extrage sarcasmul din paranteze din 'nome' daca Gemini l-a bagat acolo
+  const cleanedIngredients = (recipe.ingrediente || []).map(ing => {
+    const parenMatch = (ing.nume || '').match(/^([^(]+?)\s*\((.+)\)\s*$/);
+    if (parenMatch) {
+      return {
+        ...ing,
+        nume: parenMatch[1].trim(),
+        sarcasm: ing.sarcasm || parenMatch[2].trim()
+      };
+    }
+    return ing;
+  });
+
+  const ingredients = cleanedIngredients.map(ing => `
     <div class="ing-row">
       <div class="ing-name">
         <strong>${ing.nume}</strong>
