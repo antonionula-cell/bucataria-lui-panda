@@ -4180,8 +4180,9 @@ Returneaza EXACT un obiect JSON (fara text inainte sau dupa):
   "comentariu_panda": "1-2 propozitii sarcastice de la Panda despre aceasta reteta — OBLIGATORIU, apare ca bloc verde de comentariu",
   "macros": { "calorii": "130", "proteine": "6g", "carbs": "15g", "grasimi": "5g" },
   "ingrediente": [
-    { "nume": "Iaurt grecesc", "cantitate": "200g", "link": "https://www.freshful.ro/search?q=iaurt+grecesc", "sursa": "Freshful", "sarcasm": "1 propozitie scurta si amuzanta despre acest ingredient — OBLIGATORIU, DOAR in acest camp, NU in campul 'nume'" }
+    { "nume": "Iaurt grecesc", "cantitate": "200g", "link": "https://www.freshful.ro/search?q=iaurt+grecesc", "sursa": "Freshful", "sarcasm": "Cel de 10% grasime. Nu cel light. Niciodata cel light." }
   ],
+  IMPORTANT: campul "nume" = SCURT, fara paranteze, fara descrieri. "Zahar" NU "Zahar (sau indulcitor daca...)". Sarcasmul merge EXCLUSIV in campul "sarcasm".
   "cuptor": { "temperatura": "180°C", "mod": "convectie / aer circulant", "zanussi": "Treapta 4-5", "timp": "20-25 min", "nota": "tremura usor la mijloc = perfect" },
   "pasi": [
     { "titlu": "Titlul pasului", "descriere": "Ce ai de facut clar si detaliat", "sarcasm": "Comentariu amuzant de panda la acest pas" }
@@ -4191,9 +4192,9 @@ Returneaza EXACT un obiect JSON (fara text inainte sau dupa):
 
 REGULI OBLIGATORII:
 1. ZERO diacritice — scrie a/i/s/t simplu (ex: "reteta", "treapta", "faina")
-1b. Camp "nume" ingredient = DOAR numele scurt al ingredientului (ex: "Iaurt grecesc", "Faina"). Sarcasmul merge EXCLUSIV in campul "sarcasm", NICIODATA in "nume".
+1b. Camp "nume" = DOAR numele ingredientului, SCURT, fara paranteze, fara descrieri, fara umor. GRESIT: "Zahar (sau indulcitor daca ai mustrari)" / CORECT: "Zahar". GRESIT: "Lapte integral (sau vegetal daca vrei sa fii sanatos)" / CORECT: "Lapte integral". Umorul merge EXCLUSIV in campul "sarcasm".
 1c. Camp "comentariu_panda" = OBLIGATORIU, 1-2 propozitii sarcastice despre reteta in general.
-1d. Camp "sarcasm" per ingredient = OBLIGATORIU pentru FIECARE ingredient, 1 propozitie scurta.
+1d. Camp "sarcasm" per ingredient = OBLIGATORIU pentru FIECARE ingredient, 1 propozitie scurta si amuzanta.
 2. UMOR SI SARCASM SPECIFIC — nu generic. Exemple de sarcasm BUN: "Panda a mancat jumatate din ciocolata inainte sa ajunga in bol. Nu e singur in asta." / "Da, o furculita merge. Nu ai nevoie de mixerul KitchenAid de 800 lei pentru asta." / "La 12 min par crude. Normal — se intaresc la racire. La 20 min = pavaj. Panda avertizeaza." Fiecare pas sa aiba comentariu DIFERIT si AMUZANT.
 3. Descrierea pasului (descriere) sa contina si ea umor inline, nu doar in campul sarcasm
 4. Toate cantitatile in GRAME (sistem metric)
