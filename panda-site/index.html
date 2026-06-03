@@ -4427,9 +4427,17 @@ function renderDynamicRecipe(r) {
   if (addCard) grid.insertBefore(card, addCard);
   else grid.appendChild(card);
 
-  // Modal
-  const ingredients = (r.ingrediente||[]).map(ing =>
-    `<tr><td>${escHtml(ing.nume)}</td><td>${escHtml(ing.cantitate)}</td><td><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></td></tr>`).join('');
+  // Modal — curata ingredientele (extrage sarcasm din paranteze din 'nome')
+  const cleanedIng = (r.ingrediente||[]).map(ing => {
+    const m = (ing.nume||'').match(/^([^(]+?)\s*\((.+)\)\s*$/);
+    return m ? { ...ing, nume: m[1].trim(), sarcasm: ing.sarcasm || m[2].trim() } : ing;
+  });
+  const ingredients = cleanedIng.map(ing => `
+    <div class="ing-row">
+      <div class="ing-name"><strong>${escHtml(ing.nume)}</strong>${ing.sarcasm ? `<div class="ssarc" style="margin-top:5px;font-size:11px">🐼 ${escHtml(ing.sarcasm)}</div>` : ''}</div>
+      <div class="ing-qty">${escHtml(ing.cantitate)}</div>
+      <div class="ing-link"><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></div>
+    </div>`).join('');
 
   const steps = (r.pasi||[]).map((p,i) =>
     `<li class="sitem"><div class="snum">${i+1}</div><div>
@@ -4467,7 +4475,7 @@ function renderDynamicRecipe(r) {
       </div>
       <div class="mbody">
         ${macrosHtml}
-        <div class="rsec"><div class="rstitle">🛒 Ingrediente</div><table class="itable">${ingredients}</table></div>
+        <div class="rsec"><div class="rstitle">🛒 Ingrediente</div><div class="ing-list">${ingredients}</div></div>
         ${r.cuptor ? `<div class="rsec"><div class="rstitle">🔥 Setari cuptor</div>${ovenHtml}</div>` : ''}
         <div class="rsec"><div class="rstitle">🐼 Pasi</div><ol class="slist">${steps}</ol></div>
         <div class="rsec"><div class="rstitle">🎋 Sfaturi</div><div class="tips">${tips}</div></div>
