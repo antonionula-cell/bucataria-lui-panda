@@ -598,18 +598,26 @@ body[data-time="night"] {
 .itable td:first-child { font-weight: 700; width: 140px; color: var(--panda-dark); }
 .itable td:nth-child(2) { color: rgba(43,43,43,0.6); font-size: 13px; }
 .itable td:last-child { text-align: right; }
-/* Preview AI — ingredient list flexbox */
+/* ── Ingredient list — CSS Grid 3 col, sarcasm full-width sub rand ── */
 .ing-list { display: flex; flex-direction: column; }
 .ing-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 8px; border-bottom: 2px dashed var(--panda-grey);
+  display: grid;
+  grid-template-columns: 1fr 90px auto;
+  align-items: center;
+  column-gap: 12px;
+  padding: 10px 8px 0;
+  border-bottom: 2px dashed var(--panda-grey);
   transition: background .15s;
 }
 .ing-row:last-child { border-bottom: none; }
-.ing-row:hover { background: var(--bamboo-pale); border-radius: 8px; }
-.ing-name { flex: 1; font-weight: 700; font-size: 14px; color: var(--panda-dark); }
-.ing-qty { font-size: 13px; color: rgba(43,43,43,0.6); white-space: nowrap; min-width: 48px; text-align: right; }
-.ing-link { white-space: nowrap; }
+.ing-row:hover { background: var(--bamboo-pale); border-radius: 8px 8px 0 0; }
+.ing-name { font-weight: 700; font-size: 14px; color: var(--panda-dark); padding-bottom: 8px; }
+.ing-qty { font-size: 13px; color: rgba(43,43,43,0.6); padding-bottom: 8px; }
+.ing-link { text-align: right; white-space: nowrap; padding-bottom: 8px; }
+.ing-sarc-row {
+  grid-column: 1 / -1;
+  padding: 0 0 8px;
+}
 
 .slink {
   display: inline-flex; align-items: center; gap: 4px;
@@ -4254,28 +4262,19 @@ window.showPublishPreview = function(recipe) {
   const body  = document.getElementById('publish-preview-body');
   if (!modal || !body) return;
 
-  // Curata ingredientele: extrage sarcasmul din paranteze din 'nome' daca Gemini l-a bagat acolo
-  const cleanedIngredients = (recipe.ingrediente || []).map(ing => {
-    const parenMatch = (ing.nume || '').match(/^([^(]+?)\s*\((.+)\)\s*$/);
-    if (parenMatch) {
-      return {
-        ...ing,
-        nume: parenMatch[1].trim(),
-        sarcasm: ing.sarcasm || parenMatch[2].trim()
-      };
-    }
-    return ing;
-  });
-
-  const ingredients = cleanedIngredients.map(ing => `
+  const ingredients = (recipe.ingrediente || []).map(ing => {
+    const c = cleanIngredientItem(ing);
+    const linkHtml = c.link
+      ? `<a class="slink" href="${safeUrl(c.link)}" target="_blank" rel="noopener">🛒 ${escHtml(c.sursa||'Cumpara')}</a>`
+      : (c.sursa ? escHtml(c.sursa) : '');
+    return `
     <div class="ing-row">
-      <div class="ing-name">
-        <strong>${ing.nume}</strong>
-        ${ing.sarcasm ? `<div class="ssarc" style="margin-top:5px;font-size:11px">🐼 ${ing.sarcasm}</div>` : ''}
-      </div>
-      <div class="ing-qty">${ing.cantitate}</div>
-      <div class="ing-link"><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></div>
-    </div>`).join('');
+      <div class="ing-name">${escHtml(c.nume)}</div>
+      <div class="ing-qty">${escHtml(c.cantitate)}</div>
+      <div class="ing-link">${linkHtml}</div>
+      ${c.sarcasm ? `<div class="ing-sarc-row"><div class="ssarc" style="font-size:12px;margin:0">🐼 ${escHtml(c.sarcasm)}</div></div>` : ''}
+    </div>`;
+  }).join('');
 
   const steps = (recipe.pasi || []).map((p, i) => `
     <li class="sitem">
@@ -4427,17 +4426,20 @@ function renderDynamicRecipe(r) {
   if (addCard) grid.insertBefore(card, addCard);
   else grid.appendChild(card);
 
-  // Modal — curata ingredientele (extrage sarcasm din paranteze din 'nome')
-  const cleanedIng = (r.ingrediente||[]).map(ing => {
-    const m = (ing.nume||'').match(/^([^(]+?)\s*\((.+)\)\s*$/);
-    return m ? { ...ing, nume: m[1].trim(), sarcasm: ing.sarcasm || m[2].trim() } : ing;
-  });
-  const ingredients = cleanedIng.map(ing => `
+  // Modal — acelasi render unificat ca in showPublishPreview
+  const ingredients = (r.ingrediente||[]).map(ing => {
+    const c = cleanIngredientItem(ing);
+    const linkHtml = c.link
+      ? `<a class="slink" href="${safeUrl(c.link)}" target="_blank" rel="noopener">🛒 ${escHtml(c.sursa||'Cumpara')}</a>`
+      : (c.sursa ? escHtml(c.sursa) : '');
+    return `
     <div class="ing-row">
-      <div class="ing-name"><strong>${escHtml(ing.nume)}</strong>${ing.sarcasm ? `<div class="ssarc" style="margin-top:5px;font-size:11px">🐼 ${escHtml(ing.sarcasm)}</div>` : ''}</div>
-      <div class="ing-qty">${escHtml(ing.cantitate)}</div>
-      <div class="ing-link"><a class="slink" href="${safeUrl(ing.link)}" target="_blank" rel="noopener">🛒 ${escHtml(ing.sursa||'Cumpara')}</a></div>
-    </div>`).join('');
+      <div class="ing-name">${escHtml(c.nume)}</div>
+      <div class="ing-qty">${escHtml(c.cantitate)}</div>
+      <div class="ing-link">${linkHtml}</div>
+      ${c.sarcasm ? `<div class="ing-sarc-row"><div class="ssarc" style="font-size:12px;margin:0">🐼 ${escHtml(c.sarcasm)}</div></div>` : ''}
+    </div>`;
+  }).join('');
 
   const steps = (r.pasi||[]).map((p,i) =>
     `<li class="sitem"><div class="snum">${i+1}</div><div>
@@ -4965,6 +4967,37 @@ let selectedTaste = 'dulce sau sarat';
 
 function toggleChip(el) {
   el.classList.toggle('sel');
+}
+
+// ── Ingredient cleanup helpers ──
+function cleanIngredientItem(ing) {
+  let { nume = '', sarcasm = '', cantitate = '', link = '', sursa = '' } = ing;
+  // Extrage din paranteze DOAR daca e text lung (sarcasm real, nu varietate)
+  if (!sarcasm) {
+    const m = nume.match(/^([^(]+?)\s*\((.+)\)\s*$/);
+    if (m && m[2].length > 35) {
+      nume = m[1].trim();
+      sarcasm = m[2].trim();
+    }
+  }
+  // Ingrediente banale: sarcasm in loc de link Freshful
+  const _triviale = {
+    'sare': 'Ai acasa. Sau ar trebui. Daca nu ai sare, ai alte probleme.',
+    'zahar': 'Ai acasa. Daca nu — adauga pe lista de rusinati.',
+    'apa': 'Sper ca ai apa. Altfel e mai grav decat lipsa retetei.',
+    'ulei': 'Orice ulei vegetal. Nu fi snob cu uleiul.',
+    'bicarbonat': 'Cumperi o data, folosesti 10 ani. Merita.',
+    'praf de copt': 'Idem bicarbonatul. Aceeasi filozofie.'
+  };
+  const numeL = nume.toLowerCase();
+  for (const [key, txt] of Object.entries(_triviale)) {
+    if (numeL === key || numeL.startsWith(key + ' ')) {
+      if (!sarcasm) sarcasm = txt;
+      link = ''; sursa = '';
+      break;
+    }
+  }
+  return { ...ing, nume, sarcasm, cantitate, link, sursa };
 }
 
 // ── Paleta contextuala ora din zi ──
