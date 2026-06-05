@@ -363,7 +363,6 @@ body[data-time="night"] {
   box-shadow: 0 4px 16px var(--shadow-soft);
   border: 2px solid transparent;
   animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
-  contain: layout style paint;
 }
 .rcard:hover {
   transform: translateY(-8px) rotate(-0.5deg);
@@ -538,7 +537,7 @@ body[data-time="night"] {
   inset: 0;
   z-index: 200;
   background: rgba(26,26,26,0.82);
-  backdrop-filter: blur(6px);
+  /* backdrop-filter DOAR pe starea activa — nu pe toate 21 modale inactive */
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -569,7 +568,7 @@ body[data-time="night"] {
 #cb-nt-clatitep:checked ~ #m-nt-clatitep,
 #cb-nt-nalangate:checked ~ #m-nt-nalangate,
 #cb-nt-clatitez:checked ~ #m-nt-clatitez,
-#cb-nt-mousse:checked ~ #m-nt-mousse { opacity: 1; pointer-events: all; }
+#cb-nt-mousse:checked ~ #m-nt-mousse { opacity: 1; pointer-events: all; backdrop-filter: blur(6px); }
 
 .modal {
   background: var(--white);
@@ -1742,7 +1741,6 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   inset: 0;
   z-index: 9700;
   background: rgba(26,26,26,0.92);
-  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
