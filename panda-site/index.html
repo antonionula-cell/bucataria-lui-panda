@@ -7892,17 +7892,17 @@ window.addEventListener('load', function() {
   }
 })();
 
-// ── Event listeners pe toate checkbox-urile de modal ──
-document.querySelectorAll('.modal-toggle').forEach(function(cb) {
-  cb.addEventListener('change', function() {
-    var modalId = this.id.replace(/^cb-/, 'm-');
-    if (this.checked) {
-      history.replaceState(null, '', '#' + this.id);
-      _enhanceModal(modalId, this.id);
-    } else {
-      history.replaceState(null, '', window.location.pathname);
-    }
-  });
+// ── Event listener DELEGAT pe document — prinde si checkboxuri create dinamic ──
+document.addEventListener('change', function(e) {
+  if (!e.target.classList.contains('modal-toggle')) return;
+  var cbId = e.target.id;
+  var modalId = cbId.replace(/^cb-/, 'm-');
+  if (e.target.checked) {
+    history.replaceState(null, '', '#' + cbId);
+    _enhanceModal(modalId, cbId);
+  } else {
+    history.replaceState(null, '', window.location.pathname);
+  }
 });
 
 // ── Injecteaza scale bar, timere, share/print la prima deschidere ──
@@ -7911,26 +7911,23 @@ function _enhanceModal(modalId, cbId) {
   if (!modal || modal.dataset.enhanced) return;
   modal.dataset.enhanced = '1';
 
-  // 1 — Scale bar inaintea fiecarei tabele de ingrediente
+  // 1a — Scale bar pentru retete statice (.itable)
   modal.querySelectorAll('.itable').forEach(function(table) {
     table.querySelectorAll('tr').forEach(function(tr) {
       var td = tr.cells[1];
       if (td && !td.dataset.orig) td.dataset.orig = td.textContent.trim();
     });
-    var bar = document.createElement('div');
-    bar.className = 'scale-bar';
-    bar.innerHTML = '<span class="scale-lbl">🔢 Portii:</span>' +
-      '<button class="scale-btn on" data-mult="1">1x</button>' +
-      '<button class="scale-btn" data-mult="2">2x</button>' +
-      '<button class="scale-btn" data-mult="4">4x</button>';
+    var bar = _makeScaleBar(function(mult) { _scaleTable(table, mult); });
     table.parentNode.insertBefore(bar, table);
-    bar.addEventListener('click', function(e) {
-      var btn = e.target.closest('.scale-btn');
-      if (!btn) return;
-      bar.querySelectorAll('.scale-btn').forEach(function(b) { b.classList.remove('on'); });
-      btn.classList.add('on');
-      _scaleTable(table, parseFloat(btn.dataset.mult));
+  });
+
+  // 1b — Scale bar pentru retete dinamice AI (.ing-list cu .ing-qty)
+  modal.querySelectorAll('.ing-list').forEach(function(list) {
+    list.querySelectorAll('.ing-qty').forEach(function(el) {
+      if (!el.dataset.orig) el.dataset.orig = el.textContent.trim();
     });
+    var bar = _makeScaleBar(function(mult) { _scaleIngList(list, mult); });
+    list.parentNode.insertBefore(bar, list);
   });
 
   // 2 — Timer buttons in pasi cu mentiuni de timp
@@ -7972,6 +7969,24 @@ function _enhanceModal(modalId, cbId) {
   }
 }
 
+// ── Creeaza o scale bar si returneaza elementul ──
+function _makeScaleBar(onScale) {
+  var bar = document.createElement('div');
+  bar.className = 'scale-bar';
+  bar.innerHTML = '<span class="scale-lbl">🔢 Portii:</span>' +
+    '<button class="scale-btn on" data-mult="1">1x</button>' +
+    '<button class="scale-btn" data-mult="2">2x</button>' +
+    '<button class="scale-btn" data-mult="4">4x</button>';
+  bar.addEventListener('click', function(e) {
+    var btn = e.target.closest('.scale-btn');
+    if (!btn) return;
+    bar.querySelectorAll('.scale-btn').forEach(function(b) { b.classList.remove('on'); });
+    btn.classList.add('on');
+    onScale(parseFloat(btn.dataset.mult));
+  });
+  return bar;
+}
+
 // ── Scale ingrediente ──
 function _scaleTable(table, mult) {
   table.querySelectorAll('tr').forEach(function(tr) {
@@ -7979,6 +7994,28 @@ function _scaleTable(table, mult) {
     if (!td || !td.dataset.orig) return;
     if (mult === 1) { td.textContent = td.dataset.orig; return; }
     td.textContent = td.dataset.orig.replace(
+      /(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)|(\d+(?:[.,]\d+)?)/g,
+      function(match, num, denom, plain) {
+        if (num && denom) {
+          var v = (parseFloat(num) / parseFloat(denom)) * mult;
+          return v % 1 === 0 ? String(v) : String(+v.toFixed(1));
+        }
+        if (plain) {
+          var n = parseFloat(plain.replace(',', '.')) * mult;
+          return n % 1 === 0 ? String(n) : String(+n.toFixed(1));
+        }
+        return match;
+      }
+    );
+  });
+}
+
+// ── Scale ingrediente dinamice AI (.ing-qty) ──
+function _scaleIngList(list, mult) {
+  list.querySelectorAll('.ing-qty').forEach(function(el) {
+    if (!el.dataset.orig) return;
+    if (mult === 1) { el.textContent = el.dataset.orig; return; }
+    el.textContent = el.dataset.orig.replace(
       /(\d+(?:[.,]\d+)?)\s*\/\s*(\d+)|(\d+(?:[.,]\d+)?)/g,
       function(match, num, denom, plain) {
         if (num && denom) {
