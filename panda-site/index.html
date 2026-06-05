@@ -408,6 +408,55 @@ body[data-time="night"] {
   opacity: 0.35;
   transform: scaleX(-1);
 }
+.cthumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.mrecipe-img {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 0;
+  margin-bottom: 16px;
+}
+.mrecipe-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.nutella-credit {
+  margin: 16px 0 0;
+  padding: 13px 16px;
+  background: #FFF0F0;
+  border: 1.5px solid rgba(200,16,46,0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.nutella-credit-logo { font-size: 26px; flex-shrink: 0; }
+.nutella-credit-text { font-size: 12.5px; color: var(--ink); line-height: 1.5; }
+.nutella-credit-text a { color: #C8102E; font-weight: 700; text-decoration: none; }
+.nutella-credit-text a:hover { text-decoration: underline; }
+.nutella-badge {
+  display: inline-block;
+  background: #C8102E;
+  color: white;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+  margin-left: 4px;
+}
 .em { transition: transform .35s cubic-bezier(.34,1.56,.64,1); filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12)); }
 .rcard:hover .em { transform: scale(1.18) rotate(-6deg); }
 
@@ -502,7 +551,19 @@ body[data-time="night"] {
 #cb-muffins:checked ~ #m-muffins,
 #cb-browniefructe:checked ~ #m-browniefructe,
 #cb-bagels:checked ~ #m-bagels,
-#cb-pbmuffins:checked ~ #m-pbmuffins { opacity: 1; pointer-events: all; }
+#cb-pbmuffins:checked ~ #m-pbmuffins,
+#cb-nt-banichki:checked ~ #m-nt-banichki,
+#cb-nt-molnarka:checked ~ #m-nt-molnarka,
+#cb-nt-topfen:checked ~ #m-nt-topfen,
+#cb-nt-babovka:checked ~ #m-nt-babovka,
+#cb-nt-koulouri:checked ~ #m-nt-koulouri,
+#cb-nt-rulouri:checked ~ #m-nt-rulouri,
+#cb-nt-churros:checked ~ #m-nt-churros,
+#cb-nt-poffertjes:checked ~ #m-nt-poffertjes,
+#cb-nt-clatitep:checked ~ #m-nt-clatitep,
+#cb-nt-nalangate:checked ~ #m-nt-nalangate,
+#cb-nt-clatitez:checked ~ #m-nt-clatitez,
+#cb-nt-mousse:checked ~ #m-nt-mousse { opacity: 1; pointer-events: all; }
 
 .modal {
   background: var(--white);
@@ -525,7 +586,19 @@ body[data-time="night"] {
 #cb-muffins:checked ~ #m-muffins .modal,
 #cb-browniefructe:checked ~ #m-browniefructe .modal,
 #cb-bagels:checked ~ #m-bagels .modal,
-#cb-pbmuffins:checked ~ #m-pbmuffins .modal { transform: translateY(0) scale(1); }
+#cb-pbmuffins:checked ~ #m-pbmuffins .modal,
+#cb-nt-banichki:checked ~ #m-nt-banichki .modal,
+#cb-nt-molnarka:checked ~ #m-nt-molnarka .modal,
+#cb-nt-topfen:checked ~ #m-nt-topfen .modal,
+#cb-nt-babovka:checked ~ #m-nt-babovka .modal,
+#cb-nt-koulouri:checked ~ #m-nt-koulouri .modal,
+#cb-nt-rulouri:checked ~ #m-nt-rulouri .modal,
+#cb-nt-churros:checked ~ #m-nt-churros .modal,
+#cb-nt-poffertjes:checked ~ #m-nt-poffertjes .modal,
+#cb-nt-clatitep:checked ~ #m-nt-clatitep .modal,
+#cb-nt-nalangate:checked ~ #m-nt-nalangate .modal,
+#cb-nt-clatitez:checked ~ #m-nt-clatitez .modal,
+#cb-nt-mousse:checked ~ #m-nt-mousse .modal { transform: translateY(0) scale(1); }
 
 /* Modal panda decoration */
 .modal::after {
@@ -1884,6 +1957,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="fbtn" data-f="arab">🌙 Arab</button>
       <button class="fbtn" data-f="proteic">💪 Proteic</button>
       <button class="fbtn" data-f="mic-dejun">🌅 Mic Dejun</button>
+      <button class="fbtn" data-f="nutella-col">🫙 Nutella</button>
       <button class="fbtn" data-f="salvate" id="filter-salvate">🔖 Salvate</button>
     </div>
     <div class="kw-wrap">
@@ -1904,7 +1978,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
   <div class="sec-head">
     <h2 class="sec-title">🎋 Retetele lui Panda</h2>
-    <span class="sec-count" id="vc">9 retete</span>
+    <span class="sec-count" id="vc">21 retete</span>
   </div>
 
   
@@ -2015,6 +2089,152 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
         <h3 class="ctitle">Muffin Cups cu Unt de Arahide &amp; Ciocolata</h3>
         <p class="ctag">~120-145 cal bucata. Cookie + muffin + proteina. Matematica gustoasa pe care Panda o aproba cu ambele palme.</p>
         <div class="cfooter"><span class="clang">🇷🇴 Romana</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- NUTELLA COLLECTION: 12 retete -->
+
+    <!-- CARD N1: BANICHKI -->
+    <label class="rcard" style="--ca:#8B6914;--cb:#FFF8E7" data-tags="nutella-col dulciuri desert" for="cb-nt-banichki">
+      <button class="save-btn" data-recipe="nt-banichki" onclick="toggleSaveRecipe('nt-banichki',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF8E7"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2025-04/bg_image-ricetta-1040x585.jpg" alt="Turtite Banichki" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella</div>
+        <h3 class="ctitle">Turtite (Banichki) cu Ciocolata</h3>
+        <p class="ctag">Foi de placinta + banana + Nutella. Suna exotic, e simplu. 10 minute si gata dovada ca poti gati.</p>
+        <div class="cfooter"><span class="clang">⏱️ 10 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N2: CLATITE RULATE MOLNARKA -->
+    <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-molnarka">
+      <button class="save-btn" data-recipe="nt-molnarka" onclick="toggleSaveRecipe('nt-molnarka',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_hungary_localbread_desktop.jpg" alt="Clatite rulate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella</div>
+        <h3 class="ctitle">Clatite Rulate cu Nutella</h3>
+        <p class="ctag">Apa minerala cu bule in aluat. Da, cu bule. Capsuni + banana + Nutella rulata. Panda aproba.</p>
+        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N3: FOITAJ TOPFENGOLATSCHE -->
+    <label class="rcard" style="--ca:#7B3F1A;--cb:#FFF3EC" data-tags="nutella-col dulciuri desert" for="cb-nt-topfen">
+      <button class="save-btn" data-recipe="nt-topfen" onclick="toggleSaveRecipe('nt-topfen',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF3EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_austria_cottagecheesepuffpastry_desktop.jpg" alt="Foitaj Topfengolatsche" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇦🇹 Austrian</div>
+        <h3 class="ctitle">Foitaj cu Branza de Vaci</h3>
+        <p class="ctag">Topfengolatsche — sau "pliculeturi cu branza" daca nu vrei sa te complici. 8 bucati, 25 minute.</p>
+        <div class="cfooter"><span class="clang">⏱️ 25 min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N4: PANDISPAN BABOVKA -->
+    <label class="rcard" style="--ca:#5C3317;--cb:#FFF0E8" data-tags="nutella-col dulciuri desert" for="cb-nt-babovka">
+      <button class="save-btn" data-recipe="nt-babovka" onclick="toggleSaveRecipe('nt-babovka',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF0E8"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_praha_babovka_desktop.jpg" alt="Pandispan Babovka" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇨🇿 Ceh</div>
+        <h3 class="ctitle">Pandispan Babovka cu Nutella</h3>
+        <p class="ctag">Pandispans cu vartej de cacao si Nutella deasupra. Arata profesionist daca iese drept. Panda il numeste "rustic".</p>
+        <div class="cfooter"><span class="clang">⏱️ 1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N5: COVRIGI KOULOURI -->
+    <label class="rcard" style="--ca:#C8861A;--cb:#FFF8EC" data-tags="nutella-col snack mic-dejun" for="cb-nt-koulouri">
+      <button class="save-btn" data-recipe="nt-koulouri" onclick="toggleSaveRecipe('nt-koulouri',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF8EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_greece_localbread_desktop.jpg" alt="Covrigi Koulouri" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇬🇷 Grec</div>
+        <h3 class="ctitle">Covrigi Grecesti cu Susan</h3>
+        <p class="ctag">Koulouri Thessalonikis — covrigei din Tesalonic pe care ii gasesti pe orice straduta din Atena. Tu ii faci acasa.</p>
+        <div class="cfooter"><span class="clang">⏱️ 1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N6: RULOURI CROCANTE -->
+    <label class="rcard" style="--ca:#7B3F1A;--cb:#FFF3EC" data-tags="nutella-col mic-dejun" for="cb-nt-rulouri">
+      <button class="save-btn" data-recipe="nt-rulouri" onclick="toggleSaveRecipe('nt-rulouri',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF3EC"><img src="https://www.nutella.ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_germany_crustyrolls_desktop.jpg" alt="Rulouri crocante cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇩🇪 German</div>
+        <h3 class="ctitle">Rulouri Crocante cu Nutella</h3>
+        <p class="ctag">Aluat laminat, 4 pliciri, crusta crocanta. Reteta care testeaza rabdarea. Panda a facut 2 pliciri. S-a vazut.</p>
+        <div class="cfooter"><span class="clang">⏱️ 1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N7: CHURROS -->
+    <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri desert snack" for="cb-nt-churros">
+      <button class="save-btn" data-recipe="nt-churros" onclick="toggleSaveRecipe('nt-churros',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_spain_churros_desktop.jpg" alt="Churros cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇪🇸 Spaniol</div>
+        <h3 class="ctitle">Churros cu Nutella</h3>
+        <p class="ctag">"Dificultate: Grea" — singura reteta care admite asta cinstit. Ulei la 180°C, concentratie maxima sau arsuri.</p>
+        <div class="cfooter"><span class="clang">⏱️ 30 min · Grea</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N8: POFFERTJES -->
+    <label class="rcard" style="--ca:#D4851A;--cb:#FFF8EC" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-poffertjes">
+      <button class="save-btn" data-recipe="nt-poffertjes" onclick="toggleSaveRecipe('nt-poffertjes',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF8EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_ne_milkbread_desktop.jpg" alt="Poffertjes mini clatite" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇳🇱 Olandez</div>
+        <h3 class="ctitle">Poffertjes (Mini Clatite) cu Nutella</h3>
+        <p class="ctag">Mini clatite olandeze cu tigaie speciala. Panda nu are tigaia. Are o clatita mare in schimb. Merge si asa.</p>
+        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N9: CLATITE PUFOASE -->
+    <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-clatitep">
+      <button class="save-btn" data-recipe="nt-clatitep" onclick="toggleSaveRecipe('nt-clatitep',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2024-11/nutella_natale2024_banners_1920x1277_pancake.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella</div>
+        <h3 class="ctitle">Clatite Pufoase cu Nutella</h3>
+        <p class="ctag">Tehnica japoneza cu abur si capac. Clatite umflate cat o perna. Panda le-a intors si le-a aplatizat pe toate. Tot au fost bune.</p>
+        <div class="cfooter"><span class="clang">⏱️ 40 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N10: NALANGATE -->
+    <label class="rcard" style="--ca:#8B6914;--cb:#FFF8E7" data-tags="nutella-col dulciuri mic-dejun snack" for="cb-nt-nalangate">
+      <button class="save-btn" data-recipe="nt-nalangate" onclick="toggleSaveRecipe('nt-nalangate',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF8E7"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_ro_localbread_desktop.jpg" alt="Nalangate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella · 🇷🇴 Romana</div>
+        <h3 class="ctitle">Nalangate cu Nutella</h3>
+        <p class="ctag">Reteta romaneasca pe care bunica ta o face mai bine. Dar tu pui Nutella. Avantajul generational al lui Panda.</p>
+        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N11: CLATITE ZMEURA MASCARPONE -->
+    <label class="rcard" style="--ca:#A0193A;--cb:#FFEFF5" data-tags="nutella-col dulciuri desert mic-dejun" for="cb-nt-clatitez">
+      <button class="save-btn" data-recipe="nt-clatitez" onclick="toggleSaveRecipe('nt-clatitez',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFEFF5"><img src="https://ro.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2022-01/immagine9.jpg" alt="Clatite cu zmeura si mascarpone" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella</div>
+        <h3 class="ctitle">Clatite cu Zmeura si Mascarpone</h3>
+        <p class="ctag">Mascarpone + zmeura + Nutella. Combinatie pentru care Panda ar sari o masa principala fara remuscari.</p>
+        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD N12: MOUSSE NUTELLA -->
+    <label class="rcard" style="--ca:#5C3317;--cb:#FFF0E8" data-tags="nutella-col dulciuri desert" for="cb-nt-mousse">
+      <button class="save-btn" data-recipe="nt-mousse" onclick="toggleSaveRecipe('nt-mousse',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#FFF0E8"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/2020-08/mousse_with_nutella.jpg" alt="Mousse cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cbody">
+        <div class="ccat">🫙 Colectie Nutella</div>
+        <h3 class="ctitle">Mousse cu Nutella</h3>
+        <p class="ctag">5 ingrediente. 15 minute. 2 ore la frigider. Panda a asteptat 40 de minute. Era "aproape gata". A mancat "aproape gata".</p>
+        <div class="cfooter"><span class="clang">⏱️ 15 min + 2h frigider</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
@@ -2387,6 +2607,18 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 <input type="checkbox" id="cb-browniefructe" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 <input type="checkbox" id="cb-bagels" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 <input type="checkbox" id="cb-pbmuffins" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-banichki" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-molnarka" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-topfen" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-babovka" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-koulouri" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-rulouri" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-churros" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-poffertjes" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-clatitep" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-nalangate" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-clatitez" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-nt-mousse" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 
 <div class="moverlay" id="m-brownies" >
  <div class="modal" style="--ma:#5A7A52;--mb:#EDF5E7">
@@ -3052,6 +3284,736 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <textarea class="photo-caption-input" id="pc-pbmuffins" rows="2" placeholder="Ai mancat unul cald sau ai asteptat sa se raceasca? Panda nu te judeca (mint)." oninput="saveCaption('pbmuffins', this.value)"></textarea>
       <button class="photo-remove-btn" onclick="removePhoto('pbmuffins')">✕ sterge poza</button>
      </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     COLECTIE NUTELLA — 12 modale
+══════════════════════════════════════════════════════ -->
+
+<!-- N1: BANICHKI -->
+<div class="moverlay" id="m-nt-banichki">
+ <div class="modal" style="--ma:#8B6914;--mb:#FFF8E7">
+  <div class="mhead" style="background:#FFF8E7">
+   <label class="mclose" for="cb-nt-banichki">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2025-04/bg_image-ricetta-1040x585.jpg" alt="Turtite Banichki cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🥐</span>
+   <div class="mcat">🫙 Colectie Nutella · Dulciuri · Desert</div>
+   <h2 class="mtitle">Turtite (Banichki) cu Ciocolata si Banane</h2>
+   <p class="msub">Foi de placinta + banana + Nutella. 10 minute de munca, 9 turtite de mandrie. Suna exotic, e de fapt usor de tot.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Panda nota: "Banichki" suna mai bine decat "pachet cu banana". Tine minte asta data viitoare cand vrei sa impresionezi pe cineva la mic dejun.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (9 turtite)</div>
+    <table class="itable">
+     <tr><td>Foi de placinta</td><td>6 foi</td><td><a class="slink" href="https://www.freshful.ro/search?q=foi+de+placinta" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Banana</td><td>1 bucata</td><td>Orice super</td></tr>
+     <tr><td>Unt nesarat</td><td>50g</td><td><a class="slink" href="https://www.freshful.ro/search?q=unt+nesarat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar vanilat</td><td>dupa gust</td><td><a class="slink" href="https://www.freshful.ro/search?q=zahar+vanilat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Ulei</td><td>putin, pentru uns</td><td>Ai acasa</td></tr>
+     <tr><td>Nutella®</td><td>5–10g per turtita</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🔥 Setari cuptor</div>
+    <div class="obox">
+     <div><div class="olbl">Temperatura</div><div class="oval">180°C</div><div class="osub">rezistenta sus+jos</div></div>
+     <div><div class="olbl">Zanussi selector</div><div class="oval">Treapta 4–5</div><div class="osub">simbol 2 linii sus+jos</div></div>
+     <div><div class="olbl">Timp coacere</div><div class="oval">13–15 min</div><div class="osub">pana se rumenesc usor</div></div>
+     <div><div class="olbl">Preincalzire</div><div class="oval">10 min</div><div class="osub">obligatoriu</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Unge foile cu unt</div><div class="stext">Unge fiecare foaie cu unt topit si suprapune-le cate doua — obtii 3 perechi din 6 foi.</div><div class="ssarc">🐼 Panda nota: unt mai mult = mai bun. E matematica simpla pe care o intelege toata lumea.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Taie fasii si pune banana</div><div class="stext">Fiecare pereche se taie in 3 fasii paralele cu latura lunga. La capatul fiecareia pune o rondea de banana.</div><div class="ssarc">🐼 O rondea. Nu doua. Stiu ca esti tentat.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Ruleaza si inchide</div><div class="stext">Rulezi o data, indoi marginile lateral ca sa tii umplutura, continui sa rulezi pana la capat.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Tava si cuptor</div><div class="stext">Aseaza pe tava cu hartie de copt, unge usor cu ulei. Baga la 180°C, 13–15 minute.</div><div class="ssarc">🐼 Panda a uitat hartia de copt o data. Turtitele s-au lipit de tava. Nu a mai uitat.</div></div></li>
+     <li class="sitem"><div class="snum">5</div><div><div class="stitle">Servire cu Nutella</div><div class="stext">Pudreaza cu zahar vanilat si serveste cu Nutella alaturata sau turnata direct deasupra.</div><div class="ssarc">🐼 "Alaturata" inseamna "in aceeasi farfurie dar tehnic separat". Nimeni nu le tine separate mai mult de 10 secunde.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/turtite-banichki-cu-ciocolata-si-banane" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-banichki">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Au iesit banichki sau au iesit mici tragedii?</div>
+    <p class="photo-zone-sub">Panda accepta toate formele. Inclusiv cele care s-au desfacut.</p>
+    <label class="photo-upload-btn" for="pf-nt-banichki">🎋 Incarca dovada</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-banichki" onchange="handlePhoto('nt-banichki', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-banichki">
+     <img class="photo-preview" id="pp-nt-banichki" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-banichki" rows="2" placeholder="Cum a iesit? Panda nu judeca (mint putin)." oninput="saveCaption('nt-banichki', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-banichki')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N2: CLATITE RULATE MOLNARKA -->
+<div class="moverlay" id="m-nt-molnarka">
+ <div class="modal" style="--ma:#C8102E;--mb:#FFF0F2">
+  <div class="mhead" style="background:#FFF0F2">
+   <label class="mclose" for="cb-nt-molnarka">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_hungary_localbread_desktop.jpg" alt="Clatite rulate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🌯</span>
+   <div class="mcat">🫙 Colectie Nutella · Dulciuri · Mic Dejun</div>
+   <h2 class="mtitle">Clatite Rulate cu Nutella</h2>
+   <p class="msub">Apa minerala cu bule in aluat — da, cu bule, nu e greseala. Capsuni + banana + Nutella rulata. 12 portii, 20 minute.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Panda a pus si apa plata o data. Nu e acelasi lucru. Clatitele au iesit mai dense si mai triste. Bule = important.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (12 portii)</div>
+    <table class="itable">
+     <tr><td>Lapte</td><td>200ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Apa minerala (cu bule!)</td><td>200ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=apa+minerala" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Oua</td><td>3 bucati</td><td>Piata</td></tr>
+     <tr><td>Faina</td><td>140g</td><td>Orice super</td></tr>
+     <tr><td>Sare</td><td>un praf</td><td>Ai acasa</td></tr>
+     <tr><td>Banana</td><td>1 bucata</td><td>Orice super</td></tr>
+     <tr><td>Capsuni</td><td>250g</td><td><a class="slink" href="https://www.freshful.ro/search?q=capsuni" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>1 lingura/clatita (180g total)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Fa aluatul si lasa-l sa se odihneasca</div><div class="stext">Amesteca lapte + apa minerala + faina. Adauga oul si sarea. Lasa 30 minute la odihna.</div><div class="ssarc">🐼 30 minute. Nu 5. Nu "cat timp ma imbrac". 30. Aluatul are nevoie de gluten relaxat, nu de graba ta.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Prajeste clatitele</div><div class="stext">Tigaie unsa usor, foc mediu. Toarna, intinde uniform. Cand arata uscata deasupra, intoarce.</div><div class="ssarc">🐼 Prima clatita e intotdeauna sacrificata. E un ritual universal. Nu te simti prost.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Unge, umple, ruleaza</div><div class="stext">Intinde Nutella pe fiecare clatita, adauga felii de fructe, ruleaza strans. Serveste imediat sau rasfata-te lent.</div><div class="ssarc">🐼 "Imediat" e varianta corecta. "Lent" e o iluzie pe care o practici maxim 2 minute.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/sendvis-din-chifla-dulce-molnarka-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-molnarka">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Arata ca un rulou sau ca un accident fericit?</div>
+    <p class="photo-zone-sub">Panda le mananca si pe cele strambe. Nu face discriminari.</p>
+    <label class="photo-upload-btn" for="pf-nt-molnarka">🎋 Incarca dovada</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-molnarka" onchange="handlePhoto('nt-molnarka', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-molnarka">
+     <img class="photo-preview" id="pp-nt-molnarka" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-molnarka" rows="2" placeholder="Cum a iesit ruloul? Panda asculta." oninput="saveCaption('nt-molnarka', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-molnarka')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N3: FOITAJ TOPFENGOLATSCHE -->
+<div class="moverlay" id="m-nt-topfen">
+ <div class="modal" style="--ma:#7B3F1A;--mb:#FFF3EC">
+  <div class="mhead" style="background:#FFF3EC">
+   <label class="mclose" for="cb-nt-topfen">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_austria_cottagecheesepuffpastry_desktop.jpg" alt="Foitaj Topfengolatsche cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🥐</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇦🇹 Austrian · Desert</div>
+   <h2 class="mtitle">Foitaj cu Branza de Vaci (Topfengolatsche)</h2>
+   <p class="msub">Austriecii i-au pus un nume de 15 litere. Panda ii zice "pliculeturi cu branza de vaci" si merge mai departe. 8 bucati, 25 minute.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 "Topfengolatsche" — o singura data sa spui corect in fata cuiva si ai castigat respectul mesei pentru totdeauna.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (8 bucati)</div>
+    <table class="itable">
+     <tr><td>Aluat foitaj</td><td>270g</td><td><a class="slink" href="https://www.freshful.ro/search?q=aluat+foitaj" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Branza de vaci slaba</td><td>300g</td><td><a class="slink" href="https://www.freshful.ro/search?q=branza+de+vaci" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Lamaie (zeama)</td><td>1 bucata</td><td>Orice super</td></tr>
+     <tr><td>Gris</td><td>2 linguri</td><td><a class="slink" href="https://www.freshful.ro/search?q=gris" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Galbenus de ou</td><td>1 bucata</td><td>Piata</td></tr>
+     <tr><td>Smantana</td><td>30g</td><td><a class="slink" href="https://www.freshful.ro/search?q=smantana+fermentata" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar vanilat</td><td>20g</td><td><a class="slink" href="https://www.freshful.ro/search?q=zahar+vanilat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Esenta vanilie</td><td>2ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=esenta+vanilie" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Ou (pentru glazura)</td><td>1 bucata</td><td>Piata</td></tr>
+     <tr><td>Nutella®</td><td>120g (15g/portie)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🔥 Setari cuptor</div>
+    <div class="obox">
+     <div><div class="olbl">Temperatura</div><div class="oval">190°C</div><div class="osub">convectie / aer circulant</div></div>
+     <div><div class="olbl">Zanussi selector</div><div class="oval">Treapta 5</div><div class="osub">simbol ventilator cu cerc</div></div>
+     <div><div class="olbl">Timp coacere</div><div class="oval">~20 min</div><div class="osub">pana se rumenesc auriu</div></div>
+     <div><div class="olbl">Preincalzire</div><div class="oval">10 min</div><div class="osub">obligatoriu pentru foitaj</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Scoate foitajul si lasa-l sa se incalzeasca</div><div class="stext">10–15 minute la temperatura camerei, apoi intinde si imparte in 8 patrate egale.</div><div class="ssarc">🐼 Foitajul rece se rupe la pliat. Panda stie. Panda a reparat cu degetele. Nu arata bine.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Fa umplutura de branza</div><div class="stext">Amesteca branza de vaci cu grisul, galbenusul, smantana, zaharul vanilat, esenta si zeama de lamaie.</div><div class="ssarc">🐼 Grisul absoarbe lichidul din branza — fara el umplutura curge si foitajul se uda. Nu sari grisul.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Umple si pliaza</div><div class="stext">O lingura de branza in centrul fiecarui patrat. Pliaza doua colturi opuse spre centru, apoi celelalte doua, lasand mici spatii.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Glazura si coacere</div><div class="stext">Unge cu ou batut. Baga la 190°C aproximativ 20 minute, pana sunt aurii.</div><div class="ssarc">🐼 "Aurii" nu inseamna "maro inchis". Maro inchis = copt prea mult. Auriu = perfect. Diferenta e de 3 minute.</div></div></li>
+     <li class="sitem"><div class="snum">5</div><div><div class="stitle">Raceste si decoreaza cu Nutella</div><div class="stext">Lasa sa se raceasca complet, apoi pune 15g Nutella in spatiile ramase intre colturi.</div><div class="ssarc">🐼 Pe foitaj fierbinte Nutella se topeste si curge. Asteapta. Panda a invatat asta pe cale dureroasa (si lipicioasa).</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/foitaj-cu-branza-de-vaci-topfengolatsche" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-topfen">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Topfengolatsche sau "chestii cu branza"?</div>
+    <p class="photo-zone-sub">Panda apreciaza si varianta rustica. Mai ales cea lipicioasa.</p>
+    <label class="photo-upload-btn" for="pf-nt-topfen">🎋 Incarca dovada</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-topfen" onchange="handlePhoto('nt-topfen', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-topfen">
+     <img class="photo-preview" id="pp-nt-topfen" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-topfen" rows="2" placeholder="Ai reusit sa pronunti Topfengolatsche corect? Panda vrea sa stie." oninput="saveCaption('nt-topfen', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-topfen')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N4: PANDISPAN BABOVKA -->
+<div class="moverlay" id="m-nt-babovka">
+ <div class="modal" style="--ma:#5C3317;--mb:#FFF0E8">
+  <div class="mhead" style="background:#FFF0E8">
+   <label class="mclose" for="cb-nt-babovka">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_praha_babovka_desktop.jpg" alt="Pandispan Babovka cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🎂</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇨🇿 Ceh · Desert</div>
+   <h2 class="mtitle">Pandispan Babovka Decorat cu Nutella</h2>
+   <p class="msub">Pandispans cu vartej de cacao, zmeura proaspata si Nutella deasupra. Arata profesionist daca iese drept. Panda ii spune "rustic" cand nu iese drept.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 16 portii. Teoretic. Panda a taiat "portii" de marimi discutabile si a ajuns la 7. Matematica e relativa in bucatarie.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (16 portii)</div>
+    <table class="itable">
+     <tr><td>Unt nesarat</td><td>180g (moale!)</td><td><a class="slink" href="https://www.freshful.ro/search?q=unt+nesarat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar</td><td>280g</td><td>Orice super</td></tr>
+     <tr><td>Oua</td><td>4 bucati</td><td>Piata</td></tr>
+     <tr><td>Faina tip 550</td><td>330g</td><td><a class="slink" href="https://www.freshful.ro/search?q=faina+tip+550" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Lapte</td><td>125ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Sare</td><td>un praf</td><td>Ai acasa</td></tr>
+     <tr><td>Cacao olandeza</td><td>1 lingura</td><td><a class="slink" href="https://www.freshful.ro/search?q=cacao+pudra+olandeza" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zmeura proaspata</td><td>dupa gust</td><td><a class="slink" href="https://www.freshful.ro/search?q=zmeura" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>240g (15g/portie)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🔥 Setari cuptor</div>
+    <div class="obox">
+     <div><div class="olbl">Temperatura</div><div class="oval">180°C</div><div class="osub">rezistenta sus+jos</div></div>
+     <div><div class="olbl">Zanussi selector</div><div class="oval">Treapta 4–5</div><div class="osub">simbol 2 linii sus+jos</div></div>
+     <div><div class="olbl">Timp coacere</div><div class="oval">~50 min</div><div class="osub">test scobitor la 45 min</div></div>
+     <div><div class="olbl">Preincalzire</div><div class="oval">15 min</div><div class="osub">obligatoriu</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Bate untul cu 2/3 din zahar</div><div class="stext">Aproximativ 10 minute cu mixerul pana devine cremos si deschis la culoare.</div><div class="ssarc">🐼 10 minute. Nu 3. La 3 minute inca e granulos. Rabdarea face pandispansul pufos.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Adauga galbenusurile si faina</div><div class="stext">Galbenusurile pe rand, apoi faina cernuta, alternand cu laptele.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Bate albusurile</div><div class="stext">Albusurile cu sarea si restul de zahar pana la bezea ferma. Incorporeaza usor in compozitia de unt.</div><div class="ssarc">🐼 "Usor" inseamna cu spatula, miscare circulara. Nu cu mixerul. Nu agresiv. Bezeaua e fragila. Ca si Panda dimineata.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Fa vartejul de cacao</div><div class="stext">Separa 1/3 din aluat si cerne cacao deasupra. Amesteca usor. Toarna alternand straturile in forma unsa si fainata.</div><div class="ssarc">🐼 Vartejul se face singur la coacere. Nu amesteca in forma — strica efectul marmorat.</div></div></li>
+     <li class="sitem"><div class="snum">5</div><div><div class="stitle">Coace si decoreaza</div><div class="stext">180°C, ~50 minute. Lasa 2 minute in forma, scoate. Raceste complet, decoreaza cu Nutella si zmeura.</div><div class="ssarc">🐼 "Raceste complet" = cel putin o ora. Panda a decorat cald o data. Nutella a cursat pe tot blatul. A lapadat-o cu lingurita.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/pandispan-babovka-decorat-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-babovka">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 A iesit drept sau "rustic"?</div>
+    <p class="photo-zone-sub">Panda nu judeca inclinarile. Le numeste "personalitate".</p>
+    <label class="photo-upload-btn" for="pf-nt-babovka">🎋 Incarca babovka</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-babovka" onchange="handlePhoto('nt-babovka', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-babovka">
+     <img class="photo-preview" id="pp-nt-babovka" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-babovka" rows="2" placeholder="Rustic sau profesionist? Panda vrea sa vada." oninput="saveCaption('nt-babovka', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-babovka')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N5: COVRIGI KOULOURI -->
+<div class="moverlay" id="m-nt-koulouri">
+ <div class="modal" style="--ma:#C8861A;--mb:#FFF8EC">
+  <div class="mhead" style="background:#FFF8EC">
+   <label class="mclose" for="cb-nt-koulouri">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_greece_localbread_desktop.jpg" alt="Covrigi Koulouri cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🥨</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇬🇷 Grec · Snack · Mic Dejun</div>
+   <h2 class="mtitle">Covrigi Grecesti cu Susan (Koulouri Thessalonikis)</h2>
+   <p class="msub">Pe fiecare coltar din Atena gasesti un cos cu koulouri. La Bucuresti nu gasesti. Asa ca ii faci tu, cu drojdie, susan si mult optimism.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 ~15 covrigi din reteta asta. Panda i-a mancat pe jumatate inainte sa apuce sa puna Nutella. Regreta. Partial.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (~15 covrigi)</div>
+    <table class="itable">
+     <tr><td>Apa calduta</td><td>400ml</td><td>De la robinet</td></tr>
+     <tr><td>Sare</td><td>15g</td><td>Ai acasa</td></tr>
+     <tr><td>Zahar</td><td>40g</td><td>Orice super</td></tr>
+     <tr><td>Drojdie uscata</td><td>8g</td><td><a class="slink" href="https://www.freshful.ro/search?q=drojdie+uscata" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Faina</td><td>720g</td><td><a class="slink" href="https://www.freshful.ro/search?q=faina+alba+000" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Ulei masline</td><td>30g</td><td><a class="slink" href="https://www.freshful.ro/search?q=ulei+masline+extra+virgin" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Apa + miere (pentru glazura)</td><td>200ml + 1 lingurita</td><td><a class="slink" href="https://www.freshful.ro/search?q=miere+naturala" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Susan</td><td>200g</td><td><a class="slink" href="https://www.freshful.ro/search?q=susan" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>15g per portie</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🔥 Setari cuptor</div>
+    <div class="obox">
+     <div><div class="olbl">Temperatura</div><div class="oval">190°C</div><div class="osub">convectie / aer circulant</div></div>
+     <div><div class="olbl">Zanussi selector</div><div class="oval">Treapta 5</div><div class="osub">simbol ventilator cu cerc</div></div>
+     <div><div class="olbl">Timp coacere</div><div class="oval">20 min</div><div class="osub">pana sunt auriu-maronii</div></div>
+     <div><div class="olbl">Preincalzire</div><div class="oval">15 min</div><div class="osub">obligatoriu</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Activeaza drojdia</div><div class="stext">Dizolva zaharul si drojdia in apa calduta. Asteapta 10 minute pana face spuma.</div><div class="ssarc">🐼 Daca nu face spuma dupa 10 minute, drojdia e moarta. Cumpara alta. Nu incerca sa "salvezi" aluatul — nu merge.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Framanta aluatul</div><div class="stext">Adauga uleiul si sarea, incorporeaza faina treptat. Framanta pana e omogen si elastic. Lasa la dospit minim 1 ora.</div><div class="ssarc">🐼 1 ora minim. Aluatul trebuie sa isi dubleze volumul. Daca grabesiti, covrigeii ies densi ca piatra. Panda a testat.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Formeaza covrigeii</div><div class="stext">Imparte aluatul in portii de 100g. Scufunda fiecare in apa cu miere, apoi da prin susan generos.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Coace si serveste cu Nutella</div><div class="stext">Tava cu hartie de copt, 190°C, 20 minute. Dupa racire taie pe jumatate si intinde 15g Nutella.</div><div class="ssarc">🐼 Susanul cade pe tot blatul la taiere. E inevitabil. Accepta-l ca pe o decoratiune de podea.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/covrigi-grecesti-cu-susan-koulouri-thessalonikis" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-koulouri">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Au iesit rotunzi sau mai degraba ovale?</div>
+    <p class="photo-zone-sub">Panda accepta toate formele geometrice. Inclusiv "aproximativ rotund".</p>
+    <label class="photo-upload-btn" for="pf-nt-koulouri">🎋 Incarca dovada</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-koulouri" onchange="handlePhoto('nt-koulouri', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-koulouri">
+     <img class="photo-preview" id="pp-nt-koulouri" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-koulouri" rows="2" placeholder="Koulouri reusit sau 'lucram la rotunjime'?" oninput="saveCaption('nt-koulouri', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-koulouri')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N6: RULOURI CROCANTE -->
+<div class="moverlay" id="m-nt-rulouri">
+ <div class="modal" style="--ma:#7B3F1A;--mb:#FFF3EC">
+  <div class="mhead" style="background:#FFF3EC">
+   <label class="mclose" for="cb-nt-rulouri">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_germany_crustyrolls_desktop.jpg" alt="Rulouri crocante cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🥖</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇩🇪 German · Mic Dejun</div>
+   <h2 class="mtitle">Rulouri Crocante cu Nutella</h2>
+   <p class="msub">Aluat laminat cu unt, 4 pliciri, crusta crocanta ca la brutarie. Reteta care testeaza rabdarea. Panda a facut 2 pliciri din 4. S-a vazut diferenta.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 "Natural starter" in reteta originala = maia. Daca nu ai maia, adauga 5g drojdie in plus. Daca ai maia, esti deja un alt nivel de om.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (8 rulouri)</div>
+    <table class="itable">
+     <tr><td>Unt rece nesarat</td><td>130g</td><td><a class="slink" href="https://www.freshful.ro/search?q=unt+nesarat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Drojdie proaspata</td><td>12g</td><td><a class="slink" href="https://www.freshful.ro/search?q=drojdie+proaspata" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Faina tip 550</td><td>450g</td><td><a class="slink" href="https://www.freshful.ro/search?q=faina+tip+550" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Apa calduta</td><td>200ml</td><td>De la robinet</td></tr>
+     <tr><td>Sare</td><td>8g</td><td>Ai acasa</td></tr>
+     <tr><td>Zahar</td><td>40g</td><td>Orice super</td></tr>
+     <tr><td>Ou + lapte + sare (glazura)</td><td>1 ou, 1 lingura lapte</td><td>Piata / Freshful</td></tr>
+     <tr><td>Nutella®</td><td>120g (15g/portie)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🔥 Setari cuptor</div>
+    <div class="obox">
+     <div><div class="olbl">Start temperatura</div><div class="oval">220°C</div><div class="osub">convectie, primele 10 min</div></div>
+     <div><div class="olbl">Zanussi start</div><div class="oval">Treapta 6–7</div><div class="osub">ventilator + temperatura mare</div></div>
+     <div><div class="olbl">Reduce la</div><div class="oval">190°C</div><div class="osub">inca 15 min pana sunt aurii</div></div>
+     <div><div class="olbl">Zanussi final</div><div class="oval">Treapta 5</div><div class="osub">reducere dupa 10 min</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Pregateste foaia de unt</div><div class="stext">Pune untul rece intre doua foi de hartie de copt si bate cu sucitorul pana obtii un dreptunghi de ~20x20cm. Bag la frigider.</div><div class="ssarc">🐼 Untul RECE, nu topit. Rece = crusta se stratifica. Topit = chifle umede fara straturi. Nu e acelasi lucru.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Fa aluatul si lasa-l la odihna</div><div class="stext">Amesteca toate ingredientele aluatului pana se desprinde de pe peretii bolului. Acopera si lasa 30 minute.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Lamineaza — 4 pliciri</div><div class="stext">Intinde aluatul, pune foaia de unt pe jumatate, inveleste. Pliaza si intinde de 4 ori, dand la frigider intre pliciri daca e nevoie.</div><div class="ssarc">🐼 4 pliciri. Panda a facut 2 si s-a gandit "merge si asa". Nu mergea. Fa toate 4.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Formeaza si coace</div><div class="stext">Imparte in 8 patrate, creeaza "roseta" trecand colturile printr-o gaura centrala. Unge cu glazura, coace 10 min la 220°C, reduce la 190°C inca 15 min.</div></div></li>
+     <li class="sitem"><div class="snum">5</div><div><div class="stitle">Serveste cu Nutella</div><div class="stext">Raceste pe gratar, taie pe jumatate, intinde 15g Nutella per portie.</div><div class="ssarc">🐼 Panda a mancat unul intreg cu Nutella turnata direct din borcanel. Nu a regretat nimic.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/rulouri-crocante-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-rulouri">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Straturi vizibile sau "compact"?</div>
+    <p class="photo-zone-sub">Panda stie sa numere straturile. Trimite dovezi.</p>
+    <label class="photo-upload-btn" for="pf-nt-rulouri">🎋 Incarca ruloul</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-rulouri" onchange="handlePhoto('nt-rulouri', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-rulouri">
+     <img class="photo-preview" id="pp-nt-rulouri" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-rulouri" rows="2" placeholder="Cate pliciri ai facut sincer? Panda nu spune la nimeni." oninput="saveCaption('nt-rulouri', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-rulouri')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N7: CHURROS -->
+<div class="moverlay" id="m-nt-churros">
+ <div class="modal" style="--ma:#C8102E;--mb:#FFF0F2">
+  <div class="mhead" style="background:#FFF0F2">
+   <label class="mclose" for="cb-nt-churros">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_spain_churros_desktop.jpg" alt="Churros cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🍡</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇪🇸 Spaniol · Desert · Snack</div>
+   <h2 class="mtitle">Churros cu Nutella</h2>
+   <p class="msub">"Dificultate: Grea" — singura reteta care admite asta cinstit. Ulei la 180°C, praf de faina pe tot, arsuri posibile. Merita.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Panda a prajit primul churros si l-a mancat direct, fierbinte, cu Nutella picurand pe mana. A meritat fiecare grad Celsius.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (10–12 portii)</div>
+    <table class="itable">
+     <tr><td>Faina</td><td>150g</td><td>Orice super</td></tr>
+     <tr><td>Lapte integral</td><td>125ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Apa minerala (cu bule)</td><td>125ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=apa+minerala" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Sare</td><td>un praf</td><td>Ai acasa</td></tr>
+     <tr><td>Albus de ou</td><td>1 bucata</td><td>Piata</td></tr>
+     <tr><td>Ulei de masline</td><td>pentru prajit</td><td><a class="slink" href="https://www.freshful.ro/search?q=ulei+masline" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>15g per portie</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🍳 Setari prajire</div>
+    <div class="obox">
+     <div><div class="olbl">Temperatura ulei</div><div class="oval">180°C</div><div class="osub">termometru de bucatarie ideal</div></div>
+     <div><div class="olbl">Foc</div><div class="oval">Mediu</div><div class="osub">mentine temperatura constanta</div></div>
+     <div><div class="olbl">Timp prajire</div><div class="oval">~3 min</div><div class="osub">pana sunt auriu-maronii</div></div>
+     <div><div class="olbl">Atentie</div><div class="oval">Stropii de ulei</div><div class="osub">sort + maneci lungi recomandate</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Fa aluatul pe foc</div><div class="stext">Incalzeste apa + laptele + sarea la foc mediu. Adauga faina cernuta si amesteca 2 minute pe foc pana se desprinde de pe perete.</div><div class="ssarc">🐼 Faina CERNUTA. Cocoloase in aluat de churros = dezastru la prajit. Cerne faina, nu e optional.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Adauga albusul si lasa sa se odihneasca</div><div class="stext">Muta aluatul in bol, adauga albusul batut, amesteca bine. Lasa 10 minute sa se odihneasca.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Praji churros-ii</div><div class="stext">Toarna aluatul in pos cu dui stea. Incalzeste uleiul la 180°C. Prajeste bucati de 10–12cm, cate unul, ~3 minute pana sunt aurii.</div><div class="ssarc">🐼 Cate UNUL. Nu pune 5 deodata. Temperatura uleiului scade, ies moi si grase. Panda a invatat asta cu tristete.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Scurge si decoreaza cu Nutella</div><div class="stext">Scoate pe hartie absorbanta. Serveste imediat cu Nutella turnata sau pentru scufundat.</div><div class="ssarc">🐼 Churros se mananca FIERBINTI. Nu "cand se racesc". Fierbinti. Asta e esenta lor. Totul altceva e un baston de aluat racit.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/churros-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-churros">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Auriu sau "accident culinar"?</div>
+    <p class="photo-zone-sub">Panda nu judeca primul lot sacrificat. E un ritual universal.</p>
+    <label class="photo-upload-btn" for="pf-nt-churros">🎋 Incarca churros-ii</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-churros" onchange="handlePhoto('nt-churros', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-churros">
+     <img class="photo-preview" id="pp-nt-churros" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-churros" rows="2" placeholder="Arsuri pe mana sau totul sub control? Panda asculta." oninput="saveCaption('nt-churros', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-churros')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N8: POFFERTJES -->
+<div class="moverlay" id="m-nt-poffertjes">
+ <div class="modal" style="--ma:#D4851A;--mb:#FFF8EC">
+  <div class="mhead" style="background:#FFF8EC">
+   <label class="mclose" for="cb-nt-poffertjes">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_ne_milkbread_desktop.jpg" alt="Poffertjes mini clatite cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🥞</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇳🇱 Olandez · Mic Dejun · Dulciuri</div>
+   <h2 class="mtitle">Poffertjes (Mini Clatite) cu Fructe de Padure si Nutella</h2>
+   <p class="msub">Mini clatite olandeze pufoase cu alveole. Necesita tigaie speciala. Panda nu are tigaia. A folosit una normala. A iesit o clatita mare. Si aia e buna.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 6 portii de poffertjes = ~30–40 bucelute minuscule. Panda le-a mancat pe toate singur si nu a simtit nicio vina. Sunt prea mici ca sa conteze caloric. Asa zice Panda.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (6 portii)</div>
+    <table class="itable">
+     <tr><td>Praf de copt</td><td>1.5 linguri</td><td><a class="slink" href="https://www.freshful.ro/search?q=praf+de+copt" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Lapte</td><td>300ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Faina</td><td>250g</td><td>Orice super</td></tr>
+     <tr><td>Zahar</td><td>1 lingura</td><td>Ai acasa</td></tr>
+     <tr><td>Sare</td><td>1/2 lingurita</td><td>Ai acasa</td></tr>
+     <tr><td>Oua</td><td>2 bucati</td><td>Piata</td></tr>
+     <tr><td>Unt (pentru uns tigaia)</td><td>dupa nevoi</td><td><a class="slink" href="https://www.freshful.ro/search?q=unt+nesarat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Fructe de padure sezoniere</td><td>150g</td><td><a class="slink" href="https://www.freshful.ro/search?q=fructe+de+padure" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>90g (15g/portie)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Amesteca ingredientele uscate</div><div class="stext">Intr-un bol: faina + praf de copt + zahar + sare. In alt bol: lapte + oua. Combina-le si amesteca — nu complet omogen e ok.</div><div class="ssarc">🐼 "Nu complet omogen" e o raritate in retete. Chiar nu amesteca prea mult — poffertjes cu gluten supramuncit ies gumosi.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Pregate tigaia si toarna</div><div class="stext">Unge tigaia poffertjes cu unt, incalzeste bine. Umple fiecare alveola la 2/3. Coace 1–2 minute, intoarce cu un bat de lemn.</div><div class="ssarc">🐼 Fara tigaia speciala: fa clatite normale mici intr-o tigaie antiaderenta. Nu e acelasi lucru dar e aproape. Panda a acceptat compromisul.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Serveste cu Nutella si fructe</div><div class="stext">Inca 1–2 minute pe cealalta parte, muta pe farfurie. Serveste cu 15g Nutella si fructe de padure.</div><div class="ssarc">🐼 Nutella calda pe poffertjes reci dupa 2 minute = paradis. Nutella rece pe poffertjes fierbinti = tot paradis. Nu exista varianta rea.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/poffertjes" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-poffertjes">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Mini poffertjes sau mega-clatita improvizata?</div>
+    <p class="photo-zone-sub">Panda accepta ambele versiuni. Fara judecata (cu multa curiozitate).</p>
+    <label class="photo-upload-btn" for="pf-nt-poffertjes">🎋 Incarca dovada</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-poffertjes" onchange="handlePhoto('nt-poffertjes', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-poffertjes">
+     <img class="photo-preview" id="pp-nt-poffertjes" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-poffertjes" rows="2" placeholder="Ai tigaia speciala sau ai improvizat? Panda vrea sa stie." oninput="saveCaption('nt-poffertjes', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-poffertjes')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N9: CLATITE PUFOASE -->
+<div class="moverlay" id="m-nt-clatitep">
+ <div class="modal" style="--ma:#C8102E;--mb:#FFF0F2">
+  <div class="mhead" style="background:#FFF0F2">
+   <label class="mclose" for="cb-nt-clatitep">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2024-11/nutella_natale2024_banners_1920x1277_pancake.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🥞</span>
+   <div class="mcat">🫙 Colectie Nutella · Dulciuri · Mic Dejun</div>
+   <h2 class="mtitle">Clatite Pufoase cu Nutella</h2>
+   <p class="msub">Tehnica japoneza: abur + capac + foc mic. Clatite umflate cat o perna de hotel de 5 stele. Panda le-a intors cu spatula si le-a aplatizat pe toate. Tot au fost bune.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 4 portii. In teorie. In practica Panda a mancat 3 portii si a lasat una "pentru mai tarziu". Acea portie a durat 7 minute.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (4 portii)</div>
+    <table class="itable">
+     <tr><td>Oua</td><td>6 bucati (separate!)</td><td>Piata</td></tr>
+     <tr><td>Zahar</td><td>75g</td><td>Orice super</td></tr>
+     <tr><td>Lapte</td><td>20ml (1 lingura)</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Faina</td><td>80g</td><td>Orice super</td></tr>
+     <tr><td>Amidon / cornstarch</td><td>20g</td><td><a class="slink" href="https://www.freshful.ro/search?q=amidon+porumb" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Praf de copt</td><td>un varf</td><td><a class="slink" href="https://www.freshful.ro/search?q=praf+de+copt" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Sare</td><td>un varf</td><td>Ai acasa</td></tr>
+     <tr><td>Capsuni + banana</td><td>250g + 1 buc</td><td><a class="slink" href="https://www.freshful.ro/search?q=capsuni" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>1 lingura per clatita</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi — tehnica japoneza (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Bate albusurile pana la bezea</div><div class="stext">Separa ouale. Bate albusurile cu zaharul pana obtii bezea ferma si lucioasa.</div><div class="ssarc">🐼 Bezea ferma = cand intorci bolul nu cade nimic. Daca cade, mai bate. Daca tot cade... ai o problema mai veche cu mixerul.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Fa baza cu galbenusuri</div><div class="stext">Bate galbenusurile usor. Cerne faina + amidon + praf de copt deasupra. Adauga laptele treptat si amesteca.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Incorporeaza bezeaua</div><div class="stext">Adauga bezeaua in compozitia cu galbenusuri in 2–3 reprize, pliand usor cu spatula.</div><div class="ssarc">🐼 "Pliand usor" = nu amesteci circular agresiv. Bezeaua se sparge si clatitele ies plate. Miscare de la fund spre suprafata.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Tehnica aburului</div><div class="stext">Tigaie antiaderenta cu putin ulei, foc mic. Toarna aluatul. Adauga 1–2 linguri de apa pe marginea tigaii (nu pe aluat!), pune capac imediat. Gateste 5 minute.</div><div class="ssarc">🔑 Apa pe MARGINE, nu pe clatita. Aburi = clatita pufoasa. Apa pe clatita = clatita moale-uda. Diferenta esentiala.</div></div></li>
+     <li class="sitem"><div class="snum">5</div><div><div class="stitle">Intoarce si finalizeaza</div><div class="stext">Intoarce cu spatula larga, adauga apa pe margine din nou, capac, inca 5 minute. Serveste cu Nutella si fructe.</div><div class="ssarc">🐼 Panda a intors clatita si s-a dezumflat instant. Inca era buna. Pufoasele japoneze sunt fragile ca ego-ul lui Panda dimineata.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/retete/clatite-pufoase-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-clatitep">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Perna de hotel sau biscuit plat?</div>
+    <p class="photo-zone-sub">Panda intelege amandoua rezultatele. Le-a trait pe amandoua.</p>
+    <label class="photo-upload-btn" for="pf-nt-clatitep">🎋 Incarca clatita</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-clatitep" onchange="handlePhoto('nt-clatitep', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-clatitep">
+     <img class="photo-preview" id="pp-nt-clatitep" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-clatitep" rows="2" placeholder="S-a dezumflat la intoarcere? Panda nu judeca. A patit-o." oninput="saveCaption('nt-clatitep', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-clatitep')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N10: NALANGATE -->
+<div class="moverlay" id="m-nt-nalangate">
+ <div class="modal" style="--ma:#8B6914;--mb:#FFF8E7">
+  <div class="mhead" style="background:#FFF8E7">
+   <label class="mclose" for="cb-nt-nalangate">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_ro_localbread_desktop.jpg" alt="Nalangate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🫓</span>
+   <div class="mcat">🫙 Colectie Nutella · 🇷🇴 Romana · Mic Dejun · Snack</div>
+   <h2 class="mtitle">Nalangate cu Nutella</h2>
+   <p class="msub">Reteta romaneasca traditionala pe care bunica ta o face mai bine decat tine. Dar tu pui Nutella. Acesta e avantajul generational al lui Panda.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 20 portii. Douazeci. Panda le-a imprastiat pe o tava mare si a inceput sa numere. A ajuns la 14 inainte sa isi dea seama ca manca in timp ce numara.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (20 portii)</div>
+    <table class="itable">
+     <tr><td>Faina</td><td>225g</td><td>Orice super</td></tr>
+     <tr><td>Lapte</td><td>100ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Iaurt</td><td>200g</td><td><a class="slink" href="https://www.freshful.ro/search?q=iaurt+natural" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar</td><td>35g</td><td>Orice super</td></tr>
+     <tr><td>Sare</td><td>1g</td><td>Ai acasa</td></tr>
+     <tr><td>Bicarbonat de sodiu</td><td>3g</td><td><a class="slink" href="https://www.freshful.ro/search?q=bicarbonat+sodiu" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar vanilat</td><td>1 plic</td><td><a class="slink" href="https://www.freshful.ro/search?q=zahar+vanilat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Ou</td><td>1 bucata</td><td>Piata</td></tr>
+     <tr><td>Ulei de cocos (pentru prajit)</td><td>50ml</td><td><a class="slink" href="https://www.freshful.ro/search?q=ulei+de+cocos" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>300g (15g/portie)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🍳 Setari prajire</div>
+    <div class="obox">
+     <div><div class="olbl">Grasime</div><div class="oval">Ulei de cocos</div><div class="osub">aroma usor dulce, punct fum ridicat</div></div>
+     <div><div class="olbl">Foc</div><div class="oval">Mediu</div><div class="osub">nu prea tare — se ard repede</div></div>
+     <div><div class="olbl">Dimensiune portie</div><div class="oval">1 lingura aluat</div><div class="osub">per nalangate</div></div>
+     <div><div class="olbl">Timp</div><div class="oval">2–3 min/parte</div><div class="osub">auriu pe ambele fete</div></div>
+    </div>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Amesteca toate ingredientele</div><div class="stext">Cu telul, combina faina + lapte + iaurt + zahar + sare + bicarbonat + zahar vanilat + oul. Lasa aluatul 15 minute sa se odihneasca.</div><div class="ssarc">🐼 15 minute de odihna pentru aluat. Panda l-a lasat 5 si s-a grabit. Nalangatele au iesit mai dense. Bunica ar fi dezaprobat.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Praji pe ambele parti</div><div class="stext">Incalzeste uleiul de cocos in tigaie la foc mediu. Pune cate o lingura de aluat, prajeste 2–3 minute pe fiecare parte pana sunt aurii.</div><div class="ssarc">🐼 Ulei de cocos adauga o aroma subtil dulce. Daca nu ai, merge si floarea soarelui. Dar cu cocos e mai special. Panda a testat ambele.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Serveste calde cu Nutella</div><div class="stext">Serveste calde sau reci, decorate cu Nutella si fructe proaspete dupa gust.</div><div class="ssarc">🐼 Reci sunt bune. Calde sunt mai bune. Calde cu Nutella proaspat intinsa sunt perfecte. Fa calculul.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/nalangate" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-nalangate">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Bunica ar aproba? Sau "cam altfel"?</div>
+    <p class="photo-zone-sub">Panda sustine inovatia. Si traditia. Simultan.</p>
+    <label class="photo-upload-btn" for="pf-nt-nalangate">🎋 Incarca nalangatele</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-nalangate" onchange="handlePhoto('nt-nalangate', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-nalangate">
+     <img class="photo-preview" id="pp-nt-nalangate" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-nalangate" rows="2" placeholder="Cu sau fara Nutella la prima portie? Panda ghiceste: cu." oninput="saveCaption('nt-nalangate', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-nalangate')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N11: CLATITE ZMEURA MASCARPONE -->
+<div class="moverlay" id="m-nt-clatitez">
+ <div class="modal" style="--ma:#A0193A;--mb:#FFEFF5">
+  <div class="mhead" style="background:#FFEFF5">
+   <label class="mclose" for="cb-nt-clatitez">✕</label>
+   <div class="mrecipe-img"><img src="https://ro.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2022-01/immagine9.jpg" alt="Clatite cu zmeura si mascarpone" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🍓</span>
+   <div class="mcat">🫙 Colectie Nutella · Dulciuri · Desert · Mic Dejun</div>
+   <h2 class="mtitle">Clatite cu Zmeura si Mascarpone</h2>
+   <p class="msub">Mascarpone + zmeura + Nutella. Combinatie pentru care Panda ar sari fara remuscari o masa principala intreaga. Fara regrete. Zero.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Reteta zice "numarul de portii: nespecificat". Panda intelege de ce. Numarul de portii depinde de cat de mult te iubesti pe tine insuti.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente</div>
+    <table class="itable">
+     <tr><td>Faina</td><td>1.5 cani (~190g)</td><td>Orice super</td></tr>
+     <tr><td>Oua</td><td>2 bucati</td><td>Piata</td></tr>
+     <tr><td>Lapte</td><td>1 cana (~250ml)</td><td><a class="slink" href="https://www.freshful.ro/search?q=lapte+3.5" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Apa minerala</td><td>1 cana (~250ml)</td><td><a class="slink" href="https://www.freshful.ro/search?q=apa+minerala" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Sare</td><td>un praf</td><td>Ai acasa</td></tr>
+     <tr><td>Zmeura</td><td>dupa gust</td><td><a class="slink" href="https://www.freshful.ro/search?q=zmeura" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Mascarpone</td><td>1 lingurita per clatita</td><td><a class="slink" href="https://www.freshful.ro/search?q=mascarpone" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>15g per portie</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Fa clatitele</div><div class="stext">Combina faina + oua + lapte + apa minerala + sare. Amesteca bine. Prajeste pe ambele parti intr-o tigaie antiaderenta cu putin ulei.</div><div class="ssarc">🐼 Apa minerala in aluat de clatite = clatite mai usoare, mai aeriene. Panda confirma: conteaza. Nu pune apa plata.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Umple si formeaza</div><div class="stext">Intinde mascarpone pe fiecare clatita. Pliaza marginile usor ca sa formezi un patrat, apoi ruleaza strans.</div><div class="ssarc">🐼 "Patrat" e termen loosely folosit. Aproximativ patrat e suficient. Panda face "forme organice" si le serveste cu mandrie.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Decoreaza si serveste</div><div class="stext">Pune Nutella cu posul de cofetarie (sau cu o lingura, nu judecam). Adauga zmeura deasupra.</div><div class="ssarc">🐼 "Pos de cofetarie" e optional. Lingurita e practica. Turnat direct din borcan e... sincer. Panda e sincer.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/clatite-cu-zmeura-si-mascarpone" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-clatitez">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Elegant sau "a fost bun oricum"?</div>
+    <p class="photo-zone-sub">Panda aproba ambele prezentari. Gustul nu se vede in poza.</p>
+    <label class="photo-upload-btn" for="pf-nt-clatitez">🎋 Incarca clatita</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-clatitez" onchange="handlePhoto('nt-clatitez', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-clatitez">
+     <img class="photo-preview" id="pp-nt-clatitez" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-clatitez" rows="2" placeholder="Mascarpone sau ai improvizat cu altceva? Panda asculta." oninput="saveCaption('nt-clatitez', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-clatitez')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- N12: MOUSSE NUTELLA -->
+<div class="moverlay" id="m-nt-mousse">
+ <div class="modal" style="--ma:#5C3317;--mb:#FFF0E8">
+  <div class="mhead" style="background:#FFF0E8">
+   <label class="mclose" for="cb-nt-mousse">✕</label>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/2020-08/mousse_with_nutella.jpg" alt="Mousse cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <span class="memoji">🍮</span>
+   <div class="mcat">🫙 Colectie Nutella · Dulciuri · Desert</div>
+   <h2 class="mtitle">Mousse cu Nutella</h2>
+   <p class="msub">5 ingrediente. 15 minute de munca. 2 ore la frigider. Panda a asteptat 40 de minute. Era "aproape gata". A mancat "aproape gata". Nici nu conteaza — era delicios.</p>
+   <div class="ssarc" style="margin-top:10px">🐼 Bezea sfarmata + crema Nutella + 2 ore frigider = cel mai usor desert elegant pe care il poti servi fara sa pari ca ai incercat prea mult. Panda aproba strategia.</div>
+  </div>
+  <div class="mbody">
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (4 portii)</div>
+    <table class="itable">
+     <tr><td>Frisca lichida</td><td>30g</td><td><a class="slink" href="https://www.freshful.ro/search?q=frisca+lichida" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Nutella®</td><td>60g (40g crema + 20g decor)</td><td><a class="slink" href="https://www.freshful.ro/search?q=nutella" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Bezea sfarmata</td><td>80g</td><td><a class="slink" href="https://www.freshful.ro/search?q=bezea" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Mini bezele (decor)</td><td>4 bucati</td><td><a class="slink" href="https://www.freshful.ro/search?q=bezele+mini" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Fructe de padure</td><td>dupa gust</td><td><a class="slink" href="https://www.freshful.ro/search?q=fructe+de+padure" target="_blank">🛒 Freshful</a></td></tr>
+    </table>
+   </div>
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Fa crema de Nutella</div><div class="stext">Amesteca 40g Nutella cu 30g frisca lichida pana obtii o crema omogena si lucioasa.</div><div class="ssarc">🐼 Frisca LICHIDA, nu batuta. Amesteci cele doua pana se combina. Simplu. Panda a complicat-o prima oara incercand sa bata frisca mai intai. A iesit altceva.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Asambleaza in forme individuale</div><div class="stext">Pune un strat de bezea sfarmata in fundul fiecarui pahar/forma. Toarna crema de Nutella deasupra.</div><div class="ssarc">🐼 "Forme individuale" = pahare normale de sticla merg perfect. Panda nu are ramekin-uri si refuza sa cumpere pentru o singura reteta.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Frigider — pasul cheie</div><div class="stext">Baga la frigider minimum 2 ore. Crema se intareste si bezeaua absoarbe putin din textura cremoasa.</div><div class="ssarc">🐼 2 ore. Panda stie ca e greu. Panda a asteptat 40 minute si a mancat. Era bun si asa. Dar la 2 ore e mai bun. Accepta compromisul constient.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Decoreaza si serveste</div><div class="stext">Inainte de servire, pune 20g Nutella cu posul deasupra, decoreaza cu mini bezele si fructe de padure.</div><div class="ssarc">🐼 Decoratiunea e optionala. Gustul e la fel. Dar aspectul face diferenta daca servesti la altcineva. Daca mananci singur, sari direct.</div></div></li>
+    </ol>
+   </div>
+   <div class="nutella-credit">
+    <div class="nutella-credit-logo">🫙</div>
+    <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/mousse-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
+   </div>
+   <div class="photo-zone" id="pz-nt-mousse">
+    <div class="photo-panda-stamp">🐼</div>
+    <div class="photo-zone-title">📸 Ai asteptat 2 ore sau "aproximativ"?</div>
+    <p class="photo-zone-sub">Panda nu judeca. Panda intelege. Panda a facut la fel.</p>
+    <label class="photo-upload-btn" for="pf-nt-mousse">🎋 Incarca mousse-ul</label>
+    <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-mousse" onchange="handlePhoto('nt-mousse', this)">
+    <div class="photo-preview-wrap" id="ppw-nt-mousse">
+     <img class="photo-preview" id="pp-nt-mousse" src="" alt="Rezultatul tau">
+     <textarea class="photo-caption-input" id="pc-nt-mousse" rows="2" placeholder="Cat timp ai asteptat sincer? Panda tine secretul." oninput="saveCaption('nt-mousse', this.value)"></textarea>
+     <button class="photo-remove-btn" onclick="removePhoto('nt-mousse')">✕ sterge poza</button>
     </div>
    </div>
   </div>
