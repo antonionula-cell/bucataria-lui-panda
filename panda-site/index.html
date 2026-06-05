@@ -363,14 +363,12 @@ body[data-time="night"] {
   box-shadow: 0 4px 16px var(--shadow-soft);
   border: 2px solid transparent;
   animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
-  content-visibility: auto;
-  contain-intrinsic-size: 0 290px;
+  contain: layout style paint;
 }
 .rcard:hover {
   transform: translateY(-8px) rotate(-0.5deg);
   box-shadow: 0 18px 40px var(--shadow-med);
   border-color: var(--ca, var(--bamboo));
-  will-change: transform;
 }
 .rcard.hidden { display: none; }
 .rcard:nth-child(1){animation-delay:.05s}.rcard:nth-child(2){animation-delay:.12s}.rcard:nth-child(3){animation-delay:.19s}.rcard:nth-child(4){animation-delay:.26s}.rcard:nth-child(5){animation-delay:.33s}
@@ -418,6 +416,11 @@ body[data-time="night"] {
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+.cthumb img.img-loaded {
+  opacity: 1;
 }
 .mrecipe-img {
   width: 100%;
@@ -4022,6 +4025,15 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   </div>
  </div>
 </div>
+
+<script>
+/* Fade-in imagini Nutella dupa incarcare */
+document.querySelectorAll('.cthumb img').forEach(function(img) {
+  function markLoaded() { img.classList.add('img-loaded'); }
+  if (img.complete && img.naturalWidth > 0) { markLoaded(); }
+  else { img.addEventListener('load', markLoaded); img.addEventListener('error', markLoaded); }
+});
+</script>
 
 <script>
 document.querySelectorAll('.fbtn').forEach(btn => {
