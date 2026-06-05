@@ -363,11 +363,14 @@ body[data-time="night"] {
   box-shadow: 0 4px 16px var(--shadow-soft);
   border: 2px solid transparent;
   animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 290px;
 }
 .rcard:hover {
   transform: translateY(-8px) rotate(-0.5deg);
   box-shadow: 0 18px 40px var(--shadow-med);
   border-color: var(--ca, var(--bamboo));
+  will-change: transform;
 }
 .rcard.hidden { display: none; }
 .rcard:nth-child(1){animation-delay:.05s}.rcard:nth-child(2){animation-delay:.12s}.rcard:nth-child(3){animation-delay:.19s}.rcard:nth-child(4){animation-delay:.26s}.rcard:nth-child(5){animation-delay:.33s}
@@ -2097,7 +2100,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N1: BANICHKI -->
     <label class="rcard" style="--ca:#8B6914;--cb:#FFF8E7" data-tags="nutella-col dulciuri desert" for="cb-nt-banichki">
       <button class="save-btn" data-recipe="nt-banichki" onclick="toggleSaveRecipe('nt-banichki',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8E7"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2025-04/bg_image-ricetta-1040x585.jpg" alt="Turtite Banichki" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF8E7"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2025-04/bg_image-ricetta-1040x585.jpg" alt="Turtite Banichki" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella</div>
         <h3 class="ctitle">Turtite (Banichki) cu Ciocolata</h3>
@@ -2109,7 +2112,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N2: CLATITE RULATE MOLNARKA -->
     <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-molnarka">
       <button class="save-btn" data-recipe="nt-molnarka" onclick="toggleSaveRecipe('nt-molnarka',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_hungary_localbread_desktop.jpg" alt="Clatite rulate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_hungary_localbread_desktop.jpg" alt="Clatite rulate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella</div>
         <h3 class="ctitle">Clatite Rulate cu Nutella</h3>
@@ -2121,7 +2124,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N3: FOITAJ TOPFENGOLATSCHE -->
     <label class="rcard" style="--ca:#7B3F1A;--cb:#FFF3EC" data-tags="nutella-col dulciuri desert" for="cb-nt-topfen">
       <button class="save-btn" data-recipe="nt-topfen" onclick="toggleSaveRecipe('nt-topfen',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF3EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_austria_cottagecheesepuffpastry_desktop.jpg" alt="Foitaj Topfengolatsche" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF3EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_austria_cottagecheesepuffpastry_desktop.jpg" alt="Foitaj Topfengolatsche" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇦🇹 Austrian</div>
         <h3 class="ctitle">Foitaj cu Branza de Vaci</h3>
@@ -2133,7 +2136,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N4: PANDISPAN BABOVKA -->
     <label class="rcard" style="--ca:#5C3317;--cb:#FFF0E8" data-tags="nutella-col dulciuri desert" for="cb-nt-babovka">
       <button class="save-btn" data-recipe="nt-babovka" onclick="toggleSaveRecipe('nt-babovka',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0E8"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_praha_babovka_desktop.jpg" alt="Pandispan Babovka" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF0E8"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_praha_babovka_desktop.jpg" alt="Pandispan Babovka" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇨🇿 Ceh</div>
         <h3 class="ctitle">Pandispan Babovka cu Nutella</h3>
@@ -2145,7 +2148,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N5: COVRIGI KOULOURI -->
     <label class="rcard" style="--ca:#C8861A;--cb:#FFF8EC" data-tags="nutella-col snack mic-dejun" for="cb-nt-koulouri">
       <button class="save-btn" data-recipe="nt-koulouri" onclick="toggleSaveRecipe('nt-koulouri',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_greece_localbread_desktop.jpg" alt="Covrigi Koulouri" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF8EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_greece_localbread_desktop.jpg" alt="Covrigi Koulouri" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇬🇷 Grec</div>
         <h3 class="ctitle">Covrigi Grecesti cu Susan</h3>
@@ -2157,7 +2160,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N6: RULOURI CROCANTE -->
     <label class="rcard" style="--ca:#7B3F1A;--cb:#FFF3EC" data-tags="nutella-col mic-dejun" for="cb-nt-rulouri">
       <button class="save-btn" data-recipe="nt-rulouri" onclick="toggleSaveRecipe('nt-rulouri',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF3EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_germany_crustyrolls_desktop.jpg?t=1780573050" alt="Rulouri crocante cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF3EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_germany_crustyrolls_desktop.jpg?t=1780573050" alt="Rulouri crocante cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇩🇪 German</div>
         <h3 class="ctitle">Rulouri Crocante cu Nutella</h3>
@@ -2169,7 +2172,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N7: CHURROS -->
     <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri desert snack" for="cb-nt-churros">
       <button class="save-btn" data-recipe="nt-churros" onclick="toggleSaveRecipe('nt-churros',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.ro/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_spain_churros_desktop.jpg?t=1780573050" alt="Churros cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.ro/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_spain_churros_desktop.jpg?t=1780573050" alt="Churros cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇪🇸 Spaniol</div>
         <h3 class="ctitle">Churros cu Nutella</h3>
@@ -2181,7 +2184,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N8: POFFERTJES -->
     <label class="rcard" style="--ca:#D4851A;--cb:#FFF8EC" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-poffertjes">
       <button class="save-btn" data-recipe="nt-poffertjes" onclick="toggleSaveRecipe('nt-poffertjes',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_ne_milkbread_desktop.jpg" alt="Poffertjes mini clatite" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF8EC"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_ne_milkbread_desktop.jpg" alt="Poffertjes mini clatite" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇳🇱 Olandez</div>
         <h3 class="ctitle">Poffertjes (Mini Clatite) cu Nutella</h3>
@@ -2193,7 +2196,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N9: CLATITE PUFOASE -->
     <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-clatitep">
       <button class="save-btn" data-recipe="nt-clatitep" onclick="toggleSaveRecipe('nt-clatitep',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2024-11/nutella_natale2024_banners_1920x1277_pancake.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF0F2"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2024-11/nutella_natale2024_banners_1920x1277_pancake.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella</div>
         <h3 class="ctitle">Clatite Pufoase cu Nutella</h3>
@@ -2205,7 +2208,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N10: NALANGATE -->
     <label class="rcard" style="--ca:#8B6914;--cb:#FFF8E7" data-tags="nutella-col dulciuri mic-dejun snack" for="cb-nt-nalangate">
       <button class="save-btn" data-recipe="nt-nalangate" onclick="toggleSaveRecipe('nt-nalangate',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8E7"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_ro_localbread_desktop.jpg" alt="Nalangate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF8E7"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_ro_localbread_desktop.jpg" alt="Nalangate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella · 🇷🇴 Romana</div>
         <h3 class="ctitle">Nalangate cu Nutella</h3>
@@ -2217,7 +2220,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N11: CLATITE ZMEURA MASCARPONE -->
     <label class="rcard" style="--ca:#A0193A;--cb:#FFEFF5" data-tags="nutella-col dulciuri desert mic-dejun" for="cb-nt-clatitez">
       <button class="save-btn" data-recipe="nt-clatitez" onclick="toggleSaveRecipe('nt-clatitez',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFEFF5"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2022-01/immagine9.jpg?t=1780573050" alt="Clatite cu zmeura si mascarpone" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFEFF5"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2022-01/immagine9.jpg?t=1780573050" alt="Clatite cu zmeura si mascarpone" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella</div>
         <h3 class="ctitle">Clatite cu Zmeura si Mascarpone</h3>
@@ -2229,7 +2232,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- CARD N12: MOUSSE NUTELLA -->
     <label class="rcard" style="--ca:#5C3317;--cb:#FFF0E8" data-tags="nutella-col dulciuri desert" for="cb-nt-mousse">
       <button class="save-btn" data-recipe="nt-mousse" onclick="toggleSaveRecipe('nt-mousse',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0E8"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/2020-08/mousse_with_nutella.jpg" alt="Mousse cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+      <div class="cthumb" style="background:#FFF0E8"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/2020-08/mousse_with_nutella.jpg" alt="Mousse cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
         <div class="ccat">🫙 Colectie Nutella</div>
         <h3 class="ctitle">Mousse cu Nutella</h3>
@@ -3299,7 +3302,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#8B6914;--mb:#FFF8E7">
   <div class="mhead" style="background:#FFF8E7">
    <label class="mclose" for="cb-nt-banichki">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2025-04/bg_image-ricetta-1040x585.jpg" alt="Turtite Banichki cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2025-04/bg_image-ricetta-1040x585.jpg" alt="Turtite Banichki cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🥐</span>
    <div class="mcat">🫙 Colectie Nutella · Dulciuri · Desert</div>
    <h2 class="mtitle">Turtite (Banichki) cu Ciocolata si Banane</h2>
@@ -3362,7 +3365,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#C8102E;--mb:#FFF0F2">
   <div class="mhead" style="background:#FFF0F2">
    <label class="mclose" for="cb-nt-molnarka">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_hungary_localbread_desktop.jpg" alt="Clatite rulate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_hungary_localbread_desktop.jpg" alt="Clatite rulate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🌯</span>
    <div class="mcat">🫙 Colectie Nutella · Dulciuri · Mic Dejun</div>
    <h2 class="mtitle">Clatite Rulate cu Nutella</h2>
@@ -3416,7 +3419,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#7B3F1A;--mb:#FFF3EC">
   <div class="mhead" style="background:#FFF3EC">
    <label class="mclose" for="cb-nt-topfen">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_austria_cottagecheesepuffpastry_desktop.jpg" alt="Foitaj Topfengolatsche cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_austria_cottagecheesepuffpastry_desktop.jpg" alt="Foitaj Topfengolatsche cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🥐</span>
    <div class="mcat">🫙 Colectie Nutella · 🇦🇹 Austrian · Desert</div>
    <h2 class="mtitle">Foitaj cu Branza de Vaci (Topfengolatsche)</h2>
@@ -3483,7 +3486,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#5C3317;--mb:#FFF0E8">
   <div class="mhead" style="background:#FFF0E8">
    <label class="mclose" for="cb-nt-babovka">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_praha_babovka_desktop.jpg" alt="Pandispan Babovka cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_praha_babovka_desktop.jpg" alt="Pandispan Babovka cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🎂</span>
    <div class="mcat">🫙 Colectie Nutella · 🇨🇿 Ceh · Desert</div>
    <h2 class="mtitle">Pandispan Babovka Decorat cu Nutella</h2>
@@ -3549,7 +3552,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#C8861A;--mb:#FFF8EC">
   <div class="mhead" style="background:#FFF8EC">
    <label class="mclose" for="cb-nt-koulouri">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_greece_localbread_desktop.jpg" alt="Covrigi Koulouri cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_greece_localbread_desktop.jpg" alt="Covrigi Koulouri cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🥨</span>
    <div class="mcat">🫙 Colectie Nutella · 🇬🇷 Grec · Snack · Mic Dejun</div>
    <h2 class="mtitle">Covrigi Grecesti cu Susan (Koulouri Thessalonikis)</h2>
@@ -3614,7 +3617,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#7B3F1A;--mb:#FFF3EC">
   <div class="mhead" style="background:#FFF3EC">
    <label class="mclose" for="cb-nt-rulouri">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_germany_crustyrolls_desktop.jpg?t=1780573050" alt="Rulouri crocante cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_germany_crustyrolls_desktop.jpg?t=1780573050" alt="Rulouri crocante cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🥖</span>
    <div class="mcat">🫙 Colectie Nutella · 🇩🇪 German · Mic Dejun</div>
    <h2 class="mtitle">Rulouri Crocante cu Nutella</h2>
@@ -3679,7 +3682,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#C8102E;--mb:#FFF0F2">
   <div class="mhead" style="background:#FFF0F2">
    <label class="mclose" for="cb-nt-churros">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.ro/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_spain_churros_desktop.jpg?t=1780573050" alt="Churros cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.ro/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_spain_churros_desktop.jpg?t=1780573050" alt="Churros cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🍡</span>
    <div class="mcat">🫙 Colectie Nutella · 🇪🇸 Spaniol · Desert · Snack</div>
    <h2 class="mtitle">Churros cu Nutella</h2>
@@ -3742,7 +3745,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#D4851A;--mb:#FFF8EC">
   <div class="mhead" style="background:#FFF8EC">
    <label class="mclose" for="cb-nt-poffertjes">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_ne_milkbread_desktop.jpg" alt="Poffertjes mini clatite cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2026-03/recipes_hp_ne_milkbread_desktop.jpg" alt="Poffertjes mini clatite cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🥞</span>
    <div class="mcat">🫙 Colectie Nutella · 🇳🇱 Olandez · Mic Dejun · Dulciuri</div>
    <h2 class="mtitle">Poffertjes (Mini Clatite) cu Fructe de Padure si Nutella</h2>
@@ -3797,7 +3800,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#C8102E;--mb:#FFF0F2">
   <div class="mhead" style="background:#FFF0F2">
    <label class="mclose" for="cb-nt-clatitep">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2024-11/nutella_natale2024_banners_1920x1277_pancake.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2024-11/nutella_natale2024_banners_1920x1277_pancake.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🥞</span>
    <div class="mcat">🫙 Colectie Nutella · Dulciuri · Mic Dejun</div>
    <h2 class="mtitle">Clatite Pufoase cu Nutella</h2>
@@ -3854,7 +3857,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#8B6914;--mb:#FFF8E7">
   <div class="mhead" style="background:#FFF8E7">
    <label class="mclose" for="cb-nt-nalangate">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_ro_localbread_desktop.jpg" alt="Nalangate cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_1040/public/2026-03/recipes_hp_ro_localbread_desktop.jpg" alt="Nalangate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🫓</span>
    <div class="mcat">🫙 Colectie Nutella · 🇷🇴 Romana · Mic Dejun · Snack</div>
    <h2 class="mtitle">Nalangate cu Nutella</h2>
@@ -3919,7 +3922,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#A0193A;--mb:#FFEFF5">
   <div class="mhead" style="background:#FFEFF5">
    <label class="mclose" for="cb-nt-clatitez">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2022-01/immagine9.jpg?t=1780573050" alt="Clatite cu zmeura si mascarpone" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/styles/scale_width_970/public/2022-01/immagine9.jpg?t=1780573050" alt="Clatite cu zmeura si mascarpone" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🍓</span>
    <div class="mcat">🫙 Colectie Nutella · Dulciuri · Desert · Mic Dejun</div>
    <h2 class="mtitle">Clatite cu Zmeura si Mascarpone</h2>
@@ -3973,7 +3976,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
  <div class="modal" style="--ma:#5C3317;--mb:#FFF0E8">
   <div class="mhead" style="background:#FFF0E8">
    <label class="mclose" for="cb-nt-mousse">✕</label>
-   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/2020-08/mousse_with_nutella.jpg" alt="Mousse cu Nutella" loading="lazy" onerror="this.style.display='none'"></div>
+   <div class="mrecipe-img"><img src="https://www.nutella.com/ro/sites/nutella20_ro/files/2020-08/mousse_with_nutella.jpg" alt="Mousse cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
    <span class="memoji">🍮</span>
    <div class="mcat">🫙 Colectie Nutella · Dulciuri · Desert</div>
    <h2 class="mtitle">Mousse cu Nutella</h2>
