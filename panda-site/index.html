@@ -601,7 +601,8 @@ body[data-time="night"] {
 #cb-nt-clatitep:checked ~ #m-nt-clatitep,
 #cb-nt-nalangate:checked ~ #m-nt-nalangate,
 #cb-nt-clatitez:checked ~ #m-nt-clatitez,
-#cb-nt-mousse:checked ~ #m-nt-mousse { opacity: 1; pointer-events: all; backdrop-filter: blur(6px); }
+#cb-nt-mousse:checked ~ #m-nt-mousse,
+#cb-trokuti:checked ~ #m-trokuti { opacity: 1; pointer-events: all; backdrop-filter: blur(6px); }
 
 .modal {
   background: var(--white);
@@ -636,7 +637,8 @@ body[data-time="night"] {
 #cb-nt-clatitep:checked ~ #m-nt-clatitep .modal,
 #cb-nt-nalangate:checked ~ #m-nt-nalangate .modal,
 #cb-nt-clatitez:checked ~ #m-nt-clatitez .modal,
-#cb-nt-mousse:checked ~ #m-nt-mousse .modal { transform: translateY(0) scale(1); }
+#cb-nt-mousse:checked ~ #m-nt-mousse .modal,
+#cb-trokuti:checked ~ #m-trokuti .modal { transform: translateY(0) scale(1); }
 
 /* Modal panda decoration */
 .modal::after {
@@ -2049,7 +2051,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
   <div class="sec-head">
     <h2 class="sec-title">🎋 Retetele lui Panda</h2>
-    <span class="sec-count" id="vc">21 retete</span>
+    <span class="sec-count" id="vc">22 retete</span>
   </div>
 
   
@@ -2306,6 +2308,18 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
         <h3 class="ctitle">Mousse cu Nutella</h3>
         <p class="ctag">5 ingrediente. 15 minute. 2 ore la frigider. Panda a asteptat 40 de minute. Era "aproape gata". A mancat "aproape gata".</p>
         <div class="cfooter"><span class="clang">⏱️ 15 min + 2h frigider</span><span class="copen">Mananc asta! →</span></div>
+      </div>
+    </label>
+
+    <!-- CARD: TROKUTI -->
+    <label class="rcard" style="--ca:#6B3FA0;--cb:#F3EEF9" data-tags="dulciuri desert fara-cuptor" for="cb-trokuti">
+      <button class="save-btn" data-recipe="trokuti" onclick="toggleSaveRecipe('trokuti',event)" title="Salveaza reteta"></button>
+      <div class="cthumb" style="background:#F3EEF9"><span class="em">🔺</span></div>
+      <div class="cbody">
+        <div class="ccat">🍪 Desert · Fara cuptor</div>
+        <h3 class="ctitle">Triunghiuri de Keks fara Coacere</h3>
+        <p class="ctag">Keks + ciocolata + nuci + glazura. Taiat in triunghiuri ca sa para mai sofisticat. Panda nu e pacalit, dar tot le mananca pe toate.</p>
+        <div class="cfooter"><span class="clang">🇭🇷 Croata → 🇷🇴</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
@@ -2690,6 +2704,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 <input type="checkbox" id="cb-nt-nalangate" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 <input type="checkbox" id="cb-nt-clatitez" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 <input type="checkbox" id="cb-nt-mousse" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-trokuti" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 
 <div class="moverlay" id="m-brownies" >
  <div class="modal" style="--ma:#5A7A52;--mb:#EDF5E7">
@@ -4085,6 +4100,85 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <img class="photo-preview" id="pp-nt-mousse" src="" alt="Rezultatul tau">
      <textarea class="photo-caption-input" id="pc-nt-mousse" rows="2" placeholder="Cat timp ai asteptat sincer? Panda tine secretul." oninput="saveCaption('nt-mousse', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-mousse')">✕ sterge poza</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+
+<!-- TROKUTI -->
+<div class="moverlay" id="m-trokuti">
+ <div class="modal" style="--ma:#6B3FA0;--mb:#F3EEF9">
+  <div class="mhead" style="background:#F3EEF9">
+   <label class="mclose" for="cb-trokuti">✕</label>
+   <span class="memoji">🔺</span>
+   <div class="mcat">🍪 Desert · Fara cuptor</div>
+   <h2 class="mtitle">Triunghiuri de Keks fara Coacere</h2>
+   <p class="msub">Keks + ciocolata + nuci + glazura. Taiat in triunghiuri ca sa para mai sofisticat. Panda nu e pacalit, dar tot le mananca pe toate.</p>
+  </div>
+  <div class="mbody">
+   <div class="macros">
+    <div class="mbox"><div class="mval">~220</div><div class="mlbl">Calorii</div></div>
+    <div class="mbox"><div class="mval">~3g</div><div class="mlbl">Proteine</div></div>
+    <div class="mbox"><div class="mval">~24g</div><div class="mlbl">Carbs</div></div>
+    <div class="mbox"><div class="mval">~13g</div><div class="mlbl">Grasimi</div></div>
+   </div>
+   <p style="font-size:12px;color:rgba(43,43,43,0.5);font-style:italic;margin-bottom:20px">* per triunghi (din ~20 bucati). Desert, nu protein bar — Panda e sincer.</p>
+
+   <div class="rsec">
+    <div class="rstitle">🛒 Ingrediente (~20 bucati)</div>
+    <table class="itable">
+     <tr><td colspan="3" style="font-weight:900;font-size:11px;letter-spacing:0.1em;color:#6B3FA0;padding-top:10px">BAZA</td></tr>
+     <tr><td>Keks petit beurre</td><td>1 pachet (250g)</td><td><a class="slink" href="https://www.freshful.ro/search?q=keks+petit+beurre" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Lapte</td><td>cat e nevoie pt inmuiat</td><td>— ai acasa</td></tr>
+     <tr><td colspan="3" style="font-weight:900;font-size:11px;letter-spacing:0.1em;color:#6B3FA0;padding-top:10px">UMPLUTURA</td></tr>
+     <tr><td>Margarina / unt</td><td>170g</td><td><a class="slink" href="https://www.freshful.ro/search?q=unt+nesarat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Ciocolata neagra de menaj</td><td>170g</td><td><a class="slink" href="https://www.freshful.ro/search?q=ciocolata+neagra+menaj" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar</td><td>150g</td><td>— ai acasa</td></tr>
+     <tr><td>Oua</td><td>2 bucati</td><td>— piata</td></tr>
+     <tr><td>Nuci macinate</td><td>170g</td><td><a class="slink" href="https://www.freshful.ro/search?q=nuci+macinate" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Keks macinat</td><td>3 linguri</td><td>— din acelasi pachet</td></tr>
+     <tr><td colspan="3" style="font-weight:900;font-size:11px;letter-spacing:0.1em;color:#6B3FA0;padding-top:10px">GLAZURA</td></tr>
+     <tr><td>Lapte</td><td>3 linguri</td><td>— ai acasa</td></tr>
+     <tr><td>Cacao pudra</td><td>100g</td><td><a class="slink" href="https://www.freshful.ro/search?q=cacao+pudra" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Unt</td><td>50g</td><td><a class="slink" href="https://www.freshful.ro/search?q=unt+nesarat" target="_blank">🛒 Freshful</a></td></tr>
+     <tr><td>Zahar</td><td>3 linguri</td><td>— ai acasa</td></tr>
+     <tr><td>Nuci macinate (topping)</td><td>5 linguri</td><td>— idem</td></tr>
+    </table>
+   </div>
+
+   <div class="rsec">
+    <div class="rstitle">🐼 Pasi (cu comentarii de panda)</div>
+    <ol class="slist">
+     <li class="sitem"><div class="snum">1</div><div><div class="stitle">Asaza primul strat de keks</div><div class="stext">Pune keksurile intr-o tava dreptunghiulara si stropeste-le cu lapte. Nu-i ineca — un strop rapid, nu o baie.</div><div class="ssarc">🐼 Keks inmuiat in lapte e copilarie curata. Panda aproba nostalgic.</div></div></li>
+     <li class="sitem"><div class="snum">2</div><div><div class="stitle">Prepara umplutura pe baie de apa</div><div class="stext">Pe baie de apa (bol deasupra oalei cu apa fiarta), topeste margarina + ciocolata + zaharul + ouale. Amesteca continuu pana e omogen si cremos.</div><div class="ssarc">🐼 Baie de apa = ardere lenta. Exact ca Panda dimineata pana gaseste baia.</div></div></li>
+     <li class="sitem"><div class="snum">3</div><div><div class="stitle">Adauga nucile si keksul macinat</div><div class="stext">Ia de pe foc si incorporeaza nucile macinate + 3 linguri de keks macinat. Amesteca bine.</div><div class="ssarc">🐼 Nucile macinate dau textura. Keksul macinat leaga totul. Panda a facut chimie alimentara fara sa stie.</div></div></li>
+     <li class="sitem"><div class="snum">4</div><div><div class="stitle">Toarna umplutura si pune al doilea strat</div><div class="stext">Distribuie umplutura uniform peste primul strat de keks. Asaza al doilea rand de keks stropit cu lapte deasupra.</div></div></li>
+     <li class="sitem"><div class="snum">5</div><div><div class="stitle">Prepara glazura</div><div class="stext">Pe foc mic incalzeste laptele + cacao + untul + zaharul. Amesteca pana se omogenizeaza intr-o glazura lucioasa. Toarna fierbinte peste keksuri.</div><div class="ssarc">🐼 Glazura se toarna fierbinte. Daca ai lasat-o sa se raceasca inainte, Panda nu te mai respecta.</div></div></li>
+     <li class="sitem"><div class="snum">6</div><div><div class="stitle">Presara nuci si da la rece</div><div class="stext">Presara nucile macinate deasupra si baga tava la frigider cel putin 2–3 ore. Taie in triunghiuri doar dupa ce s-a racit complet.</div><div class="ssarc">🐼 Taia fierbinte = dezastru lipicios. Panda a invatat asta pe cale dureroasa. Asteapta.</div></div></li>
+    </ol>
+   </div>
+
+   <div class="rsec">
+    <div class="rstitle">🎋 Sfaturile lui Panda</div>
+    <div class="tips">
+     <div class="tip" data-i="🔪">Taie cu un cutit ascutit cald (trecut prin apa fierbinte si sters). Taietura e neta, Panda e fericit.</div>
+     <div class="tip" data-i="🧊">La frigider 4–5 zile. Se pot congela — scoti cu 30 minute inainte. Gustul ramane la fel de bun.</div>
+     <div class="tip" data-i="🍫">Ciocolata neagra 60%+ da o umplutura mai intensa. Sub 50% e prea dulce si Panda stramba din nas.</div>
+     <div class="tip" data-i="🥜">Nucile pot fi inlocuite cu alune de padure macinate sau migdale. Panda e deschis la diversitate.</div>
+    </div>
+
+    <div class="photo-zone" id="pz-trokuti">
+     <div class="photo-panda-stamp">🐼</div>
+     <div class="photo-zone-title">📸 Au iesit triunghiuri sau... alte forme geometrice?</div>
+     <p class="photo-zone-sub">Panda accepta si patrate. Si dreptunghiuri. Si forme nedefinite. Important e gustul.</p>
+     <label class="photo-upload-btn" for="pf-trokuti">🎋 Incarca dovada</label>
+     <input type="file" accept="image/*" class="photo-upload-input" id="pf-trokuti" onchange="handlePhoto('trokuti', this)">
+     <div class="photo-preview-wrap" id="ppw-trokuti">
+      <img class="photo-preview" id="pp-trokuti" src="" alt="Rezultatul tau">
+      <textarea class="photo-caption-input" id="pc-trokuti" rows="2" placeholder="Cat de curate au iesit taieturile? Panda judeca, dar in secret." oninput="saveCaption('trokuti', this.value)"></textarea>
+      <button class="photo-remove-btn" onclick="removePhoto('trokuti')">✕ sterge poza</button>
+     </div>
     </div>
    </div>
   </div>
