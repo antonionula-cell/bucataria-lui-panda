@@ -1590,6 +1590,8 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
   .tabs-inner { padding: 0 12px; gap: 2px; min-height: 54px; }
   .auth-login-btn { padding: 8px 14px; font-size: 13px; }
   .auth-header-area { padding: 0 4px; }
+  .auth-name { display: none; }
+  .auth-user-chip { padding: 4px 8px 4px 4px; }
 }
 @media(max-width:480px) {
   .tabs-inner { padding: 0 8px; }
@@ -4583,16 +4585,16 @@ function updateAuthHeader(user) {
       </div>
       <div class="auth-dropdown" id="auth-dropdown">
         <div class="auth-dd-email">${user.email}</div>
-        <button class="auth-dd-btn" onclick="openProfileModal()">🐼 Profilul meu</button>
+        <button class="auth-dd-btn" onclick="openProfileModal()">Profilul meu</button>
         ${isOwnerOrAdmin ? `
         <div style="height:1px;background:var(--line-soft);margin:6px 0"></div>
-        <div style="font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:rgba(43,43,43,.3);padding:4px 10px 2px">Admin</div>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-proposals')">📋 Propuneri <span id="dd-badge-proposals" style="display:none;background:var(--leaf);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-ai-proposals')">🤖 AI Propuse <span id="dd-badge-ai" style="display:none;background:var(--leaf);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-users')">👥 Useri</button>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-notifications')">🔔 Notificari <span id="dd-badge-notif" style="display:none;background:var(--leaf);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <div style="font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);padding:4px 10px 2px">Admin</div>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-proposals')">Propuneri <span id="dd-badge-proposals" style="display:none;background:var(--leaf);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-ai-proposals')">AI propuse <span id="dd-badge-ai" style="display:none;background:var(--leaf);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-users')">Useri</button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-notifications')">Notificari <span id="dd-badge-notif" style="display:none;background:var(--leaf);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
         <div style="height:1px;background:var(--line-soft);margin:6px 0"></div>` : ''}
-        <button class="auth-dd-btn" onclick="logoutUser()" style="color:#c0392b">🚪 Deconectare</button>
+        <button class="auth-dd-btn" onclick="logoutUser()" style="color:#c0392b">Deconectare</button>
       </div>`;
   } else {
     area.innerHTML = `<button class="auth-login-btn" onclick="openAuthModal('login')">Cont</button>`;
@@ -6502,14 +6504,13 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(250,251,246,0.08);
-  border: 2px solid rgba(76,127,58,0.3);
-  border-radius: 0;
-  padding: 6px 14px 6px 6px;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  padding: 4px 12px 4px 4px;
   cursor: pointer;
-  transition: background .2s, border-color .2s;
+  transition: background .15s;
 }
-.auth-user-chip:hover { background: rgba(250,251,246,0.14); border-color: var(--bam); }
+.auth-user-chip:hover { background: var(--bam-pale); }
 .auth-avatar {
   width: 28px; height: 28px;
   border-radius: 0;
@@ -6523,15 +6524,16 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 }
 .panda-chip-av svg { width: 28px; height: 28px; }
 .auth-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(250,251,246,0.85);
-  max-width: 100px;
+  font-stretch: 85%;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.auth-caret { font-size: 10px; color: rgba(250,251,246,0.4); }
+.auth-caret { font-size: 11px; color: var(--ink); }
 
 .auth-dropdown {
   display: none;
@@ -6539,19 +6541,18 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   top: calc(100% + 8px);
   right: 8px;
   background: var(--cream);
-  border: 2px solid var(--line-soft);
-  border-radius: 0;
-  padding: 10px;
-  min-width: 200px;
-  box-shadow: none;
+  border: 3px solid var(--ink);
+  padding: 8px;
+  min-width: 220px;
+  box-shadow: 6px 6px 0 var(--ink);
   z-index: 200;
 }
 .auth-dropdown.open { display: block; }
 .auth-dd-email {
-  font-size: 11px;
-  color: rgba(22,26,21,0.45);
+  font-size: 12px;
+  color: var(--text-3);
   padding: 4px 8px 10px;
-  border-bottom: 2px solid var(--line-soft);
+  border-bottom: 1px dashed var(--muted);
   margin-bottom: 8px;
   word-break: break-all;
 }
@@ -6569,7 +6570,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   cursor: pointer;
   transition: background .15s;
 }
-.auth-dd-btn:hover { background: var(--line-soft); }
+.auth-dd-btn:hover { background: var(--bam-pale); }
 
 /* ── Auth Modal internals ── */
 .auth-tabs {
