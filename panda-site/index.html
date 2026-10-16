@@ -192,54 +192,27 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
 /* ══════════════════════════════════
    FILTER BAR
 ══════════════════════════════════ */
-.filter-bar {
-  background: var(--white);
-  border-bottom: 3px solid var(--panda-grey-light);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: 0 4px 16px var(--shadow-soft);
-}
 .filter-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 40px;
   display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
-.filter-inner::-webkit-scrollbar { display:none; }
 .fbtn {
   font-family: var(--f-body);
+  font-stretch: 85%;
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  background: none;
-  border: none;
-  padding: 14px 18px;
+  font-size: 13.5px;
+  background: var(--cream);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 6px 12px;
   cursor: pointer;
   white-space: nowrap;
-  color: var(--ink);
-  opacity: 0.45;
-  position: relative;
-  transition: all .2s;
-  border-radius: 0;
+  transition: background .15s, color .15s;
 }
-.fbtn::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  right: 50%;
-  height: 3px;
-  background: var(--bamboo);
-  border-radius: 3px 3px 0 0;
-  transition: left .25s, right .25s;
-}
-.fbtn:hover { opacity: 0.8; }
-.fbtn.on { opacity: 1; color: var(--bamboo-dark); }
-.fbtn.on::after { left: 8px; right: 8px; }
+.fbtn:hover { background: var(--paper); }
+.fbtn.on { background: var(--bam); color: var(--cream); }
+.fbtn:focus-visible { outline: 3px solid var(--mustard); outline-offset: 2px; }
 
 /* ══════════════════════════════════
    MAIN
@@ -248,26 +221,27 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
 
 .sec-head {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 3px double var(--ink);
   gap: 16px;
+  flex-wrap: wrap;
 }
 .sec-title {
   font-family: var(--f-disp);
-  font-size: 26px;
-  color: var(--panda-dark);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-weight: 400;
+  font-size: 28px;
+  color: var(--ink);
 }
 .sec-count {
-  font-size: 12px;
+  font-stretch: 75%;
   font-weight: 700;
-  color: rgba(30,26,22,0.35);
-  background: var(--panda-grey-light);
-  padding: 5px 14px;
-  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 /* ══════════════════════════════════
@@ -283,61 +257,48 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
    RECIPE CARDS
 ══════════════════════════════════ */
 .rcard {
-  background: var(--white);
-  border-radius: 20px;
-  overflow: hidden;
+  background: var(--cream);
+  border: 3px solid var(--ink);
   cursor: pointer;
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-  box-shadow: 0 4px 16px var(--shadow-soft);
-  border: 2px solid transparent;
-  animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both;
+  transition: transform .15s, box-shadow .15s;
 }
-.rcard:hover {
-  transform: translateY(-8px) rotate(-0.5deg);
-  box-shadow: 0 18px 40px var(--shadow-med);
-  border-color: var(--ca, var(--bamboo));
-}
+.rcard:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--ink); }
 .rcard.hidden { display: none; }
-.rcard:nth-child(1){animation-delay:.05s}.rcard:nth-child(2){animation-delay:.12s}.rcard:nth-child(3){animation-delay:.19s}.rcard:nth-child(4){animation-delay:.26s}.rcard:nth-child(5){animation-delay:.33s}
 
-/* Panda ear accent top-right */
-.rcard::before {
-  content: '';
-  position: absolute;
-  top: -10px;
-  right: 20px;
-  width: 28px;
-  height: 28px;
-  background: var(--ca, var(--bamboo));
-  border-radius: 50%;
-  opacity: 0.25;
-  transition: opacity .2s, transform .2s;
-  z-index: 1;
-}
-.rcard:hover::before { opacity: 0.6; transform: scale(1.3); }
-
+/* Fata etichetei: 4 culori de ambalaj, ciclice dupa pozitie (stabile la filtrare) */
+.grid > .rcard:nth-child(4n+1) { --face: #6B3A24; --face-fg: var(--cream); }
+.grid > .rcard:nth-child(4n+2) { --face: var(--mustard); --face-fg: var(--ink); }
+.grid > .rcard:nth-child(4n+3) { --face: var(--bam); --face-fg: var(--cream); }
+.grid > .rcard:nth-child(4n+4) { --face: var(--red); --face-fg: var(--cream); }
 .cthumb {
-  height: 155px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 64px;
+  min-height: 168px;
+  background: var(--face, var(--bam));
+  color: var(--face-fg, var(--cream));
+  border-bottom: 3px solid var(--ink);
+  padding: 14px 16px 16px;
+  display: grid;
+  align-content: space-between;
+  gap: 18px;
   position: relative;
   overflow: hidden;
-  background: var(--cb, var(--bamboo-pale));
 }
-/* Little panda in corner of thumb */
-.cthumb::after {
-  content: '🐼';
-  position: absolute;
-  bottom: 6px;
-  right: 10px;
-  font-size: 22px;
-  opacity: 0.35;
-  transform: scaleX(-1);
+.cthumb.has-img { display: block; height: 180px; min-height: 0; padding: 0; background: var(--paper); }
+.clot {
+  font-stretch: 70%;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+.cthumb.has-img .clot {
+  position: absolute; left: 10px; top: 10px;
+  background: var(--cream); color: var(--ink);
+  border: 2px solid var(--ink); padding: 3px 7px;
 }
 .cthumb img {
   position: absolute;
@@ -393,72 +354,68 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
   vertical-align: middle;
   margin-left: 4px;
 }
-.em { transition: transform .35s cubic-bezier(.34,1.56,.64,1); filter: drop-shadow(0 6px 12px rgba(0,0,0,0.12)); }
-.rcard:hover .em { transform: scale(1.18) rotate(-6deg); }
-
-.cbody { padding: 20px 22px 18px; flex: 1; display: flex; flex-direction: column; }
+.cbody { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
 .ccat {
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.2em;
+  font-stretch: 75%;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--ca, var(--bamboo));
-  margin-bottom: 7px;
+  color: var(--red);
   display: flex;
   align-items: center;
-  gap: 5px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 .ctitle {
   font-family: var(--f-disp);
-  font-size: 19px;
-  color: var(--panda-dark);
-  line-height: 1.2;
-  margin-bottom: 8px;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.05;
+  color: var(--ink);
 }
+.cthumb .ctitle { font-size: 26px; line-height: .98; color: inherit; padding-right: 36px; }
 .ctag {
-  font-size: 13px;
-  color: rgba(30,26,22,0.55);
-  line-height: 1.55;
+  font-size: 14.5px;
+  color: #3D352D;
+  line-height: 1.45;
   flex: 1;
 }
 .cfooter {
-  margin-top: 16px;
-  padding-top: 13px;
-  border-top: 2px dashed var(--panda-grey-light);
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed #8B7D6B;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
 }
-.clang { font-size: 11px; font-weight: 700; color: rgba(30,26,22,0.35); }
+.clang { font-stretch: 85%; font-size: 12.5px; font-weight: 600; color: #6A5E50; }
 .copen {
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--ca, var(--bamboo));
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  letter-spacing: 0.05em;
+  font-stretch: 75%;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: .08em;
   text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
 }
+.rcard:hover .copen { color: var(--red); }
 
 /* ADD CARD */
 .addcard {
-  background: none;
-  border: 3px dashed var(--panda-grey);
-  border-radius: 20px;
+  border: 3px dashed #8B7D6B;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 40px;
-  min-height: 250px;
+  gap: 14px;
+  padding: 22px;
+  grid-column: 1 / -1;
+  flex-direction: row;
   cursor: default;
-  transition: border-color .2s, background .2s;
 }
-.addcard:hover { border-color: var(--bamboo); background: rgba(76,127,58,0.04); }
-.addicon { font-size: 36px; opacity: 0.3; }
-.addtxt { font-size: 11px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(30,26,22,0.28); text-align: center; line-height: 2; }
+.addicon { font-family: var(--f-disp); font-size: 44px; line-height: 1; color: #8B7D6B; }
+.addtxt { font-stretch: 75%; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #6A5E50; text-align: center; line-height: 1.8; }
 
 /* ══════════════════════════════════
    MODAL OVERLAY
@@ -843,7 +800,6 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   .strip-inner { padding: 7px 24px; }
   .hero-stamp { right: -10px; top: -36px; width: 104px; height: 104px; }
   .header-badge { padding-right: 84px; }
-  .filter-inner { padding: 0 16px; }
   .main { padding: 36px 20px 60px; }
   .mhead { padding: 24px 22px 20px; }
   .mbody { padding: 22px; }
@@ -865,8 +821,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   .site-subtitle { font-size: 15px; }
 
   /* Filter bar */
-  .filter-inner { padding: 0 12px; gap: 4px; }
-  .fbtn { font-size: 12px; padding: 10px 12px; white-space: nowrap; }
+  .filter-inner { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -14px; padding-inline: 14px; }
+  .filter-inner::-webkit-scrollbar { display: none; }
+  .fbtn { font-size: 13px; padding: 6px 10px; }
 
   /* Grid retete */
   .main { padding: 24px 14px 60px; }
@@ -1253,8 +1210,8 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 .community-badge {
   display: inline-flex; align-items: center; gap: 4px;
   font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase;
-  background: linear-gradient(135deg, #F97316, #F59E0B);
-  color: white; padding: 3px 8px; border-radius: 10px; margin-left: 8px;
+  background: var(--ink);
+  color: var(--cream); padding: 3px 7px;
 }
 
 /* ══ ADMIN PANEL ══ */
@@ -1396,42 +1353,29 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
 /* Tab 1 controls */
 .tab1-controls { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
-.tab1-controls .filter-inner {
-  background: white;
-  border-radius: 50px;
-  padding: 8px 16px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  overflow-x: auto;
-  display: flex;
-  gap: 4px;
-  scrollbar-width: none;
-}
-.tab1-controls .filter-inner::-webkit-scrollbar { display: none; }
 
 /* Keyword search */
 .kw-wrap {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: white;
-  border-radius: 16px;
-  padding: 12px 18px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  border: 2px solid transparent;
-  transition: border-color .2s;
+  background: var(--cream);
+  padding: 11px 14px;
+  border: 3px solid var(--ink);
+  transition: box-shadow .15s;
 }
-.kw-wrap:focus-within { border-color: var(--bamboo); }
-.kw-icon { font-size: 16px; opacity: .5; }
+.kw-wrap:focus-within { box-shadow: 5px 5px 0 var(--mustard); }
+.kw-icon { flex: none; color: var(--ink); }
 .kw-input {
   flex: 1;
   border: none;
   outline: none;
   font-family: var(--f-body);
-  font-size: 14px;
+  font-size: 15px;
   color: var(--black);
   background: transparent;
 }
-.kw-input::placeholder { color: rgba(30,26,22,0.35); font-style: italic; }
+.kw-input::placeholder { color: #8B7D6B; font-style: italic; }
 .kw-clear {
   background: rgba(30,26,22,0.08);
   border: none;
@@ -1824,20 +1768,20 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
   <div class="tab1-controls">
     <div class="filter-inner" id="cat-filter">
-      <button class="fbtn on" data-f="all">🐼 Toate</button>
-      <button class="fbtn" data-f="dulciuri">🍫 Dulciuri</button>
-      <button class="fbtn" data-f="desert">🍮 Desert</button>
-      <button class="fbtn" data-f="snack">🍪 Snack</button>
-      <button class="fbtn" data-f="healthy">🥗 Healthy</button>
-      <button class="fbtn" data-f="italian">🇮🇹 Italian</button>
-      <button class="fbtn" data-f="arab">🌙 Arab</button>
-      <button class="fbtn" data-f="proteic">💪 Proteic</button>
-      <button class="fbtn" data-f="mic-dejun">🌅 Mic Dejun</button>
-      <button class="fbtn" data-f="nutella-col">🫙 Nutella</button>
-      <button class="fbtn" data-f="salvate" id="filter-salvate">🔖 Salvate</button>
+      <button class="fbtn on" data-f="all">Toate</button>
+      <button class="fbtn" data-f="dulciuri">Dulciuri</button>
+      <button class="fbtn" data-f="desert">Desert</button>
+      <button class="fbtn" data-f="snack">Snack</button>
+      <button class="fbtn" data-f="healthy">Healthy</button>
+      <button class="fbtn" data-f="italian">Italian</button>
+      <button class="fbtn" data-f="arab">Arab</button>
+      <button class="fbtn" data-f="proteic">Proteic</button>
+      <button class="fbtn" data-f="mic-dejun">Mic Dejun</button>
+      <button class="fbtn" data-f="nutella-col">Nutella</button>
+      <button class="fbtn" data-f="salvate" id="filter-salvate">Salvate</button>
     </div>
     <div class="kw-wrap">
-      <span class="kw-icon">🔍</span>
+      <svg class="kw-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8"/></svg>
       <input class="kw-input" id="kw-input" type="text"
         placeholder="Cauta dupa cuvant cheie... (ex: oua, ciocolata, proteina)"
         oninput="filterByKeyword(this.value)">
@@ -1853,7 +1797,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   </div>
 
   <div class="sec-head">
-    <h2 class="sec-title">🎋 Retetele lui Panda</h2>
+    <h2 class="sec-title">Retetele lui Panda</h2>
     <span class="sec-count" id="vc">22 retete</span>
   </div>
 
@@ -1861,274 +1805,264 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="grid">
 
     <!-- CARD 1: BROWNIES -->
-    <label class="rcard" style="--ca:#5A7A52;--cb:#EDF5E7" data-tags="dulciuri healthy desert" for="cb-brownies">
+    <label class="rcard" data-tags="dulciuri healthy desert" for="cb-brownies">
       <button class="save-btn" data-recipe="brownies" onclick="toggleSaveRecipe('brownies',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#EDF5E7"><span class="em">🍫</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 01</span><h3 class="ctitle">Brownies Proteice</h3></div>
       <div class="cbody">
-        <div class="ccat">🐼 Dulciuri sanatoase</div>
-        <h3 class="ctitle">Brownies Proteice</h3>
+        <div class="ccat">Dulciuri sanatoase</div>
         <p class="ctag">~130 cal/bucata. Iaurt grecesc + cacao + proteine. Brownie-ul cu identitate de criza. lui Panda ii place.</p>
-        <div class="cfooter"><span class="clang">🇷🇴 Romana</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Original romanesc</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD 2: COOKIES -->
-    <label class="rcard" style="--ca:#C47A2B;--cb:#FFF3E0" data-tags="dulciuri snack arab" for="cb-cookies">
+    <label class="rcard" data-tags="dulciuri snack arab" for="cb-cookies">
       <button class="save-btn" data-recipe="cookies" onclick="toggleSaveRecipe('cookies',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF3E0"><span class="em">🍪</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 02</span><h3 class="ctitle">Cookies Crocante pe Dinafara</h3></div>
       <div class="cbody">
-        <div class="ccat">🌙 Cookies arabe</div>
-        <h3 class="ctitle">Cookies Crocante pe Dinafara</h3>
+        <div class="ccat">Cookies arabe</div>
         <p class="ctag">Reteta in araba, executata cu drama. Ciocolata dubla garantata. Panda nu imparte cookies.</p>
-        <div class="cfooter"><span class="clang">🇸🇦 Araba → 🇷🇴</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Tradusa din araba</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD 3: ZABAGLIONE -->
-    <label class="rcard" style="--ca:#C4736A;--cb:#FFF0EE" data-tags="desert italian" for="cb-zabaglione">
+    <label class="rcard" data-tags="desert italian" for="cb-zabaglione">
       <button class="save-btn" data-recipe="zabaglione" onclick="toggleSaveRecipe('zabaglione',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0EE"><span class="em">🥚</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 03</span><h3 class="ctitle">Zabaglione Fara Alcool</h3></div>
       <div class="cbody">
-        <div class="ccat">🇮🇹 Desert italian</div>
-        <h3 class="ctitle">Zabaglione Fara Alcool</h3>
+        <div class="ccat">Desert italian</div>
         <p class="ctag">Crema pufoasa care iti face bratul sa urasca fiecare secunda. Panda vrea sa stie de ce dureaza.</p>
-        <div class="cfooter"><span class="clang">🇮🇹 Italian → 🇷🇴</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Tradusa din italiana</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD 4: NUTELLA -->
-    <label class="rcard" style="--ca:#D4A017;--cb:#FFFDE7" data-tags="dulciuri snack desert" for="cb-nutella">
+    <label class="rcard" data-tags="dulciuri snack desert" for="cb-nutella">
       <button class="save-btn" data-recipe="nutella" onclick="toggleSaveRecipe('nutella',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFFDE7"><span class="em">🫙</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 04</span><h3 class="ctitle">Biscuiti cu Nutella & Inghetata</h3></div>
       <div class="cbody">
-        <div class="ccat">🐼 3 ingrediente</div>
-        <h3 class="ctitle">Biscuiti cu Nutella & Inghetata</h3>
+        <div class="ccat">3 ingrediente</div>
         <p class="ctag">Nutella + faina + ou = gata. Panda numara: 1, 2, 3. Atat.</p>
-        <div class="cfooter"><span class="clang">🇺🇸 Engleza → 🇷🇴</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Tradusa din engleza</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD 5: PRAJITURA CANA -->
-    <label class="rcard" style="--ca:#B84A1E;--cb:#FFF3EF" data-tags="dulciuri healthy snack desert" for="cb-cana">
+    <label class="rcard" data-tags="dulciuri healthy snack desert" for="cb-cana">
       <button class="save-btn" data-recipe="cana" onclick="toggleSaveRecipe('cana',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF3EF"><span class="em">☕</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 05</span><h3 class="ctitle">Prajitura Fara Faina in Cana</h3></div>
       <div class="cbody">
-        <div class="ccat">🥗 Healthy (aparent)</div>
-        <h3 class="ctitle">Prajitura Fara Faina in Cana</h3>
+        <div class="ccat">Healthy (aparent)</div>
         <p class="ctag">Mar + ou + cacao + unt arahide. Panda mananca si bambus, nu-l judecati.</p>
-        <div class="cfooter"><span class="clang">🇷🇴 Romana</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Original romanesc</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
 
     <!-- CARD 6: MUFFIN CUPS -->
-    <label class="rcard" style="--ca:#A0522D;--cb:#FFF8F0" data-tags="dulciuri healthy snack desert" for="cb-muffins">
+    <label class="rcard" data-tags="dulciuri healthy snack desert" for="cb-muffins">
       <button class="save-btn" data-recipe="muffins" onclick="toggleSaveRecipe('muffins',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8F0"><span class="em">🧁</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 06</span><h3 class="ctitle">Muffin Cups cu Unt de Arahide</h3></div>
       <div class="cbody">
-        <div class="ccat">🥗 High Protein · Snack</div>
-        <h3 class="ctitle">Muffin Cups cu Unt de Arahide</h3>
+        <div class="ccat">High Protein · Snack</div>
         <p class="ctag">120-145 cal/bucata. Unt de arahide + iaurt grecesc + pudra proteica. Panda considera ca "muffin cup" suna mai fancy decat "chestie copta in tava".</p>
-        <div class="cfooter"><span class="clang">🇺🇸 Engleza → 🇷🇴</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Tradusa din engleza</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
 
     <!-- CARD 7: BROWNIE NO-BAKE CIOCOLATA FRUCTE -->
-    <label class="rcard" style="--ca:#7B1F3A;--cb:#FFF0F4" data-tags="dulciuri healthy desert" for="cb-browniefructe">
+    <label class="rcard" data-tags="dulciuri healthy desert" for="cb-browniefructe">
       <button class="save-btn" data-recipe="browniefructe" onclick="toggleSaveRecipe('browniefructe',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F4"><span class="em">🍓</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 07</span><h3 class="ctitle">Brownie Ciocolata & Fructe de Padure</h3></div>
       <div class="cbody">
-        <div class="ccat">❄️ No-Bake · High Protein</div>
-        <h3 class="ctitle">Brownie Ciocolata & Fructe de Padure</h3>
+        <div class="ccat">No-Bake · High Protein</div>
         <p class="ctag">Fara cuptor. Fara faina. Banane + cacao + pudra proteica + fructe de padure. Panda nu intelege de ce merge, dar merge.</p>
-        <div class="cfooter"><span class="clang">🇷🇴 Romana</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Original romanesc</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
-    <label class="rcard" style="--ca:#1A5C8A;--cb:#E8F4FB" data-tags="mic-dejun healthy proteic" for="cb-bagels">
+    <label class="rcard" data-tags="mic-dejun healthy proteic" for="cb-bagels">
       <button class="save-btn" data-recipe="bagels" onclick="toggleSaveRecipe('bagels',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#E8F4FB"><span class="em">🥯</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 08</span><h3 class="ctitle">Bagels cu Oua, Bacon &amp; Cottage Cheese</h3></div>
       <div class="cbody">
-        <div class="ccat">🍳 Mic Dejun · High Protein</div>
-        <h3 class="ctitle">Bagels cu Oua, Bacon &amp; Cottage Cheese</h3>
+        <div class="ccat">Mic Dejun · High Protein</div>
         <p class="ctag">513 calorii. 40g proteina per bagel. Asta e micul dejun sau un razboi nutritional? Ambele.</p>
-        <div class="cfooter"><span class="clang">🇷🇴 Romana</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Original romanesc</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
-    <label class="rcard" style="--ca:#8B4513;--cb:#FFF8F0" data-tags="dulciuri healthy snack desert proteic" for="cb-pbmuffins">
+    <label class="rcard" data-tags="dulciuri healthy snack desert proteic" for="cb-pbmuffins">
       <button class="save-btn" data-recipe="pbmuffins" onclick="toggleSaveRecipe('pbmuffins',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8F0"><span class="em">🥜</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 09</span><h3 class="ctitle">Muffin Cups cu Unt de Arahide &amp; Ciocolata</h3></div>
       <div class="cbody">
-        <div class="ccat">🍪 Snack · Healthy · Proteic</div>
-        <h3 class="ctitle">Muffin Cups cu Unt de Arahide &amp; Ciocolata</h3>
+        <div class="ccat">Snack · Healthy · Proteic</div>
         <p class="ctag">~120-145 cal bucata. Cookie + muffin + proteina. Matematica gustoasa pe care Panda o aproba cu ambele palme.</p>
-        <div class="cfooter"><span class="clang">🇷🇴 Romana</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Original romanesc</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- NUTELLA COLLECTION: 12 retete -->
 
     <!-- CARD N1: BANICHKI -->
-    <label class="rcard" style="--ca:#8B6914;--cb:#FFF8E7" data-tags="nutella-col dulciuri desert" for="cb-nt-banichki">
+    <label class="rcard" data-tags="nutella-col dulciuri desert" for="cb-nt-banichki">
       <button class="save-btn" data-recipe="nt-banichki" onclick="toggleSaveRecipe('nt-banichki',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8E7"><img src="img/nutella/nt-banichki.jpg" alt="Turtite Banichki" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 10</span><img src="img/nutella/nt-banichki.jpg" alt="Turtite Banichki" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella</div>
+        <div class="ccat">Colectie Nutella</div>
         <h3 class="ctitle">Turtite (Banichki) cu Ciocolata</h3>
         <p class="ctag">Foi de placinta + banana + Nutella. Suna exotic, e simplu. 10 minute si gata dovada ca poti gati.</p>
-        <div class="cfooter"><span class="clang">⏱️ 10 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">10 min · Usor</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N2: CLATITE RULATE MOLNARKA -->
-    <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-molnarka">
+    <label class="rcard" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-molnarka">
       <button class="save-btn" data-recipe="nt-molnarka" onclick="toggleSaveRecipe('nt-molnarka',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F2"><img src="img/nutella/nt-molnarka.jpg" alt="Clatite rulate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 11</span><img src="img/nutella/nt-molnarka.jpg" alt="Clatite rulate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella</div>
+        <div class="ccat">Colectie Nutella</div>
         <h3 class="ctitle">Clatite Rulate cu Nutella</h3>
         <p class="ctag">Apa minerala cu bule in aluat. Da, cu bule. Capsuni + banana + Nutella rulata. Panda aproba.</p>
-        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N3: FOITAJ TOPFENGOLATSCHE -->
-    <label class="rcard" style="--ca:#7B3F1A;--cb:#FFF3EC" data-tags="nutella-col dulciuri desert" for="cb-nt-topfen">
+    <label class="rcard" data-tags="nutella-col dulciuri desert" for="cb-nt-topfen">
       <button class="save-btn" data-recipe="nt-topfen" onclick="toggleSaveRecipe('nt-topfen',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF3EC"><img src="img/nutella/nt-topfen.jpg" alt="Foitaj Topfengolatsche" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 12</span><img src="img/nutella/nt-topfen.jpg" alt="Foitaj Topfengolatsche" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇦🇹 Austrian</div>
+        <div class="ccat">Colectie Nutella · Austrian</div>
         <h3 class="ctitle">Foitaj cu Branza de Vaci</h3>
         <p class="ctag">Topfengolatsche — sau "pliculeturi cu branza" daca nu vrei sa te complici. 8 bucati, 25 minute.</p>
-        <div class="cfooter"><span class="clang">⏱️ 25 min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">25 min · Mediu</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N4: PANDISPAN BABOVKA -->
-    <label class="rcard" style="--ca:#5C3317;--cb:#FFF0E8" data-tags="nutella-col dulciuri desert" for="cb-nt-babovka">
+    <label class="rcard" data-tags="nutella-col dulciuri desert" for="cb-nt-babovka">
       <button class="save-btn" data-recipe="nt-babovka" onclick="toggleSaveRecipe('nt-babovka',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0E8"><img src="img/nutella/nt-babovka.jpg" alt="Pandispan Babovka" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 13</span><img src="img/nutella/nt-babovka.jpg" alt="Pandispan Babovka" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇨🇿 Ceh</div>
+        <div class="ccat">Colectie Nutella · Ceh</div>
         <h3 class="ctitle">Pandispan Babovka cu Nutella</h3>
         <p class="ctag">Pandispans cu vartej de cacao si Nutella deasupra. Arata profesionist daca iese drept. Panda il numeste "rustic".</p>
-        <div class="cfooter"><span class="clang">⏱️ 1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N5: COVRIGI KOULOURI -->
-    <label class="rcard" style="--ca:#C8861A;--cb:#FFF8EC" data-tags="nutella-col snack mic-dejun" for="cb-nt-koulouri">
+    <label class="rcard" data-tags="nutella-col snack mic-dejun" for="cb-nt-koulouri">
       <button class="save-btn" data-recipe="nt-koulouri" onclick="toggleSaveRecipe('nt-koulouri',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8EC"><img src="img/nutella/nt-koulouri.jpg" alt="Covrigi Koulouri" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 14</span><img src="img/nutella/nt-koulouri.jpg" alt="Covrigi Koulouri" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇬🇷 Grec</div>
+        <div class="ccat">Colectie Nutella · Grec</div>
         <h3 class="ctitle">Covrigi Grecesti cu Susan</h3>
         <p class="ctag">Koulouri Thessalonikis — covrigei din Tesalonic pe care ii gasesti pe orice straduta din Atena. Tu ii faci acasa.</p>
-        <div class="cfooter"><span class="clang">⏱️ 1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N6: RULOURI CROCANTE -->
-    <label class="rcard" style="--ca:#7B3F1A;--cb:#FFF3EC" data-tags="nutella-col mic-dejun" for="cb-nt-rulouri">
+    <label class="rcard" data-tags="nutella-col mic-dejun" for="cb-nt-rulouri">
       <button class="save-btn" data-recipe="nt-rulouri" onclick="toggleSaveRecipe('nt-rulouri',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF3EC"><img src="img/nutella/nt-rulouri.jpg" alt="Rulouri crocante cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 15</span><img src="img/nutella/nt-rulouri.jpg" alt="Rulouri crocante cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇩🇪 German</div>
+        <div class="ccat">Colectie Nutella · German</div>
         <h3 class="ctitle">Rulouri Crocante cu Nutella</h3>
         <p class="ctag">Aluat laminat, 4 pliciri, crusta crocanta. Reteta care testeaza rabdarea. Panda a facut 2 pliciri. S-a vazut.</p>
-        <div class="cfooter"><span class="clang">⏱️ 1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">1h 30min · Mediu</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N7: CHURROS -->
-    <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri desert snack" for="cb-nt-churros">
+    <label class="rcard" data-tags="nutella-col dulciuri desert snack" for="cb-nt-churros">
       <button class="save-btn" data-recipe="nt-churros" onclick="toggleSaveRecipe('nt-churros',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F2"><img src="img/nutella/nt-churros.jpg" alt="Churros cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 16</span><img src="img/nutella/nt-churros.jpg" alt="Churros cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇪🇸 Spaniol</div>
+        <div class="ccat">Colectie Nutella · Spaniol</div>
         <h3 class="ctitle">Churros cu Nutella</h3>
         <p class="ctag">"Dificultate: Grea" — singura reteta care admite asta cinstit. Ulei la 180°C, concentratie maxima sau arsuri.</p>
-        <div class="cfooter"><span class="clang">⏱️ 30 min · Grea</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">30 min · Grea</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N8: POFFERTJES -->
-    <label class="rcard" style="--ca:#D4851A;--cb:#FFF8EC" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-poffertjes">
+    <label class="rcard" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-poffertjes">
       <button class="save-btn" data-recipe="nt-poffertjes" onclick="toggleSaveRecipe('nt-poffertjes',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8EC"><img src="img/nutella/nt-poffertjes.jpg" alt="Poffertjes mini clatite" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 17</span><img src="img/nutella/nt-poffertjes.jpg" alt="Poffertjes mini clatite" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇳🇱 Olandez</div>
+        <div class="ccat">Colectie Nutella · Olandez</div>
         <h3 class="ctitle">Poffertjes (Mini Clatite) cu Nutella</h3>
         <p class="ctag">Mini clatite olandeze cu tigaie speciala. Panda nu are tigaia. Are o clatita mare in schimb. Merge si asa.</p>
-        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N9: CLATITE PUFOASE -->
-    <label class="rcard" style="--ca:#C8102E;--cb:#FFF0F2" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-clatitep">
+    <label class="rcard" data-tags="nutella-col dulciuri mic-dejun" for="cb-nt-clatitep">
       <button class="save-btn" data-recipe="nt-clatitep" onclick="toggleSaveRecipe('nt-clatitep',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0F2"><img src="img/nutella/nt-clatitep.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 18</span><img src="img/nutella/nt-clatitep.jpg" alt="Clatite pufoase cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella</div>
+        <div class="ccat">Colectie Nutella</div>
         <h3 class="ctitle">Clatite Pufoase cu Nutella</h3>
         <p class="ctag">Tehnica japoneza cu abur si capac. Clatite umflate cat o perna. Panda le-a intors si le-a aplatizat pe toate. Tot au fost bune.</p>
-        <div class="cfooter"><span class="clang">⏱️ 40 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">40 min · Usor</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N10: NALANGATE -->
-    <label class="rcard" style="--ca:#8B6914;--cb:#FFF8E7" data-tags="nutella-col dulciuri mic-dejun snack" for="cb-nt-nalangate">
+    <label class="rcard" data-tags="nutella-col dulciuri mic-dejun snack" for="cb-nt-nalangate">
       <button class="save-btn" data-recipe="nt-nalangate" onclick="toggleSaveRecipe('nt-nalangate',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF8E7"><img src="img/nutella/nt-nalangate.jpg" alt="Nalangate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 19</span><img src="img/nutella/nt-nalangate.jpg" alt="Nalangate cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella · 🇷🇴 Romana</div>
+        <div class="ccat">Colectie Nutella · Romana</div>
         <h3 class="ctitle">Nalangate cu Nutella</h3>
         <p class="ctag">Reteta romaneasca pe care bunica ta o face mai bine. Dar tu pui Nutella. Avantajul generational al lui Panda.</p>
-        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N11: CLATITE ZMEURA MASCARPONE -->
-    <label class="rcard" style="--ca:#A0193A;--cb:#FFEFF5" data-tags="nutella-col dulciuri desert mic-dejun" for="cb-nt-clatitez">
+    <label class="rcard" data-tags="nutella-col dulciuri desert mic-dejun" for="cb-nt-clatitez">
       <button class="save-btn" data-recipe="nt-clatitez" onclick="toggleSaveRecipe('nt-clatitez',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFEFF5"><img src="img/nutella/nt-clatitez.jpg" alt="Clatite cu zmeura si mascarpone" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 20</span><img src="img/nutella/nt-clatitez.jpg" alt="Clatite cu zmeura si mascarpone" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella</div>
+        <div class="ccat">Colectie Nutella</div>
         <h3 class="ctitle">Clatite cu Zmeura si Mascarpone</h3>
         <p class="ctag">Mascarpone + zmeura + Nutella. Combinatie pentru care Panda ar sari o masa principala fara remuscari.</p>
-        <div class="cfooter"><span class="clang">⏱️ 20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">20 min · Usor</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD N12: MOUSSE NUTELLA -->
-    <label class="rcard" style="--ca:#5C3317;--cb:#FFF0E8" data-tags="nutella-col dulciuri desert" for="cb-nt-mousse">
+    <label class="rcard" data-tags="nutella-col dulciuri desert" for="cb-nt-mousse">
       <button class="save-btn" data-recipe="nt-mousse" onclick="toggleSaveRecipe('nt-mousse',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#FFF0E8"><img src="img/nutella/nt-mousse.jpg" alt="Mousse cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
+      <div class="cthumb has-img"><span class="clot">Lot nr. 21</span><img src="img/nutella/nt-mousse.jpg" alt="Mousse cu Nutella" loading="lazy" decoding="async" onerror="this.style.display='none'"></div>
       <div class="cbody">
-        <div class="ccat">🫙 Colectie Nutella</div>
+        <div class="ccat">Colectie Nutella</div>
         <h3 class="ctitle">Mousse cu Nutella</h3>
         <p class="ctag">5 ingrediente. 15 minute. 2 ore la frigider. Panda a asteptat 40 de minute. Era "aproape gata". A mancat "aproape gata".</p>
-        <div class="cfooter"><span class="clang">⏱️ 15 min + 2h frigider</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">15 min + 2h frigider</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- CARD: TROKUTI -->
-    <label class="rcard" style="--ca:#6B3FA0;--cb:#F3EEF9" data-tags="dulciuri desert fara-cuptor" for="cb-trokuti">
+    <label class="rcard" data-tags="dulciuri desert fara-cuptor" for="cb-trokuti">
       <button class="save-btn" data-recipe="trokuti" onclick="toggleSaveRecipe('trokuti',event)" title="Salveaza reteta"></button>
-      <div class="cthumb" style="background:#F3EEF9"><span class="em">🔺</span></div>
+      <div class="cthumb"><span class="clot">Lot nr. 22</span><h3 class="ctitle">Triunghiuri de Biscuiti fara Coacere</h3></div>
       <div class="cbody">
-        <div class="ccat">🍪 Desert · Fara cuptor</div>
-        <h3 class="ctitle">Triunghiuri de Biscuiti fara Coacere</h3>
+        <div class="ccat">Desert · Fara cuptor</div>
         <p class="ctag">Biscuiti + ciocolata + nuci + glazura. Taiat in triunghiuri ca sa para mai sofisticat. Panda nu e pacalit, dar tot le mananca pe toate.</p>
-        <div class="cfooter"><span class="clang">🇭🇷 Croata → 🇷🇴</span><span class="copen">Mananc asta! →</span></div>
+        <div class="cfooter"><span class="clang">Tradusa din croata</span><span class="copen">Mananc asta! →</span></div>
       </div>
     </label>
 
     <!-- ADD CARD -->
     <div class="addcard">
-      <div class="addicon">🐼</div>
+      <div class="addicon">+</div>
       <div class="addtxt">Reteta ta urmeaza<br><span style="opacity:.5">trimite-o in orice limba</span></div>
     </div>
 
@@ -5351,16 +5285,15 @@ function renderDynamicRecipe(r) {
   card.className = 'rcard'; card.id = 'rcard-' + r.id;
   card.setAttribute('for', cbId);
   card.setAttribute('data-tags', tags);
-  card.style.cssText = `--ca:${color};--cb:${bg}`;
-  const communityBadge = r.source === 'community' ? `<span class="community-badge">👥 Comunitate</span>` : '';
+  const communityBadge = r.source === 'community' ? `<span class="community-badge">Comunitate</span>` : '';
+  const lotNr = String(grid.querySelectorAll('.rcard').length + 1).padStart(2, '0');
   card.innerHTML = `
     <button class="save-btn" data-recipe="${r.id}" onclick="toggleSaveRecipe('${r.id}',event)" title="Salveaza reteta"></button>
-    <div class="cthumb" style="background:${bg}"><span class="em">${r.emoji||'🍽️'}</span></div>
+    <div class="cthumb"><span class="clot">Lot nr. ${lotNr}</span><h3 class="ctitle">${r.titlu}</h3></div>
     <div class="cbody">
-      <div class="ccat">🐼 ${r.categorie||'Reteta noua'}${communityBadge}</div>
-      <h3 class="ctitle">${r.titlu}</h3>
+      <div class="ccat">${r.categorie||'Reteta noua'}${communityBadge}</div>
       <p class="ctag">${r.subtitlu||r.descriere||''}</p>
-      <div class="cfooter"><span class="clang">🤖 AI</span><span class="copen">Mananc asta! →</span></div>
+      <div class="cfooter"><span class="clang">Generata cu AI</span><span class="copen">Mananc asta! →</span></div>
     </div>`;
   if (addCard) grid.insertBefore(card, addCard);
   else grid.appendChild(card);
@@ -6405,35 +6338,25 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .save-btn {
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px;
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.92);
-  border: 2px solid var(--panda-grey-light);
+  background: var(--cream);
+  border: 2px solid var(--ink);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 5;
-  transition: all .2s;
-  opacity: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
-  color: rgba(30,26,22,0.45);
+  color: var(--ink);
+  transition: background .15s, color .15s;
 }
 .save-btn::before { content: '♡'; }
-.rcard:hover .save-btn { opacity: 1; }
-.save-btn:hover { transform: scale(1.15); border-color: var(--bamboo); color: var(--bamboo-dark); }
-.save-btn.saved {
-  opacity: 1;
-  background: var(--bamboo);
-  border-color: var(--bamboo);
-  color: white;
-}
-.save-btn.saved::before { content: '♥'; color: white; }
-.save-btn.saved:hover { background: var(--bamboo-dark); border-color: var(--bamboo-dark); }
+.save-btn:hover { background: var(--ink); color: var(--cream); }
+.save-btn.saved { background: var(--bam); color: var(--cream); }
+.save-btn.saved::before { content: '♥'; }
 
 /* ── PWA Install CTA ── */
 .pwa-cta {
