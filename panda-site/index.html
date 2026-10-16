@@ -1378,158 +1378,140 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 .kw-clear:hover { background: rgba(30,26,22,0.15); }
 
 /* ══ TAB 2 — CHEF AI ══ */
-.chef-header { text-align: center; padding: 40px 20px 32px; }
+.chef-header { padding: 8px 0 22px; display: grid; gap: 8px; }
 .chef-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: linear-gradient(135deg, #4285F4, #34A853);
-  color: white;
-  font-family: var(--f-body);
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
+  font-stretch: 70%;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  padding: 5px 14px;
-  border-radius: 20px;
-  margin-bottom: 16px;
+  color: var(--red);
 }
-.chef-title { font-family: var(--f-disp); font-size: 36px; color: var(--black); margin-bottom: 10px; }
-.chef-sub { font-size: 15px; color: rgba(30,26,22,0.55); font-style: italic; max-width: 560px; margin: 0 auto; line-height: 1.6; }
+.chef-title { font-family: var(--f-disp); font-weight: 400; font-size: 40px; line-height: 1; color: var(--ink); }
+.chef-sub { font-size: 17px; color: #3D352D; max-width: 60ch; line-height: 1.5; }
 
 .chef-form {
-  background: white;
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 4px 30px rgba(0,0,0,0.07);
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
+  padding: 28px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 .cf-section { display: flex; flex-direction: column; gap: 10px; }
 .cf-row { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; }
-.cf-label { font-family: var(--f-disp); font-size: 15px; color: var(--black); }
-.cf-hint { font-family: var(--f-body); font-size: 12px; font-weight: 400; color: rgba(30,26,22,0.4); font-style: italic; }
+.cf-label { font-family: var(--f-disp); font-size: 19px; color: var(--ink); }
+.cf-hint { font-family: var(--f-body); font-size: 13px; font-weight: 400; color: #6A5E50; font-style: italic; }
 .cf-input {
-  border: 2px solid rgba(30,26,22,0.1);
-  border-radius: 12px;
-  padding: 12px 16px;
+  border: 2px solid var(--ink);
+  padding: 12px 14px;
   font-family: var(--f-body);
-  font-size: 14px;
-  color: var(--black);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--paper);
   outline: none;
-  transition: border-color .2s;
+  transition: box-shadow .15s;
   width: 100%;
 }
-.cf-input:focus { border-color: var(--bamboo); }
-.cf-input::placeholder { color: rgba(30,26,22,0.3); font-style: italic; }
+.cf-input:focus { box-shadow: 4px 4px 0 var(--mustard); }
+.cf-input::placeholder { color: #8B7D6B; font-style: italic; }
 
-.ing-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.ichip {
-  padding: 7px 14px;
-  border-radius: 20px;
-  border: 2px solid rgba(30,26,22,0.1);
-  background: white;
+.ing-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ichip, .tbtn {
+  padding: 6px 12px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
   font-family: var(--f-body);
-  font-size: 13px;
+  font-stretch: 85%;
+  font-size: 14px;
   font-weight: 700;
-  color: rgba(30,26,22,0.6);
+  color: var(--ink);
   cursor: pointer;
-  transition: all .18s;
+  transition: background .15s, color .15s;
 }
-.ichip:hover { border-color: var(--bamboo); color: var(--bamboo-dark); }
-.ichip.sel { background: var(--bamboo); border-color: var(--bamboo); color: white; transform: scale(1.05); }
+.ichip:hover, .tbtn:hover { background: var(--cream); }
+.ichip.sel { background: var(--bam); color: var(--cream); }
+.tbtn.on { background: var(--ink); color: var(--cream); }
+.ichip:focus-visible, .tbtn:focus-visible, .chef-btn:focus-visible { outline: 3px solid var(--mustard); outline-offset: 2px; }
 
-.time-btns, .toggle-btns { display: flex; flex-wrap: wrap; gap: 8px; }
-.tbtn {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 2px solid rgba(30,26,22,0.1);
-  background: white;
-  font-family: var(--f-body);
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(30,26,22,0.5);
-  cursor: pointer;
-  transition: all .18s;
-}
-.tbtn:hover { border-color: var(--bamboo); color: var(--bamboo-dark); }
-.tbtn.on { background: var(--bamboo-dark); border-color: var(--bamboo-dark); color: white; }
+.time-btns, .toggle-btns { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .chef-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  background: linear-gradient(135deg, var(--bamboo-dark), var(--bamboo));
-  color: white;
-  border: none;
-  border-radius: 18px;
-  padding: 18px 32px;
-  font-family: var(--f-disp);
-  font-size: 20px;
+  background: var(--ink);
+  color: var(--cream);
+  border: 3px solid var(--ink);
+  padding: 16px 28px;
+  font-family: var(--f-body);
+  font-stretch: 80%;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all .25s;
-  box-shadow: 0 6px 24px rgba(78,124,63,0.35);
+  transition: background .15s;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 4px;
 }
-.chef-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(78,124,63,0.45); }
-.chef-btn:active { transform: translateY(0); }
-.chef-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-.chef-btn-icon { font-size: 24px; }
+.chef-btn:hover { background: var(--red); }
+.chef-btn:disabled { opacity: .6; cursor: not-allowed; }
 
 /* Loading */
-.chef-loading { text-align: center; padding: 60px 20px; }
-.loading-panda { font-size: 64px; animation: pandaSearch 1s ease-in-out infinite alternate; }
+.chef-loading { text-align: center; padding: 56px 20px; }
+.loading-panda { display: inline-block; animation: pandaSearch 1s ease-in-out infinite alternate; }
+.loading-panda svg { display: block; }
 @keyframes pandaSearch {
   from { transform: translateX(-20px) rotate(-10deg); }
   to   { transform: translateX(20px) rotate(10deg); }
 }
-.loading-txt { font-family: var(--f-disp); font-size: 22px; color: var(--black); margin: 16px 0 8px; }
-.loading-sub { font-size: 13px; color: rgba(30,26,22,0.45); font-style: italic; margin-bottom: 24px; }
+.loading-txt { font-family: var(--f-disp); font-size: 24px; color: var(--ink); margin: 18px 0 8px; }
+.loading-sub { font-size: 14px; color: #5A4E42; font-style: italic; margin-bottom: 24px; }
 .loading-dots { display: flex; justify-content: center; gap: 8px; }
-.loading-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--bamboo); animation: dot 1.2s infinite; }
+.loading-dots span { width: 10px; height: 10px; background: var(--ink); animation: dot 1.2s infinite; }
 .loading-dots span:nth-child(2) { animation-delay: .2s; }
 .loading-dots span:nth-child(3) { animation-delay: .4s; }
 @keyframes dot {
   0%,80%,100% { transform: scale(0.6); opacity:.4; }
   40% { transform: scale(1); opacity:1; }
 }
+.preview-loading-overlay .loading-txt { color: var(--cream); }
+.preview-loading-overlay .loading-sub { color: rgba(251,246,236,.7); }
+.preview-loading-overlay .loading-dots span { background: var(--mustard); }
 
 /* Results */
 .chef-results { margin-bottom: 40px; }
-.results-header { margin-bottom: 24px; }
-.results-title { font-family: var(--f-disp); font-size: 26px; color: var(--black); margin-bottom: 6px; }
-.results-sub { font-size: 13px; color: rgba(30,26,22,0.5); font-style: italic; }
+.results-header { margin-bottom: 20px; padding-bottom: 8px; border-bottom: 3px double var(--ink); }
+.results-title { font-family: var(--f-disp); font-weight: 400; font-size: 28px; color: var(--ink); margin-bottom: 4px; }
+.results-sub { font-stretch: 85%; font-size: 14px; color: #5A4E42; }
 .results-list { display: flex; flex-direction: column; gap: 16px; }
 
 .rcard-result {
-  background: white;
-  border-radius: 18px;
-  padding: 22px 24px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-  border: 2px solid transparent;
-  transition: all .2s;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  padding: 18px 20px;
+  transition: transform .15s, box-shadow .15s;
   display: grid;
   grid-template-columns: 48px 1fr auto;
   align-items: start;
   gap: 16px;
 }
-.rcard-result:hover { border-color: var(--bamboo); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
-@keyframes pandaCommentIn { from { opacity:0; transform:translateY(-8px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+.rcard-result:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--ink); }
+@keyframes pandaCommentIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
 .panda-comment {
-  display:flex; align-items:flex-start; gap:10px;
-  background:var(--bamboo-pale); border-left:4px solid var(--bamboo);
-  border-radius:12px; padding:12px 16px; margin:12px 0 4px;
-  font-size:13px; font-style:italic; color:var(--bamboo-dark);
-  line-height:1.55; animation:pandaCommentIn .3s cubic-bezier(.34,1.56,.64,1) both;
+  display:flex; align-items:baseline; gap:8px;
+  background:var(--paper); border:2px solid var(--ink);
+  padding:10px 14px; margin:4px 0 0;
+  font-size:14.5px; font-style:italic; color:var(--ink);
+  line-height:1.5; animation:pandaCommentIn .25s ease-out both;
 }
-.panda-comment .pc-emoji { font-size:20px; flex-shrink:0; line-height:1.3; }
-@keyframes cardReveal { from { opacity:0; transform:translateY(22px) scale(.93); } to { opacity:1; transform:translateY(0) scale(1); } }
+.panda-comment .pc-emoji { flex-shrink:0; font-style:normal; font-stretch:75%; font-weight:800; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--bam); }
+@keyframes cardReveal { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
 .results-list .rcard-result { opacity:0; }
-.results-list.reveal .rcard-result { animation: cardReveal .38s cubic-bezier(.34,1.56,.64,1) both; }
+.results-list.reveal .rcard-result { animation: cardReveal .3s ease-out both; }
 .results-list.reveal .rcard-result:nth-child(1){animation-delay:.04s}
 .results-list.reveal .rcard-result:nth-child(2){animation-delay:.10s}
 .results-list.reveal .rcard-result:nth-child(3){animation-delay:.16s}
@@ -1542,46 +1524,51 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 .results-list.reveal .rcard-result:nth-child(10){animation-delay:.58s}
 .rcard-num {
   width: 48px; height: 48px;
-  border-radius: 14px;
-  background: var(--bamboo-pale);
+  background: var(--mustard);
+  border: 3px solid var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--f-disp);
   font-size: 20px;
-  color: var(--bamboo-dark);
+  color: var(--ink);
   flex-shrink: 0;
 }
-.rcard-result-body { display: flex; flex-direction: column; gap: 6px; }
-.rcard-result-title { font-family: var(--f-disp); font-size: 17px; color: var(--black); line-height: 1.3; }
-.rcard-result-meta { display: flex; gap: 12px; flex-wrap: wrap; }
-.rmeta-pill { font-size: 11px; font-weight: 800; color: rgba(30,26,22,0.5); background: var(--off-white); padding: 3px 10px; border-radius: 10px; }
-.rcard-result-desc { font-size: 13px; color: rgba(30,26,22,0.65); line-height: 1.55; }
-.rcard-result-sarcasm { font-size: 12px; color: var(--bamboo-dark); font-style: italic; margin-top: 4px; }
+.rcard-result-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.rcard-result-title { font-family: var(--f-disp); font-weight: 400; font-size: 21px; color: var(--ink); line-height: 1.1; }
+.rcard-result-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+.rmeta-pill { font-stretch: 75%; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); border: 1.5px solid var(--ink); padding: 2px 7px; }
+.rcard-result-desc { font-size: 14.5px; color: #3D352D; line-height: 1.5; }
+.rcard-result-sarcasm { font-size: 13.5px; color: #5A4E42; font-style: italic; border-top: 1px dashed #8B7D6B; padding-top: 8px; margin-top: 2px; }
+.rcard-result-sarcasm::before { content: 'Avertisment'; font-style: normal; font-stretch: 75%; font-weight: 800; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--red); margin-right: 6px; }
 .rcard-result-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--bamboo-dark);
-  color: white;
-  font-family: var(--f-disp);
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--f-body);
+  font-stretch: 80%;
+  font-weight: 800;
   font-size: 13px;
-  padding: 8px 16px;
-  border-radius: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border: 2px solid var(--ink);
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
   align-self: center;
-  transition: background .2s;
+  transition: background .15s;
 }
-.rcard-result-link:hover { background: var(--bamboo); }
+.rcard-result-link:hover { background: var(--red); }
 
 /* ── Preview Loading Overlay ── */
 .preview-loading-overlay {
   position: fixed;
   inset: 0;
   z-index: 9700;
-  background: rgba(26,26,26,0.92);
+  background: rgba(30,26,22,0.94);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1595,35 +1582,35 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 /* ── Ingrediente cheie in card rezultat AI ── */
 .ring-list { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
 .ring-pill {
-  font-size: 11px; font-weight: 700;
-  background: var(--bamboo-pale);
-  color: var(--bamboo-dark);
-  border: 1px solid var(--bamboo-light);
-  border-radius: 10px;
-  padding: 3px 9px;
+  font-size: 12.5px; font-weight: 600; font-stretch: 90%;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1.5px solid #8B7D6B;
+  padding: 2px 8px;
 }
 
 .publish-recipe-btn {
-  margin-top: 8px;
+  align-self: flex-start;
+  margin-top: 4px;
   font-family: var(--f-body);
-  font-size: 11px;
-  font-weight: 900;
-  background: var(--bamboo-pale);
-  color: var(--bamboo-dark);
-  border: 2px solid var(--bamboo-light);
-  border-radius: 20px;
-  padding: 5px 14px;
+  font-stretch: 80%;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--cream);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 5px 12px;
   cursor: pointer;
-  transition: all .2s;
-  letter-spacing: 0.05em;
+  transition: background .15s, color .15s;
 }
-.publish-recipe-btn:hover { background: var(--bamboo); color: white; border-color: var(--bamboo); }
+.publish-recipe-btn:hover { background: var(--ink); color: var(--cream); }
 .publish-recipe-btn:disabled { opacity: .7; cursor: not-allowed; }
 
-.chef-error { background: #fff5f5; border: 2px solid #fecaca; border-radius: 16px; padding: 24px; text-align: center; }
-.chef-error-icon { font-size: 40px; margin-bottom: 12px; }
-.chef-error-txt { font-family: var(--f-disp); font-size: 18px; color: #dc2626; margin-bottom: 8px; }
-.chef-error-sub { font-size: 13px; color: rgba(30,26,22,0.55); font-style: italic; }
+.chef-error { background: var(--cream); border: 3px solid var(--red); padding: 22px; text-align: center; }
+.chef-error-txt { font-family: var(--f-disp); font-size: 22px; color: var(--red); margin-bottom: 8px; }
+.chef-error-sub { font-size: 14px; color: #5A4E42; font-style: italic; }
 
 @media(max-width:600px) {
   /* Pe telefon: doar sigla, etichete scurte la tab-uri */
@@ -2086,7 +2073,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   </div>
 
   <div class="chef-header">
-    <div class="chef-badge">🤖 Powered by Gemini AI</div>
+    <div class="chef-badge">Cautare facuta cu Gemini AI</div>
     <h2 class="chef-title">Hai sa gatim cu ce avem</h2>
     <p class="chef-sub">Spune-i lui Panda ce ai in casa si el iti gaseste top 10 retete. Gratuit. Cu sarcasm inclus.</p>
   </div>
@@ -2095,50 +2082,50 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
     <!-- Nume preparat dorit -->
     <div class="cf-section">
-      <div class="cf-label">🍽️ Ce vrei sa gatesti? <span class="cf-hint">(optional — dar Panda devine mult mai destept)</span></div>
+      <div class="cf-label">Ce vrei sa gatesti? <span class="cf-hint">(optional — dar Panda devine mult mai destept)</span></div>
       <input class="cf-input" id="dish-name" type="text"
         placeholder="ex: chec, cozonac, paste carbonara, vita wellington, cookies...">
     </div>
 
     <!-- Dulce/Sarat -->
     <div class="cf-section">
-      <div class="cf-label">😋 Ce pofta ai?</div>
+      <div class="cf-label">Ce pofta ai?</div>
       <div class="toggle-btns" id="taste-btns">
-        <button class="tbtn" onclick="selectToggle('taste-btns', this, 'dulce')">🍰 Dulce</button>
-        <button class="tbtn" onclick="selectToggle('taste-btns', this, 'sarat')">🧂 Sarat</button>
-        <button class="tbtn on" onclick="selectToggle('taste-btns', this, 'dulce sau sarat')">🤷 Ambele</button>
+        <button class="tbtn" onclick="selectToggle('taste-btns', this, 'dulce')">Dulce</button>
+        <button class="tbtn" onclick="selectToggle('taste-btns', this, 'sarat')">Sarat</button>
+        <button class="tbtn on" onclick="selectToggle('taste-btns', this, 'dulce sau sarat')">Ambele</button>
       </div>
     </div>
 
     <!-- Ingrediente predefinite -->
     <div class="cf-section">
-      <div class="cf-label">🥚 Ce avem in casa <span class="cf-hint">(selecteaza ce ai)</span></div>
+      <div class="cf-label">Ce avem in casa <span class="cf-hint">(selecteaza ce ai)</span></div>
       <div class="ing-chips" id="ing-chips">
-        <button class="ichip" onclick="toggleChip(this)">🥓 Bacon</button>
-        <button class="ichip" onclick="toggleChip(this)">🧀 Branza</button>
-        <button class="ichip" onclick="toggleChip(this)">🥔 Cartofi</button>
-        <button class="ichip" onclick="toggleChip(this)">🥩 Carne vita</button>
-        <button class="ichip" onclick="toggleChip(this)">🧅 Ceapa</button>
-        <button class="ichip" onclick="toggleChip(this)">🍫 Ciocolata</button>
-        <button class="ichip" onclick="toggleChip(this)">🌾 Faina</button>
-        <button class="ichip" onclick="toggleChip(this)">🍋 Lamaie</button>
-        <button class="ichip" onclick="toggleChip(this)">🥛 Lapte</button>
-        <button class="ichip" onclick="toggleChip(this)">🍯 Miere</button>
-        <button class="ichip" onclick="toggleChip(this)">🍚 Orez</button>
-        <button class="ichip" onclick="toggleChip(this)">🥚 Oua</button>
-        <button class="ichip" onclick="toggleChip(this)">🍝 Paste</button>
-        <button class="ichip" onclick="toggleChip(this)">🐟 Peste</button>
-        <button class="ichip" onclick="toggleChip(this)">🥩 Pui</button>
-        <button class="ichip" onclick="toggleChip(this)">🍅 Rosii</button>
-        <button class="ichip" onclick="toggleChip(this)">🫒 Ulei masline</button>
-        <button class="ichip" onclick="toggleChip(this)">🧈 Unt</button>
-        <button class="ichip" onclick="toggleChip(this)">🧄 Usturoi</button>
+        <button class="ichip" onclick="toggleChip(this)">Bacon</button>
+        <button class="ichip" onclick="toggleChip(this)">Branza</button>
+        <button class="ichip" onclick="toggleChip(this)">Cartofi</button>
+        <button class="ichip" onclick="toggleChip(this)">Carne vita</button>
+        <button class="ichip" onclick="toggleChip(this)">Ceapa</button>
+        <button class="ichip" onclick="toggleChip(this)">Ciocolata</button>
+        <button class="ichip" onclick="toggleChip(this)">Faina</button>
+        <button class="ichip" onclick="toggleChip(this)">Lamaie</button>
+        <button class="ichip" onclick="toggleChip(this)">Lapte</button>
+        <button class="ichip" onclick="toggleChip(this)">Miere</button>
+        <button class="ichip" onclick="toggleChip(this)">Orez</button>
+        <button class="ichip" onclick="toggleChip(this)">Oua</button>
+        <button class="ichip" onclick="toggleChip(this)">Paste</button>
+        <button class="ichip" onclick="toggleChip(this)">Peste</button>
+        <button class="ichip" onclick="toggleChip(this)">Pui</button>
+        <button class="ichip" onclick="toggleChip(this)">Rosii</button>
+        <button class="ichip" onclick="toggleChip(this)">Ulei masline</button>
+        <button class="ichip" onclick="toggleChip(this)">Unt</button>
+        <button class="ichip" onclick="toggleChip(this)">Usturoi</button>
       </div>
     </div>
 
     <!-- Extra ingrediente -->
     <div class="cf-section">
-      <div class="cf-label">✏️ Alte ingrediente <span class="cf-hint">(scrie ce mai ai)</span></div>
+      <div class="cf-label">Alte ingrediente <span class="cf-hint">(scrie ce mai ai)</span></div>
       <input class="cf-input" id="extra-ing" type="text"
         placeholder="ex: iaurt grecesc, nuci, spanac, ardei...">
     </div>
@@ -2146,36 +2133,35 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <!-- Timp maxim -->
     <div class="cf-row">
       <div class="cf-section half">
-        <div class="cf-label">⏱️ Timp maxim total</div>
+        <div class="cf-label">Timp maxim total</div>
         <div class="time-btns" id="time-btns">
-          <button class="tbtn" onclick="selectTime(this, '15 minute')">⚡ 15 min</button>
-          <button class="tbtn" onclick="selectTime(this, '30 minute')">🚀 30 min</button>
-          <button class="tbtn" onclick="selectTime(this, '60 minute')">⏰ 1 ora</button>
-          <button class="tbtn" onclick="selectTime(this, '2 ore')">🕐 2 ore</button>
-          <button class="tbtn on" onclick="selectTime(this, 'nelimitat')">♾️ Oricat</button>
+          <button class="tbtn" onclick="selectTime(this, '15 minute')">15 min</button>
+          <button class="tbtn" onclick="selectTime(this, '30 minute')">30 min</button>
+          <button class="tbtn" onclick="selectTime(this, '60 minute')">1 ora</button>
+          <button class="tbtn" onclick="selectTime(this, '2 ore')">2 ore</button>
+          <button class="tbtn on" onclick="selectTime(this, 'nelimitat')">Oricat</button>
         </div>
       </div>
 
       <!-- Coacere -->
       <div class="cf-section half">
-        <div class="cf-label">🔥 Cuptor</div>
+        <div class="cf-label">Cuptor</div>
         <div class="toggle-btns" id="oven-btns">
-          <button class="tbtn" onclick="selectToggle('oven-btns', this, 'fara cuptor')">❌ Fara</button>
-          <button class="tbtn" onclick="selectToggle('oven-btns', this, 'cu cuptor')">🔥 Cu cuptor</button>
-          <button class="tbtn on" onclick="selectToggle('oven-btns', this, 'indiferent')">🤷 Indiferent</button>
+          <button class="tbtn" onclick="selectToggle('oven-btns', this, 'fara cuptor')">Fara</button>
+          <button class="tbtn" onclick="selectToggle('oven-btns', this, 'cu cuptor')">Cu cuptor</button>
+          <button class="tbtn on" onclick="selectToggle('oven-btns', this, 'indiferent')">Indiferent</button>
         </div>
       </div>
     </div>
 
     <!-- Search button -->
     <button class="chef-btn" id="chef-btn" onclick="searchRecipes()">
-      <span class="chef-btn-icon">🐼</span>
       <span class="chef-btn-txt">Gaseste-mi retete, Panda!</span>
     </button>
 
     <!-- Comentariu contextual Panda -->
     <div id="panda-comment" class="panda-comment" style="display:none">
-      <span class="pc-emoji">🐼</span>
+      <span class="pc-emoji">Panda</span>
       <span class="pc-text"></span>
     </div>
 
@@ -2184,7 +2170,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   <!-- Results -->
   <div class="chef-results" id="chef-results" style="display:none">
     <div class="results-header">
-      <h3 class="results-title" id="results-title">🎋 Top 10 retete gasite de Panda</h3>
+      <h3 class="results-title" id="results-title">Top 10 retete gasite de Panda</h3>
       <p class="results-sub" id="results-sub"></p>
     </div>
     <div class="results-list" id="results-list"></div>
@@ -2192,7 +2178,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
   <!-- Loading state -->
   <div class="chef-loading" id="chef-loading" style="display:none">
-    <div class="loading-panda">🐼</div>
+    <div class="loading-panda"><svg width="64" height="64" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg></div>
     <div class="loading-txt" id="loading-txt-main">Panda cauta retete cu disperare...</div>
     <div class="loading-sub" id="loading-sub-main">Verifica internetul, consulta bunica, intreaba vecinii...</div>
     <div class="loading-dots"><span></span><span></span><span></span></div>
@@ -5087,10 +5073,10 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     recipe.sursa = window._lastAiRecipes[idx]?.link || null;
     document.getElementById('preview-loading-overlay').classList.remove('show');
     showPublishPreview(recipe);
-    if (btn) { btn.disabled = false; btn.textContent = '🔍 Preview reteta completa'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Preview reteta completa'; }
   } catch(e) {
     document.getElementById('preview-loading-overlay').classList.remove('show');
-    if (btn) { btn.disabled = false; btn.textContent = '🔍 Preview reteta completa'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Preview reteta completa'; }
     showToast('❌ Eroare la generare: ' + e.message, '');
   }
 };
@@ -6030,7 +6016,6 @@ window.searchRecipes = async function() {
     document.getElementById('chef-loading').style.display = 'none';
     document.getElementById('results-list').innerHTML = `
       <div class="chef-error">
-        <div class="chef-error-icon">🐼</div>
         <div class="chef-error-txt">Panda e obosit. Revino maine.</div>
         <div class="chef-error-sub">Ai folosit toate cele ${AI_DAILY_LIMIT} cautari de azi. Limita se reseteaza in ~${rateCheck.hoursLeft || 24} ore.</div>
       </div>`;
@@ -6133,7 +6118,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     loading.style.display = 'none';
     results.style.display = 'block';
 
-    document.getElementById('results-title').textContent = '🎋 Top ' + recipes.length + ' retete gasite de Panda';
+    document.getElementById('results-title').textContent = 'Top ' + recipes.length + ' retete gasite de Panda';
     document.getElementById('results-sub').textContent =
       'Pentru: ' + allIngredients.slice(0,4).join(', ') + (allIngredients.length > 4 ? '...' : '') +
       ' · ' + selectedTime + ' · ' + selectedTaste;
@@ -6149,16 +6134,16 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
         <div class="rcard-result-body">
           <div class="rcard-result-title">${r.titlu}</div>
           <div class="rcard-result-meta">
-            <span class="rmeta-pill">⏱️ ${r.timp}</span>
-            <span class="rmeta-pill">📊 ${r.dificultate}</span>
+            <span class="rmeta-pill">${r.timp}</span>
+            <span class="rmeta-pill">${r.dificultate}</span>
           </div>
           <div class="rcard-result-desc">${r.descriere}</div>
           ${ing ? `<div class="ring-list">${ing}</div>` : ''}
-          <div class="rcard-result-sarcasm">🐼 ${r.sarcasm}</div>
-          ${currentUser ? `<button class="publish-recipe-btn" onclick="publishAiRecipe(${i})" data-idx="${i}">🔍 Preview reteta completa</button>` : `<button class="publish-recipe-btn" onclick="openAuthModal('login')">🔍 Preview reteta completa</button>`}
+          <div class="rcard-result-sarcasm">${r.sarcasm}</div>
+          ${currentUser ? `<button class="publish-recipe-btn" onclick="publishAiRecipe(${i})" data-idx="${i}">Preview reteta completa</button>` : `<button class="publish-recipe-btn" onclick="openAuthModal('login')">Preview reteta completa</button>`}
         </div>
         <a class="rcard-result-link" href="${googleSearch}" target="_blank" rel="noopener">
-          🔎 Cauta →
+          Cauta →
         </a>
       </div>`; }).join('');
     window._lastAiRecipes = cleanedRecipes;
@@ -6171,7 +6156,6 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     results.style.display = 'block';
     resultsList.innerHTML = `
       <div class="chef-error">
-        <div class="chef-error-icon">😅</div>
         <div class="chef-error-txt">Panda s-a incurcat in bambus</div>
         <div class="chef-error-sub">Eroare: ${e.message}. Incearca din nou — Panda promite sa fie mai atent data viitoare. Nu promite.</div>
       </div>
@@ -7164,7 +7148,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 <!-- ── Preview Loading Overlay ── -->
 <div id="preview-loading-overlay" class="preview-loading-overlay">
   <div class="preview-loading-inner">
-    <div class="loading-panda" style="font-size:72px">🐼</div>
+    <div class="loading-panda"><svg width="64" height="64" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg></div>
     <div class="loading-txt">Panda genereaza reteta completa...</div>
     <div class="loading-sub">Cu tot sarcasticul inclus. Rabdare.</div>
     <div class="loading-dots"><span></span><span></span><span></span></div>
