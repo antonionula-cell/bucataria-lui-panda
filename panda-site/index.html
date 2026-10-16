@@ -749,22 +749,23 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 /* ══════════════════════════════════
    FOOTER
 ══════════════════════════════════ */
-.site-footer {
-  background: var(--panda-dark);
-  padding: 40px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+.site-footer { background: var(--ink); color: var(--cream); border-top: 3px solid var(--ink); }
+.footer-inner { max-width: 1100px; margin: 0 auto; padding: 36px 40px 28px; display: grid; gap: 22px; }
+.fdonate {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px 32px; flex-wrap: wrap;
+  padding-bottom: 24px; border-bottom: 1px solid rgba(251,246,236,.18);
 }
-.site-footer::before {
-  content: '🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋🐼🎋';
-  display: block;
-  font-size: 20px;
-  margin-bottom: 16px;
-  opacity: 0.15;
-  letter-spacing: 4px;
+.fd-title { font-family: var(--f-disp); font-weight: 400; font-size: 26px; line-height: 1.1; color: var(--cream); }
+.fd-sub { font-size: 15px; color: rgba(251,246,236,.75); margin-top: 6px; max-width: 52ch; }
+.fd-act { display: grid; gap: 6px; justify-items: start; }
+.fd-btn {
+  background: var(--mustard); color: var(--ink); border: 3px solid var(--cream);
+  font-stretch: 80%; font-weight: 800; font-size: 15px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 11px 18px; text-decoration: none; transition: background .15s;
 }
-.ftxt { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,250,248,0.3); line-height: 2; }
+.fd-btn:hover { background: var(--cream); }
+.fd-note { font-size: 12px; color: rgba(251,246,236,.55); }
+.ftxt { font-stretch: 75%; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(251,246,236,0.5); line-height: 1.8; }
 
 /* ══════════════════════════════════
    ANIMATIONS
@@ -782,6 +783,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
    RESPONSIVE
 ══════════════════════════════════ */
 @media(max-width:720px){
+  .footer-inner { padding: 30px 24px 24px; }
   .header-inner { grid-template-columns: 1fr; padding: 36px 24px 32px; gap: 28px; }
   .strip-inner { padding: 7px 24px; }
   .hero-stamp { right: -10px; top: -36px; width: 104px; height: 104px; }
@@ -1664,6 +1666,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   body.printing .print-target .timer-btn,
   body.printing .print-target .scale-bar { display:none !important; }
 }
+.mthanks { margin-top: 28px; padding-top: 14px; border-top: 3px double var(--ink); font-size: 14.5px; color: #3D352D; }
+.mthanks a { color: var(--red); font-weight: 800; text-underline-offset: 3px; }
+@media print { .mthanks { display: none !important; } }
 </style>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐼</text></svg>">
 <link rel="manifest" href="/manifest.json">
@@ -1713,7 +1718,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <aside class="hero-ingr" aria-label="Ingrediente">
       <div class="hero-ingr-title">Ingrediente</div>
       <p>Retete din toata lumea <b>(traduse cu AI)</b>, umor, sarcasm <b>(min. 30%)</b>, bambus, linkuri catre magazine romanesti, setari Zanussi.</p>
-      <p class="hero-ingr-note"><b>Poate contine</b>urme de ciocolata si comentarii pe care nu le-ai cerut.</p>
+      <p class="hero-ingr-note"><b>Poate contine</b>urme de ciocolata si comentarii pe care nu le-ai cerut. Gustul final e responsabilitatea ta.</p>
     </aside>
   </div>
 </header>
@@ -1765,12 +1770,6 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
   </div>
 
-  <!-- ── Ko-fi top banner ── -->
-  <div class="kofi-banner" id="kofi-top-banner">
-    <span class="kofi-banner-icon">☕</span>
-    <span class="kofi-banner-txt">Daca ti-a placut o reteta, <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul cu un bambus →</a></span>
-    <button class="kofi-banner-close" onclick="dismissKofiBanner()" aria-label="Inchide">✕</button>
-  </div>
 
   <div class="sec-head">
     <h2 class="sec-title">Retetele lui Panda</h2>
@@ -2065,12 +2064,6 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 <!-- ════ TAB 2: HAI SA GATIM ════ -->
 <div id="tab2" class="tab-content" style="display:block">
 
-  <!-- ── Ko-fi top banner tab2 ── -->
-  <div class="kofi-banner" id="kofi-top-banner-2">
-    <span class="kofi-banner-icon">☕</span>
-    <span class="kofi-banner-txt">Daca ti-a placut o reteta, <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul cu un bambus →</a></span>
-    <button class="kofi-banner-close" onclick="dismissKofiBanner()" aria-label="Inchide">✕</button>
-  </div>
 
   <div class="chef-header">
     <div class="chef-badge">Cautare facuta cu Gemini AI</div>
@@ -2186,23 +2179,6 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
 </div>
 <!-- ════ END TAB 2 ════ -->
-
-  <!-- ═══ DONEAZA PENTRU PANDA ═══ -->
-  <div class="donate-wrap" id="doneaza">
-    <div class="donate-card">
-      <div class="donate-panda">🐼</div>
-      <div class="donate-body">
-        <div class="donate-tag">☕ Sustine proiectul</div>
-        <h3 class="donate-title">Panda ruleaza pe bambus si cafea</h3>
-        <p class="donate-sub">Daca ti-a placut vreo reteta si vrei sa contribui la fondul de bambus al lui Panda — orice ajuta. Daca nu, nici o problema. Panda te iubeste oricum. <em>Putin.</em></p>
-        <a class="donate-btn" href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener" id="kofi-link">
-          <span class="donate-btn-icon">☕</span>
-          Cumpara un bambus lui Panda
-        </a>
-        <p class="donate-note">Prin Ko-fi · 0% comision · Orice suma · Complet optional</p>
-      </div>
-    </div>
-  </div>
 
   <!-- PANDA QUOTE -->
   <div class="panda-quote">
@@ -2378,14 +2354,26 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
 </main>
 
-<footer class="site-footer">
-  <div class="ftxt">Bucataria lui Panda · Proiect personal · Panda 🐼 · Linkuri magazine romanesti · Setari Zanussi incluse</div>
-  <div class="footer-legal">
-    <button class="flegal-btn" onclick="openLegalModal('privacy')">Politică de Confidențialitate</button>
-    <span class="flegal-sep">·</span>
-    <button class="flegal-btn" onclick="openLegalModal('terms')">Termeni și Condiții</button>
-    <span class="flegal-sep">·</span>
-    <button class="flegal-btn" onclick="openCookieSettings()">Setări Cookie-uri</button>
+<footer class="site-footer" id="doneaza">
+  <div class="footer-inner">
+    <div class="fdonate">
+      <div>
+        <h3 class="fd-title">Panda ruleaza pe bambus si cafea.</h3>
+        <p class="fd-sub">Daca ti-a placut o reteta, orice bambus ajuta. Daca nu, Panda te iubeste oricum. Putin.</p>
+      </div>
+      <div class="fd-act">
+        <a class="fd-btn" href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">Cumpara-i un bambus</a>
+        <span class="fd-note">Prin Ko-fi · 0% comision · Complet optional</span>
+      </div>
+    </div>
+    <div class="ftxt">Bucataria lui Panda · Proiect personal · Linkuri magazine romanesti · Setari Zanussi incluse</div>
+    <div class="footer-legal">
+      <button class="flegal-btn" onclick="openLegalModal('privacy')">Politica de confidentialitate</button>
+      <span class="flegal-sep">·</span>
+      <button class="flegal-btn" onclick="openLegalModal('terms')">Termeni si conditii</button>
+      <span class="flegal-sep">·</span>
+      <button class="flegal-btn" onclick="openCookieSettings()">Setari cookie-uri</button>
+    </div>
   </div>
 </footer>
 
@@ -2487,6 +2475,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('brownies')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2553,6 +2542,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('cookies')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2621,6 +2611,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('zabaglione')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2679,6 +2670,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('nutella')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2752,6 +2744,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('cana')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2833,6 +2826,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('muffins')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2909,6 +2903,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('browniefructe')">✕ sterge poza</button>
     </div>
    </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -2990,6 +2985,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('bagels')">✕ sterge poza</button>
      </div>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3073,6 +3069,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('pbmuffins')">✕ sterge poza</button>
      </div>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3139,6 +3136,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-banichki" rows="2" placeholder="Cum a iesit? Panda nu judeca (mint putin)." oninput="saveCaption('nt-banichki', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-banichki')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3192,6 +3190,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-molnarka" rows="2" placeholder="Cum a iesit ruloul? Panda asculta." oninput="saveCaption('nt-molnarka', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-molnarka')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3258,6 +3257,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-topfen" rows="2" placeholder="Ai reusit sa pronunti Topfengolatsche corect? Panda vrea sa stie." oninput="saveCaption('nt-topfen', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-topfen')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3323,6 +3323,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-babovka" rows="2" placeholder="Rustic sau profesionist? Panda vrea sa vada." oninput="saveCaption('nt-babovka', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-babovka')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3387,6 +3388,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-koulouri" rows="2" placeholder="Koulouri reusit sau 'lucram la rotunjime'?" oninput="saveCaption('nt-koulouri', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-koulouri')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3451,6 +3453,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-rulouri" rows="2" placeholder="Cate pliciri ai facut sincer? Panda nu spune la nimeni." oninput="saveCaption('nt-rulouri', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-rulouri')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3513,6 +3516,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-churros" rows="2" placeholder="Arsuri pe mana sau totul sub control? Panda asculta." oninput="saveCaption('nt-churros', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-churros')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3567,6 +3571,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-poffertjes" rows="2" placeholder="Ai tigaia speciala sau ai improvizat? Panda vrea sa stie." oninput="saveCaption('nt-poffertjes', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-poffertjes')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3623,6 +3628,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-clatitep" rows="2" placeholder="S-a dezumflat la intoarcere? Panda nu judeca. A patit-o." oninput="saveCaption('nt-clatitep', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-clatitep')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3687,6 +3693,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-nalangate" rows="2" placeholder="Cu sau fara Nutella la prima portie? Panda ghiceste: cu." oninput="saveCaption('nt-nalangate', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-nalangate')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3740,6 +3747,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-clatitez" rows="2" placeholder="Mascarpone sau ai improvizat cu altceva? Panda asculta." oninput="saveCaption('nt-clatitez', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-clatitez')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3791,6 +3799,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
      <textarea class="photo-caption-input" id="pc-nt-mousse" rows="2" placeholder="Cat timp ai asteptat sincer? Panda tine secretul." oninput="saveCaption('nt-mousse', this.value)"></textarea>
      <button class="photo-remove-btn" onclick="removePhoto('nt-mousse')">✕ sterge poza</button>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -3869,6 +3878,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <button class="photo-remove-btn" onclick="removePhoto('trokuti')">✕ sterge poza</button>
      </div>
     </div>
+   <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
    </div>
   </div>
  </div>
@@ -5310,6 +5320,7 @@ function renderDynamicRecipe(r) {
         ${r.cuptor ? `<div class="rsec"><div class="rstitle">Setari cuptor</div>${ovenHtml}</div>` : ''}
         <div class="rsec"><div class="rstitle">Pasi</div><ol class="slist">${steps}</ol></div>
         <div class="rsec"><div class="rstitle">Sfaturi</div><div class="tips">${tips}</div></div>
+        <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
         ${r.sursa ? `<div style="margin-top:24px;padding-top:16px;border-top:2px dashed var(--panda-grey-light);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
           🔗 Inspirat de: <a href="${r.sursa}" target="_blank" rel="noopener" style="color:var(--bamboo-dark)">${r.sursa}</a>
         </div>` : ''}
@@ -6172,106 +6183,6 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
      LEGAL — CSS + COOKIE BANNER + MODALS
 ════════════════════════════════ -->
 <style>
-/* ── Ko-fi top banner ── */
-.kofi-banner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bamboo-pale);
-  border: 2px solid var(--bamboo-light);
-  border-radius: 14px;
-  padding: 12px 18px;
-  margin-bottom: 28px;
-  animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
-}
-.kofi-banner.hidden { display: none; }
-.kofi-banner-icon { font-size: 20px; flex-shrink: 0; }
-.kofi-banner-txt {
-  flex: 1;
-  font-size: 13px;
-  color: rgba(30,26,22,0.7);
-  line-height: 1.5;
-}
-.kofi-banner-txt a {
-  color: var(--bamboo-dark);
-  font-weight: 900;
-  text-decoration: none;
-  border-bottom: 2px solid var(--bamboo-light);
-  transition: border-color .2s;
-}
-.kofi-banner-txt a:hover { border-color: var(--bamboo-dark); }
-.kofi-banner-close {
-  background: none;
-  border: none;
-  font-size: 14px;
-  color: rgba(30,26,22,0.35);
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 6px;
-  flex-shrink: 0;
-  transition: all .15s;
-  line-height: 1;
-}
-.kofi-banner-close:hover { background: rgba(30,26,22,0.08); color: var(--panda-dark); }
-
-/* ── Ko-fi modal box ── */
-.kofi-modal-box {
-  background: var(--white);
-  border-radius: 24px;
-  overflow: hidden;
-  max-width: 520px;
-  width: 100%;
-  margin: auto;
-  position: relative;
-  animation: popIn .35s cubic-bezier(.34,1.56,.64,1);
-  border: 3px solid var(--bamboo);
-}
-
-/* ── Ko-fi overlay widget — aliniat cu butonul Sustine Panda ── */
-.floatingchat-container-wrap { bottom: 28px !important; left: 28px !important; right: auto !important; }
-.floatingchat-container-wrap-mobi { bottom: 20px !important; left: 12px !important; right: auto !important; }
-
-/* ── Ko-fi floating button ── */
-.kofi-float {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 8500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bamboo);
-  color: white;
-  font-family: var(--f-disp);
-  font-size: 14px;
-  padding: 12px 20px 12px 14px;
-  border-radius: 30px;
-  text-decoration: none;
-  box-shadow: 0 6px 24px rgba(78,124,63,0.45);
-  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, bottom .3s;
-  animation: floatBtnIn .6s .5s cubic-bezier(.34,1.56,.64,1) both;
-}
-.kofi-float:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 32px rgba(78,124,63,0.55);
-  color: white;
-}
-.kofi-float-icon { font-size: 18px; line-height: 1; }
-.kofi-float-txt { white-space: nowrap; letter-spacing: 0.02em; }
-.kofi-float.cookie-up { bottom: 100px; }
-
-@keyframes floatBtnIn {
-  from { transform: translateY(80px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-@media(max-width:480px) {
-  .kofi-float-txt { display: none; }
-  .kofi-float { padding: 13px 14px; border-radius: 50%; bottom: 20px; right: 20px; }
-  .kofi-float.cookie-up { bottom: 90px; }
-  .kofi-banner { flex-wrap: wrap; }
-}
-
 /* ── Share button in modal ── */
 .mshare-btn {
   position: absolute;
@@ -6390,135 +6301,9 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   .pwa-install-btn { width: 100%; text-align: center; }
 }
 
-/* ── Donate section ── */
-.donate-wrap { margin: 50px 0; }
-.donate-card {
-  background: var(--panda-dark);
-  border-radius: 24px;
-  padding: 36px 44px;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid rgba(76,127,58,0.2);
-}
-.donate-card::before {
-  content: '☕☕☕';
-  position: absolute;
-  right: 30px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 70px;
-  opacity: 0.04;
-  pointer-events: none;
-}
-.donate-panda {
-  font-size: 72px;
-  flex-shrink: 0;
-  animation: float 3s ease-in-out infinite;
-  line-height: 1;
-}
-.donate-body { flex: 1; }
-.donate-tag {
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--bamboo);
-  margin-bottom: 10px;
-}
-.donate-title {
-  font-family: var(--f-disp);
-  font-size: clamp(20px, 3vw, 28px);
-  color: var(--white);
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-.donate-sub {
-  font-size: 14px;
-  color: rgba(250,250,248,0.55);
-  line-height: 1.7;
-  margin-bottom: 22px;
-  max-width: 520px;
-}
-.donate-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--bamboo);
-  color: white;
-  font-family: var(--f-disp);
-  font-size: 17px;
-  padding: 14px 28px;
-  border-radius: 30px;
-  text-decoration: none;
-  transition: background .2s, transform .25s, box-shadow .2s;
-  box-shadow: 0 6px 20px rgba(76,127,58,0.35);
-  letter-spacing: 0.02em;
-}
-.donate-btn:hover {
-  background: var(--bamboo-dark);
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 12px 28px rgba(76,127,58,0.45);
-}
-.donate-btn-icon { font-size: 20px; }
-.donate-note {
-  margin-top: 12px;
-  font-size: 11px;
-  color: rgba(250,250,248,0.25);
-  font-style: italic;
-  letter-spacing: 0.04em;
-}
 @media(max-width:600px) {
-  .donate-card { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 16px; }
-  .donate-panda { font-size: 52px; }
 }
 
-/* ── Panda Disclaimer Popup ── */
-.panda-disclaimer-overlay {
-  position: fixed; inset: 0; z-index: 999998;
-  background: rgba(26,26,26,0.92);
-  backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-}
-.panda-disclaimer-box {
-  background: var(--white);
-  border-radius: 28px;
-  padding: 40px 36px 32px;
-  max-width: 520px; width: 100%;
-  text-align: center;
-  border: 3px solid var(--bamboo);
-  animation: popIn .5s cubic-bezier(.34,1.56,.64,1);
-  box-shadow: 0 20px 60px rgba(0,0,0,.4);
-}
-.panda-disclaimer-panda { font-size: 72px; line-height: 1; margin-bottom: 16px; animation: float 3s ease-in-out infinite; }
-.panda-disclaimer-title {
-  font-family: var(--f-disp);
-  font-size: 26px; color: var(--panda-dark); margin-bottom: 20px;
-}
-.panda-disclaimer-body {
-  text-align: left; font-size: 14px; color: rgba(30,26,22,.75);
-  line-height: 1.7; margin-bottom: 24px;
-}
-.panda-disclaimer-body ul { margin: 10px 0 10px 20px; display: flex; flex-direction: column; gap: 8px; }
-.panda-disclaimer-body li { line-height: 1.5; }
-.panda-disclaimer-btn {
-  width: 100%;
-  font-family: var(--f-disp); font-size: 17px;
-  background: var(--bamboo); color: white; border: none;
-  border-radius: 30px; padding: 16px 24px; cursor: pointer;
-  transition: all .25s cubic-bezier(.34,1.56,.64,1);
-  box-shadow: 0 6px 20px rgba(76,127,58,.4);
-  margin-bottom: 10px;
-}
-.panda-disclaimer-btn:hover { background: var(--bamboo-dark); transform: scale(1.03); }
-.panda-disclaimer-skip {
-  background: none; border: none; font-size: 12px; color: rgba(30,26,22,.35);
-  cursor: pointer; font-family: var(--f-body); font-style: italic;
-  padding: 4px; transition: color .2s;
-}
-.panda-disclaimer-skip:hover { color: rgba(30,26,22,.6); }
 
 /* ── Panda Login Splash ── */
 .panda-splash-overlay {
@@ -6946,10 +6731,8 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 
 /* ── Footer legal links ── */
 .footer-legal {
-  margin-top: 14px;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -6959,7 +6742,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   font-family: var(--f-body);
   font-size: 11px;
   font-weight: 700;
-  color: rgba(250,250,248,0.35);
+  color: rgba(251,246,236,0.6);
   cursor: pointer;
   padding: 4px 0;
   text-decoration: underline;
@@ -6967,75 +6750,33 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   transition: color .2s;
   letter-spacing: 0.03em;
 }
-.flegal-btn:hover { color: var(--bamboo); }
+.flegal-btn:hover { color: var(--mustard); }
 .flegal-sep { color: rgba(250,250,248,0.2); font-size: 11px; }
 
-/* ── Cookie Banner ── */
+/* ── Cookie Banner: o linie ── */
 .cookie-banner {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 9000;
-  background: var(--panda-dark);
-  border-top: 3px solid var(--bamboo);
-  padding: 18px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  box-shadow: 0 -8px 30px rgba(0,0,0,0.25);
+  background: var(--ink);
+  border-top: 3px solid var(--mustard);
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
   transform: translateY(100%);
-  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+  transition: transform .3s ease-out;
 }
 .cookie-banner.show { transform: translateY(0); }
-.cookie-inner {
-  max-width: 900px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+.cookie-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; }
+.cookie-txt { flex: 1; min-width: 220px; font-size: 13.5px; color: rgba(251,246,236,0.8); line-height: 1.45; }
+.cookie-txt a { color: var(--mustard); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cookie-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-btn-accept, .cookie-btn-reject {
+  font-family: var(--f-body); font-stretch: 80%; font-weight: 800; font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
+  padding: 7px 14px; cursor: pointer; border: 2px solid var(--cream); transition: background .15s, color .15s;
 }
-.cookie-icon { font-size: 28px; flex-shrink: 0; }
-.cookie-txt {
-  flex: 1;
-  font-size: 13px;
-  color: rgba(250,250,248,0.7);
-  line-height: 1.55;
-  min-width: 200px;
-}
-.cookie-txt strong { color: var(--white); }
-.cookie-txt a { color: var(--bamboo); text-decoration: underline; cursor: pointer; }
-.cookie-btns { display: flex; gap: 10px; flex-shrink: 0; }
-.cookie-btn-accept {
-  font-family: var(--f-disp);
-  font-size: 15px;
-  background: var(--bamboo);
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 22px;
-  cursor: pointer;
-  transition: background .2s, transform .2s;
-}
-.cookie-btn-accept:hover { background: var(--bamboo-dark); transform: scale(1.04); }
-.cookie-btn-reject {
-  font-family: var(--f-body);
-  font-size: 13px;
-  font-weight: 700;
-  background: none;
-  color: rgba(250,250,248,0.4);
-  border: 2px solid rgba(250,250,248,0.15);
-  border-radius: 20px;
-  padding: 10px 18px;
-  cursor: pointer;
-  transition: all .2s;
-}
-.cookie-btn-reject:hover { color: white; border-color: rgba(250,250,248,0.4); }
-@media(max-width:480px) {
-  .cookie-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .cookie-btns { width: 100%; }
-  .cookie-btn-accept, .cookie-btn-reject { flex: 1; text-align: center; }
-}
+.cookie-btn-accept { background: var(--cream); color: var(--ink); }
+.cookie-btn-accept:hover { background: var(--mustard); border-color: var(--mustard); }
+.cookie-btn-reject { background: none; color: var(--cream); }
+.cookie-btn-reject:hover { background: var(--cream); color: var(--ink); }
 
 /* ── Legal Modal ── */
 .legal-overlay {
@@ -7171,31 +6912,6 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   </div>
 </div>
 
-<!-- ── Panda Disclaimer Popup (prima vizita) ── -->
-<div id="panda-disclaimer" class="panda-disclaimer-overlay" style="display:none">
-  <div class="panda-disclaimer-box">
-    <div class="panda-disclaimer-panda">🐼</div>
-    <div class="panda-disclaimer-title">Bun venit in Bucataria lui Panda</div>
-    <div class="panda-disclaimer-body">
-      <p>Inainte sa intri, cateva lucruri pe care Panda vrea sa le stii:</p>
-      <ul>
-        <li>🎭 Panda <strong>te va lua la misto</strong> la fiecare reteta. Cu bun gust. Probabil.</li>
-        <li>🤖 Retetele sunt <strong>generate cu AI</strong> — gustul final e responsabilitatea ta.</li>
-        <li>🍫 Panda nu se face responsabil daca mananci toata ciocolata inainte sa ajunga in reteta.</li>
-        <li>😐 Sarcasmul e inclus gratuit. Nu se poate dezactiva.</li>
-      </ul>
-      <p style="font-size:12px;color:rgba(43,43,43,.5);margin-top:12px;font-style:italic">
-        Prin continuare confirmi ca ai simtul umorului si nu te superi pe un panda imaginar.
-      </p>
-    </div>
-    <button class="panda-disclaimer-btn" onclick="dismissDisclaimer()">
-      🐼 Sunt pregatit! Mananc sarcasm la micul dejun
-    </button>
-    <button class="panda-disclaimer-skip" onclick="window.location.href='https://www.google.ro'">
-      Nu am simtul umorului dar intru oricum
-    </button>
-  </div>
-</div>
 
 <!-- ── Panda Login Splash ── -->
 <div id="panda-splash" class="panda-splash-overlay">
@@ -7276,37 +6992,13 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   </div>
 </div>
 
-<!-- ── Ko-fi Floating Button ── -->
-<button class="kofi-float" id="kofi-float" onclick="openKofiModal()">
-  <span class="kofi-float-icon">☕</span>
-  <span class="kofi-float-txt">Sustine Panda</span>
-</button>
-
-<!-- ── Ko-fi Modal ── -->
-<div class="legal-overlay" id="kofi-modal" onclick="if(event.target===this)closeKofiModal()" style="z-index:9500;padding:30px 20px">
-  <div class="kofi-modal-box">
-    <button class="legal-mclose" onclick="closeKofiModal()" style="position:absolute;top:10px;right:10px;z-index:2">✕</button>
-    <iframe id='kofiframe'
-      src='https://ko-fi.com/bucatarialuipanda/?hidefeed=true&widget=true&embed=true&preview=true'
-      style='border:none;width:100%;padding:4px;background:#f9f9f9;display:block;border-radius:0 0 20px 20px'
-      height='712'
-      title='Sustine Bucataria lui Panda'>
-    </iframe>
-  </div>
-</div>
-
 <!-- ── Cookie Banner DOM ── -->
-<div class="cookie-banner" id="cookie-banner">
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie-uri">
   <div class="cookie-inner">
-    <span class="cookie-icon">🍪</span>
-    <div class="cookie-txt">
-      <strong>Folosim cookie-uri de analiză</strong> — Google Analytics ne ajută să înțelegem cum e folosit site-ul.
-      Datele tale nu sunt vândute nimănui. Panda promite.
-      <a onclick="openLegalModal('privacy')">Politică de confidențialitate</a>
-    </div>
+    <p class="cookie-txt">Folosim Google Analytics ca sa vedem ce retete se citesc. Datele nu se vand. Panda promite. <a onclick="openLegalModal('privacy')">Confidentialitate</a></p>
     <div class="cookie-btns">
       <button class="cookie-btn-reject" onclick="setCookieConsent(false)">Refuz</button>
-      <button class="cookie-btn-accept" onclick="setCookieConsent(true)">Accept 🎋</button>
+      <button class="cookie-btn-accept" onclick="setCookieConsent(true)">Accept</button>
     </div>
   </div>
 </div>
@@ -7334,15 +7026,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   if (consent === null) {
     setTimeout(function() {
       document.getElementById('cookie-banner').classList.add('show');
-      document.getElementById('kofi-float')?.classList.add('cookie-up');
     }, 1200);
-  }
-  // Ko-fi top banner
-  if (sessionStorage.getItem('kofiBannerDismissed')) {
-    ['kofi-top-banner','kofi-top-banner-2'].forEach(function(id) {
-      var b = document.getElementById(id);
-      if (b) b.classList.add('hidden');
-    });
   }
 })();
 
@@ -7385,17 +7069,6 @@ window.showToast = function(msg, type) {
 
 // Profile functions mutate in non-module — accesibile via window din modul
 
-window.openKofiModal = function() {
-  document.getElementById('kofi-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-};
-window.closeKofiModal = function() {
-  document.getElementById('kofi-modal').classList.remove('open');
-  document.body.style.overflow = '';
-};
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && document.getElementById('kofi-modal')?.classList.contains('open')) closeKofiModal();
-});
 
 // ── PWA Install ──
 let deferredInstallPrompt = null;
@@ -7438,37 +7111,14 @@ window.installPWA = async function() {
   if (outcome === 'accepted') deferredInstallPrompt = null;
 };
 
-// ── Disclaimer popup — prima vizita ──
-(function() {
-  if (!localStorage.getItem('pandaDisclaimer')) {
-    setTimeout(function() {
-      document.getElementById('panda-disclaimer').style.display = 'flex';
-    }, 800);
-  }
-})();
-window.dismissDisclaimer = function() {
-  localStorage.setItem('pandaDisclaimer', '1');
-  const el = document.getElementById('panda-disclaimer');
-  el.style.transition = 'opacity .4s';
-  el.style.opacity = '0';
-  setTimeout(() => el.style.display = 'none', 400);
-};
 
 window.setCookieConsent = function(accepted) {
   localStorage.setItem('cookieConsent', accepted ? 'yes' : 'no');
   var cb = document.getElementById('cookie-banner');
   cb.classList.remove('show');
-  document.getElementById('kofi-float')?.classList.remove('cookie-up');
   if (accepted) loadGA();
 };
 
-window.dismissKofiBanner = function() {
-  ['kofi-top-banner','kofi-top-banner-2'].forEach(function(id) {
-    var b = document.getElementById(id);
-    if (b) b.classList.add('hidden');
-  });
-  sessionStorage.setItem('kofiBannerDismissed','1');
-};
 
 window.openCookieSettings = function() {
   document.getElementById('cookie-banner').classList.add('show');
@@ -7884,16 +7534,6 @@ function _printModal(modalId) {
 }
 </script>
 
-<!-- ── Ko-fi Overlay Widget (official floating chat) ── -->
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('bucatarialuipanda', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Doneaza 🐼',
-    'floating-chat.donateButton.background-color': '#4E7C3F',
-    'floating-chat.donateButton.text-color': '#ffffff'
-  });
-</script>
 
 </body>
 </html>
