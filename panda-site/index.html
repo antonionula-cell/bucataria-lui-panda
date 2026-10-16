@@ -137,46 +137,19 @@ body[data-time="evening"] .label-strip { background: var(--leaf); }
 .time-greeting { text-transform: none; letter-spacing: 0; font-stretch: 100%; font-style: italic; font-weight: 500; opacity: .85; }
 
 /* ══════════════════════════════════
-   HEADER: eticheta + ingrediente
+   HEADER: bannerul Bucatariei
 ══════════════════════════════════ */
 .site-header { background: var(--paper); }
-.header-inner {
-  max-width: 1100px; margin: 0 auto; padding: 44px 40px 40px;
-  display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-  gap: 36px; align-items: center;
-}
-.hero-label {
-  position: relative; background: var(--leaf); color: var(--cream);
+.header-inner { max-width: 1100px; margin: 0 auto; padding: 36px 40px 32px; display: grid; gap: 14px; }
+.hero-banner {
+  display: block; width: 100%; height: auto; max-width: 100%;
+  aspect-ratio: 2000 / 727;
   border: 3px solid var(--ink); box-shadow: 8px 8px 0 var(--ink);
-  padding: 30px 34px 32px;
+  background: var(--cream);
 }
-.header-badge {
-  font-stretch: 70%; font-weight: 800; font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--sprout);
-}
-.site-title {
-  font-family: var(--f-disp); font-weight: 400;
-  font-size: clamp(42px, 6.4vw, 80px); line-height: .92; letter-spacing: -.01em;
-  margin: 10px 0 16px; color: var(--cream);
-}
-.site-title .panda-word { color: var(--cream); }
-.site-subtitle { font-size: 17px; line-height: 1.45; max-width: 40ch; }
-.hero-stamp {
-  position: absolute; right: -22px; top: -30px; width: 124px; height: 124px;
-  transform: rotate(12deg); pointer-events: none;
-}
-.hero-ingr {
-  background: var(--cream); border: 3px solid var(--ink); padding: 20px 22px;
-  display: grid; gap: 10px; align-content: start;
-}
-.hero-ingr-title { font-family: var(--f-disp); font-size: 22px; line-height: 1; }
-.hero-ingr p { font-size: 15px; line-height: 1.5; }
-.hero-ingr p b { font-stretch: 85%; font-weight: 800; }
-.hero-ingr-note {
-  border-top: 1px dashed var(--muted); padding-top: 10px;
-  font-size: 13px; font-style: italic; color: var(--text-3);
-}
-.hero-ingr-note b { font-style: normal; font-stretch: 75%; font-weight: 800; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--leaf); margin-right: 4px; }
+.hero-note { font-size: 14px; font-style: italic; color: var(--text-3); max-width: 80ch; }
+.hero-note b { font-style: normal; font-stretch: 75%; font-weight: 800; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--leaf); margin-right: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* ══════════════════════════════════
    FILTER BAR
@@ -752,10 +725,8 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 ══════════════════════════════════ */
 @media(max-width:720px){
   .footer-inner { padding: 30px 24px 24px; }
-  .header-inner { grid-template-columns: 1fr; padding: 36px 24px 32px; gap: 28px; }
+  .header-inner { padding: 28px 24px 26px; }
   .strip-inner { padding: 7px 24px; }
-  .hero-stamp { right: -10px; top: -36px; width: 104px; height: 104px; }
-  .header-badge { padding-right: 84px; }
   .main { padding: 36px 20px 60px; }
   .mhead { padding: 64px 22px 22px; }
   .mbody { padding: 22px; }
@@ -772,12 +743,9 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 @media(max-width:480px){
   /* Header */
   .strip-inner { padding: 6px 16px; font-size: 11px; }
-  .header-inner { padding: 30px 16px 28px; gap: 24px; }
-  .hero-label { padding: 24px 20px 24px; box-shadow: 6px 6px 0 var(--ink); }
-  .hero-stamp { right: -8px; top: -34px; width: 92px; height: 92px; }
-  .header-badge { padding-right: 72px; }
-  .site-title { font-size: clamp(38px, 11vw, 48px); }
-  .site-subtitle { font-size: 15px; }
+  .header-inner { padding: 20px 16px 22px; }
+  .hero-banner { border-width: 2px; box-shadow: 5px 5px 0 var(--ink); }
+  .hero-note { font-size: 13px; }
 
   /* Filter bar */
   .filter-inner { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -14px; padding-inline: 14px; }
@@ -1668,27 +1636,13 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 <!-- ════════════ HEADER ════════════ -->
 <header class="site-header">
   <div class="header-inner">
-    <div class="hero-label">
-      <svg class="hero-stamp" viewBox="0 0 120 120" aria-hidden="true">
-          <defs><path id="stamp-ring" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
-          <circle cx="60" cy="60" r="56" fill="#B8D98C" stroke="#161A15" stroke-width="3"/>
-          <circle cx="60" cy="60" r="33" fill="none" stroke="#1E1A16" stroke-width="2" stroke-dasharray="3 3"/>
-          <text font-family="Archivo, Arial, sans-serif" font-weight="800" font-size="11.5" letter-spacing="2.2" fill="#1E1A16"><textPath href="#stamp-ring">APROBAT DE PANDA · CALITATEA I ·</textPath></text>
-          <text x="60" y="58" text-anchor="middle" font-family="Alfa Slab One, Georgia, serif" font-size="18" fill="#1E1A16">100%</text>
-          <text x="60" y="74" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-weight="800" font-size="10" letter-spacing="1" fill="#1E1A16">SARCASM</text>
-        </svg>
-      <div class="header-badge">Retete din toata lumea · traduse in romana</div>
-      <h1 class="site-title">
-        Bucataria<br>
-        <span class="panda-word">lui Panda</span>
-      </h1>
-      <p class="site-subtitle">Traduse cu umor si sarcasm de un panda care mananca prea mult bambus si nu se pricepe la dieta.</p>
-    </div>
-    <aside class="hero-ingr" aria-label="Ingrediente">
-      <div class="hero-ingr-title">Ingrediente</div>
-      <p>Retete din toata lumea <b>(traduse cu AI)</b>, umor, sarcasm <b>(min. 30%)</b>, bambus, linkuri catre magazine romanesti, setari Zanussi.</p>
-      <p class="hero-ingr-note"><b>Poate contine</b>urme de ciocolata si comentarii pe care nu le-ai cerut. Gustul final e responsabilitatea ta.</p>
-    </aside>
+    <h1 class="sr-only">Bucataria lui Panda: retete din toata lumea, traduse in romana cu umor si sarcasm</h1>
+    <img class="hero-banner" src="img/banner.webp"
+      srcset="img/banner-1000.jpg 1000w, img/banner.webp 2000w"
+      sizes="(max-width: 1100px) 100vw, 1100px"
+      width="2000" height="727" fetchpriority="high" decoding="async"
+      alt="Bucataria lui Panda: un panda bucatar cu lingura de lemn si un borcan de ciocolata, intre ingrediente si monumente din lume. 30% sarcasm, 20% bambus, 50% improvizatie.">
+    <p class="hero-note"><b>Poate contine</b>retete traduse cu AI, urme de ciocolata si comentarii pe care nu le-ai cerut. Gustul final e responsabilitatea ta.</p>
   </div>
 </header>
 
