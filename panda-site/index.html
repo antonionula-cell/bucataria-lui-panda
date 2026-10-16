@@ -5581,32 +5581,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── ESC si click outside pentru inchidere modal ──
-  const modalIds = ['brownies','cookies','zabaglione','nutella','cana','muffins','browniefructe','bagels','pbmuffins'];
-
-  function getOpenModal() {
-    return modalIds.find(id => document.getElementById('cb-' + id)?.checked);
-  }
-
-  function closeModal(id) {
-    const cb = document.getElementById('cb-' + id);
-    if (cb) cb.checked = false;
+  // Valabil pentru orice reteta (statice, Nutella, publicate din AI): modalul
+  // e deschis de checkbox-ul .modal-toggle bifat, overlay-ul are id-ul m-<id>.
+  function getOpenToggle() {
+    return document.querySelector('input.modal-toggle:checked');
   }
 
   // ESC inchide modalul deschis
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      const open = getOpenModal();
-      if (open) closeModal(open);
-    }
+    if (e.key !== 'Escape') return;
+    const cb = getOpenToggle();
+    if (cb) cb.checked = false;
   });
 
   // Click pe overlay (in afara .modal) inchide
-  modalIds.forEach(id => {
-    const overlay = document.getElementById('m-' + id);
-    if (!overlay) return;
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) closeModal(id);
-    });
+  document.addEventListener('click', e => {
+    if (!e.target.classList?.contains('moverlay')) return;
+    const cb = document.getElementById('cb-' + e.target.id.slice(2));
+    if (cb) cb.checked = false;
   });
 });
 
