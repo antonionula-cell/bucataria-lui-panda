@@ -89,7 +89,7 @@ function switchTab(tabId, btn) {
   ]
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wdth,wght@0,70..100,400..900;1,100,400..700&display=swap" rel="stylesheet">
 <style>
 :root {
   /* Eticheta de borcan: hartie, cerneala, rosu de eticheta, mustar de stampila, verde Panda */
@@ -130,7 +130,7 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
   display: flex; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap;
   font-stretch: 75%; font-weight: 700; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
 }
-.time-greeting { text-transform: none; letter-spacing: .02em; font-stretch: 85%; font-style: italic; font-weight: 500; opacity: .85; }
+.time-greeting { text-transform: none; letter-spacing: 0; font-stretch: 100%; font-style: italic; font-weight: 500; opacity: .85; }
 
 /* ══════════════════════════════════
    HEADER: eticheta + ingrediente
@@ -5342,7 +5342,7 @@ window.submitRegister = async function() {
     await sendEmailVerification(cred.user);
     await signOut(auth); // Logout pana verifica emailul
     closeAuthModal();
-    showToast('📧 Cont creat! Verifică emailul înainte de a te loga.', 'bamboo');
+    showToast('Cont creat! Verifica emailul inainte sa te loghezi.', 'bamboo');
   } catch(e) {
     err.textContent = authErrMsg(e.code);
   } finally {
@@ -5364,7 +5364,7 @@ window.submitLogin = async function() {
       await signOut(auth);
       splashPending = false;
       err.style.color = 'var(--red)';
-      err.innerHTML = '📧 Emailul nu este verificat. Verifică inbox-ul.<br><button onclick="resendVerificationEmail(\'' + email + '\')" style="margin-top:8px;background:none;border:none;color:var(--bam-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:13px;padding:0">Retrimite email de verificare</button>';
+      err.innerHTML = 'Emailul nu e verificat inca. Uita-te in inbox.<br><button onclick="resendVerificationEmail(\'' + email + '\')" style="margin-top:8px;background:none;border:none;color:var(--bam-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:13px;padding:0">Retrimite email de verificare</button>';
       btn.disabled = false; btn.textContent = 'Autentificare';
       return;
     }
@@ -5808,7 +5808,7 @@ function cleanIngredientItem(ing) {
 // ── Easter eggs pe ingrediente ──
 (function() {
   const _eggs = {
-    ou: ["Ou? Verificat. Exista de 3 saptamani in frigider. Panda stie.", "Ouale proaspete se scufunda in apa. Testezi sau riști? Panda a testat. O data.", "Panda a spart ouale cu o laba. Nu recomanda metoda."],
+    ou: ["Ou? Verificat. Exista de 3 saptamani in frigider. Panda stie.", "Ouale proaspete se scufunda in apa. Testezi sau risti? Panda a testat. O data.", "Panda a spart ouale cu o laba. Nu recomanda metoda."],
     oua: ["Oua proaspete vs. oua de luna trecuta — Panda nu face diferenta la gust. Dar face la miros.", "16 oua? Panda calculeaza: asta e angajament serios.", "Panda bate ouale cu o singura laba. Dureza mai mult, dar e autentic."],
     ciocolata: ["Jumatate a disparut inainte sa ajunga in bol. Fenomen universal.", "Ciocolata neagra 70%+. Sub asta e dulciuri pt copii, nu reteta serioasa.", "Panda numara bucatile. Panda nu e bun la matematica cand e foame."],
     nutella: ["Nutella: ingredientul care dispare din borcan inainte sa incepi reteta.", "Panda recomanda sa cumperi cu 30% mai mult Nutella decat zice reteta. Trust the process.", "190g Nutella in reteta. 400g Nutella cumparata. Diferenta: explicata de fizica cuantică."],
@@ -7303,7 +7303,7 @@ function _enhanceModal(modalId, cbId) {
     var btn = document.createElement('button');
     btn.className = 'timer-btn';
     btn.dataset.totalMins = mins;
-    btn.textContent = '⏱ ' + _fmtTimerLabel(mins);
+    btn.textContent = _fmtTimerLabel(mins);
     btn.addEventListener('click', function() { _runTimer(btn, mins); });
     div.appendChild(btn);
   });
@@ -7316,12 +7316,12 @@ function _enhanceModal(modalId, cbId) {
 
     var shareBtn = document.createElement('button');
     shareBtn.className = 'share-btn';
-    shareBtn.textContent = '🔗 Copiaza link';
+    shareBtn.textContent = 'Copiaza link';
     shareBtn.addEventListener('click', function() { _shareRecipe(cbId); });
 
     var printBtn = document.createElement('button');
     printBtn.className = 'print-btn';
-    printBtn.textContent = '🖨 Printeaza';
+    printBtn.textContent = 'Printeaza';
     printBtn.addEventListener('click', function() { _printModal(modalId); });
 
     actions.appendChild(shareBtn);
@@ -7334,7 +7334,7 @@ function _enhanceModal(modalId, cbId) {
 function _makeScaleBar(onScale) {
   var bar = document.createElement('div');
   bar.className = 'scale-bar';
-  bar.innerHTML = '<span class="scale-lbl">🔢 Portii:</span>' +
+  bar.innerHTML = '<span class="scale-lbl">Portii:</span>' +
     '<button class="scale-btn on" data-mult="1">1x</button>' +
     '<button class="scale-btn" data-mult="2">2x</button>' +
     '<button class="scale-btn" data-mult="4">4x</button>';
@@ -7414,7 +7414,7 @@ function _fmtTimerLabel(mins) {
 function _runTimer(btn, totalMins) {
   if (btn._tInt) {
     clearInterval(btn._tInt); btn._tInt = null;
-    btn.textContent = '⏱ ' + _fmtTimerLabel(totalMins);
+    btn.textContent = _fmtTimerLabel(totalMins);
     btn.className = 'timer-btn'; return;
   }
   btn.className = 'timer-btn timer-running';
@@ -7422,10 +7422,10 @@ function _runTimer(btn, totalMins) {
   btn._tInt = setInterval(function() {
     rem--;
     var m = Math.floor(rem / 60), s = rem % 60;
-    btn.textContent = '⏱ ' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    btn.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
     if (rem <= 0) {
       clearInterval(btn._tInt); btn._tInt = null;
-      btn.textContent = '✅ Gata!';
+      btn.textContent = 'Gata!';
       btn.className = 'timer-btn timer-done';
       if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
     }
@@ -7436,14 +7436,14 @@ function _runTimer(btn, totalMins) {
 function _shareRecipe(cbId) {
   var url = window.location.origin + window.location.pathname + '#' + cbId;
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(url).then(function() { _showToast('🔗 Link copiat!'); });
+    navigator.clipboard.writeText(url).then(function() { _showToast('Link copiat!'); });
   } else {
     var ta = document.createElement('textarea');
     ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); } catch(e) {}
     document.body.removeChild(ta);
-    _showToast('🔗 Link copiat!');
+    _showToast('Link copiat!');
   }
 }
 function _showToast(msg) {

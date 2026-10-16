@@ -4,7 +4,7 @@ const STATIC = [
   '/',
   '/index.html',
   '/og.png',
-  'https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&display=swap'
+  'https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wdth,wght@0,70..100,400..900;1,100,400..700&display=swap'
 ];
 
 // Install — cache static assets
