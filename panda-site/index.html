@@ -1643,7 +1643,7 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
       srcset="img/banner-1000.jpg 1000w, img/banner.webp 2000w"
       sizes="(max-width: 1100px) 100vw, 1100px"
       width="2000" height="727" fetchpriority="high" decoding="async"
-      alt="Bucataria lui Panda: un panda bucatar cu lingura de lemn si un borcan de ciocolata, intre ingrediente si monumente din lume. 30% sarcasm, 20% bambus, 50% improvizatie.">
+        alt="Bucataria lui Panda: o panda bucatareasa cu funda rosie si lingura cu ciocolata, intre Colosseum, un oras pe malul marii si ingrediente. Retete din toata lumea, rabdare din stoc limitat.">
     <p class="hero-note"><b>Poate contine</b>retete traduse cu AI, urme de ciocolata si comentarii pe care nu le-ai cerut. Gustul final e responsabilitatea ta.</p>
   </div>
 </header>
@@ -5581,32 +5581,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── ESC si click outside pentru inchidere modal ──
-  const modalIds = ['brownies','cookies','zabaglione','nutella','cana','muffins','browniefructe','bagels','pbmuffins'];
-
-  function getOpenModal() {
-    return modalIds.find(id => document.getElementById('cb-' + id)?.checked);
-  }
-
-  function closeModal(id) {
-    const cb = document.getElementById('cb-' + id);
-    if (cb) cb.checked = false;
+  // Valabil pentru orice reteta (statice, Nutella, publicate din AI): modalul
+  // e deschis de checkbox-ul .modal-toggle bifat, overlay-ul are id-ul m-<id>.
+  function getOpenToggle() {
+    return document.querySelector('input.modal-toggle:checked');
   }
 
   // ESC inchide modalul deschis
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      const open = getOpenModal();
-      if (open) closeModal(open);
-    }
+    if (e.key !== 'Escape') return;
+    const cb = getOpenToggle();
+    if (cb) cb.checked = false;
   });
 
   // Click pe overlay (in afara .modal) inchide
-  modalIds.forEach(id => {
-    const overlay = document.getElementById('m-' + id);
-    if (!overlay) return;
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) closeModal(id);
-    });
+  document.addEventListener('click', e => {
+    if (!e.target.classList?.contains('moverlay')) return;
+    const cb = document.getElementById('cb-' + e.target.id.slice(2));
+    if (cb) cb.checked = false;
   });
 });
 
