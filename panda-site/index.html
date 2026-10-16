@@ -107,21 +107,6 @@ function switchTab(tabId, btn) {
   --f-disp: 'Alfa Slab One', Rockwell, Georgia, serif;
   --f-body: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
 
-  /* Alias-uri pentru numele vechi, scoase in Faza 7 */
-  --black: var(--ink);
-  --panda-dark: var(--ink);
-  --white: var(--cream);
-  --off-white: var(--paper);
-  --bamboo: var(--bam);
-  --bamboo-dark: var(--bam-dark);
-  --bamboo-light: var(--bam-light);
-  --bamboo-pale: var(--bam-pale);
-  --accent-red: var(--red);
-  --accent-yellow: var(--mustard);
-  --panda-grey: var(--line);
-  --panda-grey-light: var(--line-soft);
-  --shadow-soft: rgba(30,26,22,0.10);
-  --shadow-med: rgba(30,26,22,0.18);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; overflow-x: clip; }
@@ -331,7 +316,7 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
   padding: 13px 16px;
   background: #FFF0F0;
   border: 1.5px solid rgba(200,16,46,0.3);
-  border-radius: 12px;
+  border-radius: 0;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -344,11 +329,11 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
 .nutella-badge {
   display: inline-block;
   background: #C8102E;
-  color: white;
+  color: var(--cream);
   font-size: 10.5px;
   font-weight: 800;
   padding: 2px 8px;
-  border-radius: 20px;
+  border-radius: 0;
   letter-spacing: 0.05em;
   vertical-align: middle;
   margin-left: 4px;
@@ -640,19 +625,19 @@ body[data-time="evening"] .label-strip { background: #8E2B1C; }
 /* ── Easter egg tooltip pe ingrediente ── */
 .ing-egg-tip {
   position: fixed; z-index: 9999;
-  background: var(--panda-dark); color: white;
+  background: var(--ink); color: var(--cream);
   font-size: 12px; font-style: italic; line-height: 1.45;
-  padding: 8px 13px; border-radius: 10px;
+  padding: 8px 13px; border-radius: 0;
   max-width: 240px; pointer-events: none;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  box-shadow: none;
   animation: eggIn .22s cubic-bezier(.34,1.56,.64,1) both;
 }
 @keyframes eggIn { from { opacity:0; transform:scale(.85) translateY(4px); } to { opacity:1; transform:scale(1) translateY(0); } }
 .ing-egg-tip::after {
   content:''; position:absolute; top:100%; left:18px;
-  border:6px solid transparent; border-top-color: var(--panda-dark);
+  border:6px solid transparent; border-top-color: var(--ink);
 }
-td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointer; transition:background .15s; }
+td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; transition:background .15s; }
 
 /* MACROS: tabel nutritional de ambalaj */
 .macros { display: grid; grid-template-columns: repeat(4,1fr); border: 3px solid var(--ink); margin-bottom: 28px; font-variant-numeric: tabular-nums; }
@@ -677,9 +662,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   border: 3px solid var(--ink);
   border-top: 8px solid var(--zc, var(--bam));
 }
-.ztemp { font-family: var(--f-disp); font-size: 20px; color: var(--panda-dark); }
+.ztemp { font-family: var(--f-disp); font-size: 20px; color: var(--ink); }
 .zarr { color: var(--red); font-weight: 900; margin: 0 4px; }
-.zt { font-family: var(--f-disp); font-size: 20px; color: var(--panda-dark); }
+.zt { font-family: var(--f-disp); font-size: 20px; color: var(--ink); }
 .znote { border: 3px dashed #8B7D6B; padding: 16px; display: flex; align-items: center; justify-content: center; text-align: center; font-stretch: 75%; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #6A5E50; line-height: 1.8; }
 .zdesc { font-size: 13px; color: #5A4E42; margin-top: 6px; line-height: 1.4; }
 
@@ -687,46 +672,27 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
    PANDA QUOTE BOX
 ══════════════════════════════════ */
 .panda-quote {
-  background: var(--panda-dark);
-  border-radius: 24px;
-  padding: 40px 50px 40px 170px;
+  background: var(--cream);
+  border: 3px solid var(--ink);
+  padding: 30px 36px 30px 128px;
   margin: 50px 0;
   position: relative;
-  overflow: hidden;
 }
-.panda-quote-face {
-  position: absolute;
-  left: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 90px;
-  line-height: 1;
-  animation: float 3s ease-in-out infinite;
-}
-.panda-quote::after {
-  content: '"';
-  font-family: var(--f-disp);
-  font-size: 200px;
-  color: rgba(255,255,255,0.03);
-  position: absolute;
-  top: -30px;
-  right: 30px;
-  line-height: 1;
-  pointer-events: none;
-}
-.qtxt { font-size: 18px; font-style: italic; color: var(--off-white); line-height: 1.6; position: relative; z-index: 1; font-weight: 400; }
-.qauth { margin-top: 12px; font-size: 11px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: var(--bamboo); position: relative; z-index: 1; }
+.panda-quote-face { position: absolute; left: 32px; top: 50%; transform: translateY(-50%) rotate(-6deg); }
+.panda-quote-face svg { display: block; }
+.qtxt { font-family: var(--f-disp); font-size: 24px; line-height: 1.25; color: var(--ink); }
+.qauth { margin-top: 12px; font-stretch: 70%; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); }
 
 /* ══════════════════════════════════
    DIVIDER
 ══════════════════════════════════ */
 .divider {
   display: flex; align-items: center; gap: 14px;
-  color: rgba(30,26,22,0.3);
-  font-size: 11px; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase;
-  margin: 50px 0 28px;
+  color: var(--ink);
+  font-stretch: 70%; font-size: 13px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  margin: 50px 0 22px;
 }
-.divider::before,.divider::after { content:''; flex:1; height:2px; background:var(--panda-grey-light); border-radius:2px; }
+.divider::before,.divider::after { content:''; flex:1; border-top: 3px double var(--ink); }
 
 /* ══════════════════════════════════
    SHOPS
@@ -735,16 +701,14 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 @media(max-width:720px) { .shops { grid-template-columns: repeat(3, auto); } }
 @media(max-width:480px) { .shops { grid-template-columns: repeat(2, auto); } }
 .sbadge {
-  font-size: 12px; font-weight: 900;
-  padding: 10px 20px;
-  background: var(--white);
-  border: 2px solid var(--panda-grey-light);
-  color: var(--panda-dark); text-decoration: none;
-  border-radius: 20px;
-  transition: all .2s;
-  box-shadow: 0 2px 8px var(--shadow-soft);
+  font-stretch: 85%; font-size: 13.5px; font-weight: 700;
+  padding: 8px 14px;
+  background: var(--cream);
+  border: 2px solid var(--ink);
+  color: var(--ink); text-decoration: none;
+  transition: background .15s, color .15s;
 }
-.sbadge:hover { border-color: var(--bamboo); color: var(--bamboo-dark); transform: translateY(-2px); box-shadow: 0 6px 16px var(--shadow-med); }
+.sbadge:hover { background: var(--ink); color: var(--cream); }
 
 /* ══════════════════════════════════
    FOOTER
@@ -795,8 +759,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   .mbox:nth-child(2n) { border-right: 0; }
   .mbox:nth-child(-n+2) { border-bottom: 2px solid var(--ink); }
   .obox { grid-template-columns: 1fr 1fr; }
-  .panda-quote { padding: 30px 24px 30px 24px; }
+  .panda-quote { padding: 24px 22px; }
   .panda-quote-face { display:none; }
+  .qtxt { font-size: 20px; }
 }
 
 /* ══ IPHONE RESPONSIVE (390–430px) ══ */
@@ -861,21 +826,20 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 /* ══ ZONA FOTO PANDA ══ */
 .photo-zone {
   margin-top: 28px;
-  border: 3px dashed var(--bamboo);
-  border-radius: 20px;
-  padding: 28px 24px;
-  background: var(--bamboo-pale);
+  border: 3px dashed #8B7D6B;
+  padding: 24px 22px;
+  background: var(--paper);
   text-align: center;
   position: relative;
   overflow: hidden;
   transition: border-color .2s, background .2s;
 }
-.photo-zone:hover { background: #e4f0da; border-color: var(--bamboo-dark); }
+.photo-zone:hover { border-color: var(--ink); }
 
 .photo-zone-title {
   font-family: var(--f-disp);
   font-size: 17px;
-  color: var(--bamboo-dark);
+  color: var(--bam-dark);
   margin-bottom: 6px;
   display: flex;
   align-items: center;
@@ -895,16 +859,16 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   gap: 8px;
   font-family: var(--f-disp);
   font-size: 14px;
-  background: var(--bamboo);
-  color: white;
+  background: var(--bam);
+  color: var(--cream);
   border: none;
-  border-radius: 30px;
+  border-radius: 0;
   padding: 10px 22px;
   cursor: pointer;
   transition: background .2s, transform .2s;
   letter-spacing: 0.03em;
 }
-.photo-upload-btn:hover { background: var(--bamboo-dark); transform: scale(1.04); }
+.photo-upload-btn:hover { background: var(--bam-dark); transform: scale(1.04); }
 .photo-upload-input { display: none; }
 
 .photo-preview-wrap {
@@ -919,24 +883,24 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   width: 100%;
   max-height: 280px;
   object-fit: cover;
-  border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(30,26,22,0.15);
+  border-radius: 0;
+  box-shadow: none;
 }
 .photo-caption-input {
   width: 100%;
   font-family: var(--f-body);
   font-size: 13px;
   font-style: italic;
-  border: 2px solid var(--bamboo-light);
-  border-radius: 12px;
+  border: 2px solid var(--bam-light);
+  border-radius: 0;
   padding: 10px 14px;
-  background: white;
+  background: var(--cream);
   color: var(--ink);
   outline: none;
   transition: border-color .2s;
   resize: none;
 }
-.photo-caption-input:focus { border-color: var(--bamboo); }
+.photo-caption-input:focus { border-color: var(--bam); }
 .photo-caption-input::placeholder { color: rgba(30,26,22,0.35); }
 .photo-remove-btn {
   font-family: var(--f-body);
@@ -947,7 +911,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   border: none;
   cursor: pointer;
   padding: 4px 10px;
-  border-radius: 10px;
+  border-radius: 0;
   transition: color .2s, background .2s;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -971,22 +935,21 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  background: var(--bamboo-pale);
-  border: 2px solid var(--bamboo-light);
-  border-radius: 20px;
-  padding: 28px 32px;
-  margin-bottom: 28px;
+  background: var(--mustard);
+  border: 3px solid var(--ink);
+  padding: 24px 28px;
+  margin-bottom: 24px;
 }
-.propose-panda { font-size: 48px; flex-shrink: 0; animation: float 3s ease-in-out infinite; }
-.propose-title { font-family: var(--f-disp); font-size: 22px; color: var(--panda-dark); margin-bottom: 6px; }
-.propose-sub { font-size: 14px; color: rgba(30,26,22,0.6); line-height: 1.6; font-style: italic; }
+.propose-panda { flex-shrink: 0; }
+.propose-panda svg { display: block; }
+.propose-title { font-family: var(--f-disp); font-weight: 400; font-size: 26px; color: var(--ink); margin-bottom: 6px; }
+.propose-sub { font-size: 15.5px; color: var(--ink); line-height: 1.55; max-width: 62ch; }
 
 .propose-form {
-  background: var(--white);
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 4px 20px var(--shadow-soft);
-  border: 2px solid var(--panda-grey-light);
+  background: var(--cream);
+  padding: 28px;
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -998,44 +961,42 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   font-weight: 900;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--panda-dark);
+  color: var(--ink);
   opacity: 0.7;
 }
 .pf-input {
   font-family: var(--f-body);
   font-size: 14px;
-  border: 2px solid var(--panda-grey-light);
-  border-radius: 12px;
-  padding: 12px 16px;
-  background: var(--off-white);
+  border: 2px solid var(--ink);
+  padding: 12px 14px;
+  background: var(--paper);
   color: var(--ink);
   outline: none;
-  transition: border-color .2s, background .2s;
+  transition: box-shadow .15s;
   width: 100%;
 }
-.pf-input:focus { border-color: var(--bamboo); background: white; }
-.pf-input::placeholder { color: rgba(30,26,22,0.3); font-style: italic; }
+.pf-input:focus { box-shadow: 4px 4px 0 var(--mustard); }
+.pf-input::placeholder { color: #8B7D6B; font-style: italic; }
 .pf-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
 .pf-big { min-height: 160px; font-size: 15px; line-height: 1.7; }
 .pf-select { cursor: pointer; }
 
 .pf-photo-zone {
-  border: 2px dashed var(--bamboo-light);
-  border-radius: 16px;
-  padding: 30px 20px;
+  border: 3px dashed #8B7D6B;
+  padding: 26px 20px;
   text-align: center;
   cursor: pointer;
-  background: var(--bamboo-pale);
+  background: var(--paper);
   transition: border-color .2s, background .2s;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
-.pf-photo-zone:hover { border-color: var(--bamboo); background: #e0efda; }
-.pf-photo-icon { font-size: 32px; }
-.pf-photo-txt { font-family: var(--f-disp); font-size: 15px; color: var(--bamboo-dark); }
-.pf-photo-sub { font-size: 12px; color: rgba(30,26,22,0.45); font-style: italic; }
+.pf-photo-zone:hover { border-color: var(--ink); }
+.pf-photo-icon { font-family: var(--f-disp); font-size: 34px; line-height: 1; color: #8B7D6B; }
+.pf-photo-txt { font-family: var(--f-disp); font-size: 17px; color: var(--ink); }
+.pf-photo-sub { font-size: 13px; color: #5A4E42; font-style: italic; }
 
 .pf-photos-preview {
   display: flex;
@@ -1052,16 +1013,16 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 10px;
-  border: 2px solid var(--bamboo-light);
+  border-radius: 0;
+  border: 2px solid var(--bam-light);
 }
 .pf-thumb-rm {
   position: absolute;
   top: -6px; right: -6px;
   width: 20px; height: 20px;
-  border-radius: 50%;
-  background: var(--accent-red);
-  color: white;
+  border-radius: 0;
+  background: var(--red);
+  color: var(--cream);
   border: none;
   cursor: pointer;
   font-size: 11px;
@@ -1077,26 +1038,28 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   padding-top: 4px;
 }
 .pf-submit {
-  font-family: var(--f-disp);
-  font-size: 16px;
-  background: var(--panda-dark);
-  color: white;
-  border: none;
-  border-radius: 30px;
-  padding: 14px 32px;
+  font-family: var(--f-body);
+  font-stretch: 80%;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--cream);
+  border: 3px solid var(--ink);
+  padding: 13px 26px;
   cursor: pointer;
-  transition: background .2s, transform .2s;
-  letter-spacing: 0.03em;
+  transition: background .15s;
 }
-.pf-submit:hover { background: var(--bamboo-dark); transform: scale(1.04); }
-.pf-submit-note { font-size: 11px; color: rgba(30,26,22,0.4); font-style: italic; line-height: 1.5; max-width: 260px; }
+.pf-submit:hover { background: var(--red); }
+.pf-submit-note { font-size: 12.5px; color: #5A4E42; font-style: italic; line-height: 1.5; max-width: 260px; }
 
 /* SUCCESS TOAST */
 .pf-toast {
   display: none;
-  background: var(--bamboo);
-  color: white;
-  border-radius: 14px;
+  background: var(--bam);
+  color: var(--cream);
+  border-radius: 0;
   padding: 14px 22px;
   font-family: var(--f-disp);
   font-size: 15px;
@@ -1109,11 +1072,11 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 /* SAVED LIST */
 .proposals-saved {
   margin-top: 28px;
-  background: var(--white);
-  border-radius: 20px;
+  background: var(--cream);
+  border-radius: 0;
   padding: 28px 32px;
-  box-shadow: 0 4px 20px var(--shadow-soft);
-  border: 2px solid var(--panda-grey-light);
+  box-shadow: none;
+  border: 2px solid var(--line-soft);
 }
 .ps-header {
   display: flex;
@@ -1123,71 +1086,71 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   flex-wrap: wrap;
   gap: 12px;
 }
-.ps-title { font-family: var(--f-disp); font-size: 18px; color: var(--panda-dark); }
+.ps-title { font-family: var(--f-disp); font-size: 18px; color: var(--ink); }
 .ps-count { font-size: 12px; color: rgba(30,26,22,0.45); margin-top: 3px; font-weight: 700; }
 .ps-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 .ps-btn-dl {
   font-family: var(--f-body);
   font-size: 12px; font-weight: 900;
-  background: var(--bamboo); color: white;
-  border: none; border-radius: 20px;
+  background: var(--bam); color: var(--cream);
+  border: none; border-radius: 0;
   padding: 9px 18px; cursor: pointer;
   transition: background .2s, transform .2s;
 }
-.ps-btn-dl:hover { background: var(--bamboo-dark); transform: scale(1.04); }
+.ps-btn-dl:hover { background: var(--bam-dark); transform: scale(1.04); }
 .ps-btn-clear {
   font-family: var(--f-body);
   font-size: 12px; font-weight: 900;
   background: none; color: rgba(30,26,22,0.4);
-  border: 2px solid var(--panda-grey-light);
-  border-radius: 20px; padding: 9px 18px; cursor: pointer;
+  border: 2px solid var(--line-soft);
+  border-radius: 0; padding: 9px 18px; cursor: pointer;
   transition: all .2s;
 }
 .ps-btn-clear:hover { color: #c0392b; border-color: #c0392b; background: rgba(192,57,43,0.06); }
 
 .ps-item {
-  background: var(--off-white);
-  border-radius: 14px;
+  background: var(--paper);
+  border-radius: 0;
   padding: 18px 20px;
   margin-bottom: 12px;
-  border-left: 4px solid var(--bamboo);
+  border-left: 4px solid var(--bam);
   position: relative;
 }
 .ps-item:last-child { margin-bottom: 0; }
-.ps-item-name { font-family: var(--f-disp); font-size: 16px; color: var(--panda-dark); margin-bottom: 5px; }
+.ps-item-name { font-family: var(--f-disp); font-size: 16px; color: var(--ink); margin-bottom: 5px; }
 .ps-item-meta { font-size: 11px; color: rgba(30,26,22,0.4); margin-bottom: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .ps-item-preview { font-size: 13px; color: rgba(30,26,22,0.6); line-height: 1.5; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .ps-item-photos { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-.ps-item-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 2px solid var(--bamboo-light); }
+.ps-item-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 0; border: 2px solid var(--bam-light); }
 .ps-item-rm {
   position: absolute; top: 12px; right: 14px;
   font-size: 10px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase;
   color: rgba(30,26,22,0.3); background: none; border: none; cursor: pointer;
-  padding: 4px 8px; border-radius: 8px; transition: all .2s;
+  padding: 4px 8px; border-radius: 0; transition: all .2s;
 }
 .ps-item-rm:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
 .ps-item-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
 .ps-item-copy {
   font-family: var(--f-body); font-size: 11px; font-weight: 900;
-  background: var(--bamboo-pale); color: var(--bamboo-dark);
-  border: 2px solid var(--bamboo-light); border-radius: 20px;
+  background: var(--bam-pale); color: var(--bam-dark);
+  border: 2px solid var(--bam-light); border-radius: 0;
   padding: 5px 14px; cursor: pointer; transition: all .2s;
 }
-.ps-item-copy:hover { background: var(--bamboo); color: white; border-color: var(--bamboo); }
-.ps-item-copy.copied { background: var(--bamboo-dark); color: white; border-color: var(--bamboo-dark); }
+.ps-item-copy:hover { background: var(--bam); color: var(--cream); border-color: var(--bam); }
+.ps-item-copy.copied { background: var(--bam-dark); color: var(--cream); border-color: var(--bam-dark); }
 .ps-item-dl-photo {
   font-family: var(--f-body); font-size: 11px; font-weight: 900;
-  background: var(--panda-grey-light); color: var(--panda-dark);
-  border: 2px solid var(--panda-grey); border-radius: 20px;
+  background: var(--line-soft); color: var(--ink);
+  border: 2px solid var(--line); border-radius: 0;
   padding: 5px 14px; cursor: pointer; transition: all .2s; text-decoration: none;
   display: inline-flex; align-items: center; gap: 4px;
 }
-.ps-item-dl-photo:hover { background: var(--panda-dark); color: white; border-color: var(--panda-dark); }
+.ps-item-dl-photo:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 .ps-item-text-full {
   font-size: 13px; color: rgba(30,26,22,0.7); line-height: 1.6;
   margin-top: 8px; white-space: pre-wrap; word-break: break-word;
-  background: var(--off-white); border-radius: 10px; padding: 12px 14px;
-  border: 1px solid var(--panda-grey-light);
+  background: var(--paper); border-radius: 0; padding: 12px 14px;
+  border: 1px solid var(--line-soft);
 }
 
 @media(max-width:700px) {
@@ -1208,83 +1171,83 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 /* ══ ADMIN PANEL ══ */
 .admin-tabs-bar {
   display: flex; gap: 4px; flex-wrap: wrap;
-  background: var(--panda-grey-light); border-radius: 14px; padding: 6px; margin-bottom: 24px;
+  background: var(--line-soft); border-radius: 0; padding: 6px; margin-bottom: 24px;
 }
 .admin-tab-btn {
   flex: 1; min-width: 120px;
   font-family: var(--f-disp); font-size: 13px;
-  background: none; border: none; border-radius: 10px;
+  background: none; border: none; border-radius: 0;
   padding: 10px 12px; cursor: pointer; color: rgba(30,26,22,.45);
   transition: all .2s; position: relative;
 }
-.admin-tab-btn.on { background: var(--white); color: var(--panda-dark); box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+.admin-tab-btn.on { background: var(--cream); color: var(--ink); box-shadow: none; }
 .admin-tab-content { display: none; }
 .admin-tab-content.on { display: block; }
 .admin-badge {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--accent-red); color: white;
+  width: 18px; height: 18px; border-radius: 0;
+  background: var(--red); color: var(--cream);
   font-size: 9px; font-weight: 900; margin-left: 5px; font-family: var(--f-body);
 }
 .ps-item-accept {
   font-family: var(--f-body); font-size: 11px; font-weight: 900;
-  background: var(--bamboo-pale); color: var(--bamboo-dark);
-  border: 2px solid var(--bamboo-light); border-radius: 20px;
+  background: var(--bam-pale); color: var(--bam-dark);
+  border: 2px solid var(--bam-light); border-radius: 0;
   padding: 5px 12px; cursor: pointer; transition: all .2s;
 }
-.ps-item-accept:hover { background: var(--bamboo); color: white; border-color: var(--bamboo); }
+.ps-item-accept:hover { background: var(--bam); color: var(--cream); border-color: var(--bam); }
 .ps-item-reject {
   font-family: var(--f-body); font-size: 11px; font-weight: 900;
   background: none; color: rgba(30,26,22,.35);
-  border: 2px solid var(--panda-grey-light); border-radius: 20px;
+  border: 2px solid var(--line-soft); border-radius: 0;
   padding: 5px 12px; cursor: pointer; transition: all .2s;
 }
 .ps-item-reject:hover { color: #c0392b; border-color: #c0392b; background: rgba(192,57,43,.06); }
 .user-row {
   display: flex; align-items: center; gap: 12px;
-  background: var(--off-white); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px;
+  background: var(--paper); border-radius: 0; padding: 12px 16px; margin-bottom: 10px;
 }
 .user-row-info { flex: 1; }
-.user-row-email { font-weight: 700; font-size: 13px; color: var(--panda-dark); }
+.user-row-email { font-weight: 700; font-size: 13px; color: var(--ink); }
 .user-row-meta { font-size: 11px; color: rgba(30,26,22,.4); margin-top: 3px; }
 .user-role-badge {
   font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase;
-  padding: 4px 10px; border-radius: 20px; border: 2px solid var(--bamboo-light);
-  color: var(--bamboo-dark); background: var(--bamboo-pale);
+  padding: 4px 10px; border-radius: 0; border: 2px solid var(--bam-light);
+  color: var(--bam-dark); background: var(--bam-pale);
 }
-.user-role-badge.admin { background: var(--panda-dark); color: var(--bamboo); border-color: var(--panda-dark); }
+.user-role-badge.admin { background: var(--ink); color: var(--bam); border-color: var(--ink); }
 .notif-item {
   display: flex; gap: 12px; align-items: flex-start;
-  background: var(--bamboo-pale); border-radius: 12px; padding: 12px 16px;
-  margin-bottom: 8px; border-left: 4px solid var(--bamboo);
+  background: var(--bam-pale); border-radius: 0; padding: 12px 16px;
+  margin-bottom: 8px; border-left: 4px solid var(--bam);
 }
-.notif-item.read { background: var(--off-white); border-color: var(--panda-grey-light); opacity: .65; }
+.notif-item.read { background: var(--paper); border-color: var(--line-soft); opacity: .65; }
 
 .admin-toggle-btn {
   font-family: var(--f-body);
   font-size: 12px; font-weight: 900;
   background: none; color: rgba(30,26,22,0.3);
-  border: 2px dashed var(--panda-grey);
-  border-radius: 20px; padding: 10px 22px;
+  border: 2px dashed var(--line);
+  border-radius: 0; padding: 10px 22px;
   cursor: pointer; transition: all .2s; letter-spacing: 0.05em;
 }
-.admin-toggle-btn:hover { color: var(--panda-dark); border-color: var(--panda-dark); }
+.admin-toggle-btn:hover { color: var(--ink); border-color: var(--ink); }
 
 .admin-panel { margin-top: 28px; }
 
 .admin-login {
-  background: var(--panda-dark);
-  border-radius: 20px;
+  background: var(--ink);
+  border-radius: 0;
   padding: 36px 32px;
   display: flex; flex-direction: column; align-items: center;
   gap: 0; max-width: 420px; margin: 0 auto;
 }
 .admin-login-icon { font-size: 40px; margin-bottom: 12px; }
-.admin-login-title { font-family: var(--f-disp); font-size: 22px; color: var(--white); margin-bottom: 6px; }
-.admin-login-sub { font-size: 13px; color: rgba(250,250,248,0.45); font-style: italic; margin-bottom: 24px; }
-.admin-login .pf-input { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: var(--white); width: 100%; }
-.admin-login .pf-input::placeholder { color: rgba(255,255,255,0.3); }
-.admin-login .pf-input:focus { border-color: var(--bamboo); background: rgba(255,255,255,0.12); }
+.admin-login-title { font-family: var(--f-disp); font-size: 22px; color: var(--cream); margin-bottom: 6px; }
+.admin-login-sub { font-size: 13px; color: rgba(251,246,236,0.45); font-style: italic; margin-bottom: 24px; }
+.admin-login .pf-input { background: rgba(251,246,236,0.08); border-color: rgba(251,246,236,0.15); color: var(--cream); width: 100%; }
+.admin-login .pf-input::placeholder { color: rgba(251,246,236,0.3); }
+.admin-login .pf-input:focus { border-color: var(--bam); background: rgba(251,246,236,0.12); }
 .admin-login-err { font-size: 12px; color: #ff6b6b; margin-top: 10px; font-style: italic; min-height: 18px; text-align: center; }
 
 /* ══════════════════════════════════
@@ -1363,18 +1326,18 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   outline: none;
   font-family: var(--f-body);
   font-size: 15px;
-  color: var(--black);
+  color: var(--ink);
   background: transparent;
 }
 .kw-input::placeholder { color: #8B7D6B; font-style: italic; }
 .kw-clear {
   background: rgba(30,26,22,0.08);
   border: none;
-  border-radius: 50%;
+  border-radius: 0;
   width: 24px; height: 24px;
   font-size: 12px;
   cursor: pointer;
-  color: var(--black);
+  color: var(--ink);
   display: flex; align-items: center; justify-content: center;
 }
 .kw-clear:hover { background: rgba(30,26,22,0.15); }
@@ -1637,14 +1600,14 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
    SPRINT UX — Scale / Timer / Share / Print
 ══════════════════════════════════ */
 .scale-bar { display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
-.scale-lbl { font-size:12px; font-weight:700; color:var(--panda-dark); opacity:.7; letter-spacing:.04em; }
+.scale-lbl { font-size:12px; font-weight:700; color:var(--ink); opacity:.7; letter-spacing:.04em; }
 .scale-btn { background:var(--cream); border:2px solid var(--ink); padding:3px 11px; font-size:13px; font-weight:800; cursor:pointer; font-family:var(--f-body); color:var(--ink); transition:background .15s,color .15s; }
 .scale-btn.on { background:var(--bam); color:var(--cream); }
 .scale-btn:hover:not(.on) { background:var(--paper); }
 
 .timer-btn { display:inline-flex; align-items:center; gap:4px; background:var(--cream); border:2px solid var(--ink); color:var(--ink); padding:3px 11px; font-size:12px; font-weight:700; font-family:var(--f-body); cursor:pointer; margin-top:8px; transition:background .2s,border-color .2s; }
 .timer-btn:hover { background:var(--paper); }
-.timer-btn.timer-running { background:#FFF8E1; border-color:var(--accent-yellow); color:#7A5800; animation:timer-pulse 1s ease-in-out infinite; }
+.timer-btn.timer-running { background:#FFF8E1; border-color:var(--mustard); color:#7A5800; animation:timer-pulse 1s ease-in-out infinite; }
 .timer-btn.timer-done { background:#E8F5E9; border-color:#4CAF50; color:#1B5E20; }
 @keyframes timer-pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
 
@@ -1652,13 +1615,13 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 .share-btn, .print-btn { display:inline-flex; align-items:center; gap:5px; background:var(--cream); border:2px solid var(--ink); padding:5px 12px; font-size:13px; font-weight:700; font-family:var(--f-body); cursor:pointer; transition:background .15s,color .15s; color:var(--ink); }
 .share-btn:hover, .print-btn:hover { background:var(--ink); color:var(--cream); }
 
-.share-toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(16px); background:var(--black); color:white; padding:10px 22px; border-radius:24px; font-size:13px; font-weight:700; font-family:var(--f-body); z-index:9999; opacity:0; transition:opacity .25s,transform .25s; pointer-events:none; white-space:nowrap; }
+.share-toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(16px); background:var(--ink); color: var(--cream); padding:10px 22px; border-radius: 0; font-size:13px; font-weight:700; font-family:var(--f-body); z-index:9999; opacity:0; transition:opacity .25s,transform .25s; pointer-events:none; white-space:nowrap; }
 .share-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
 @media print {
   body.printing > * { display:none !important; }
-  body.printing .print-target { display:block !important; position:static !important; opacity:1 !important; pointer-events:all !important; overflow:visible !important; background:white !important; padding:0 !important; }
-  body.printing .print-target .modal { transform:none !important; border:none !important; box-shadow:none !important; max-width:100% !important; border-radius:0 !important; }
+  body.printing .print-target { display:block !important; position:static !important; opacity:1 !important; pointer-events:all !important; overflow:visible !important; background: var(--cream) !important; padding:0 !important; }
+  body.printing .print-target .modal { transform:none !important; border:none !important; box-shadow: none; max-width:100% !important; border-radius:0 !important; }
   body.printing .print-target .mclose,
   body.printing .print-target .photo-zone,
   body.printing .print-target .nutella-credit,
@@ -1670,13 +1633,13 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 .mthanks a { color: var(--red); font-weight: 800; text-underline-offset: 3px; }
 @media print { .mthanks { display: none !important; } }
 </style>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐼</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect x='1.5' y='1.5' width='37' height='37' fill='%23FBF6EC' stroke='%231E1A16' stroke-width='3'/><circle cx='11' cy='12' r='5' fill='%231E1A16'/><circle cx='29' cy='12' r='5' fill='%231E1A16'/><circle cx='20' cy='22' r='12' fill='%23FBF6EC' stroke='%231E1A16' stroke-width='2.5'/><ellipse cx='15' cy='21' rx='3.2' ry='4.2' transform='rotate(-25 15 21)' fill='%231E1A16'/><ellipse cx='25' cy='21' rx='3.2' ry='4.2' transform='rotate(25 25 21)' fill='%231E1A16'/></svg>">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon.svg">
-<meta name="theme-color" content="#7FB069">
+<meta name="theme-color" content="#1E1A16">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="🐼 Panda">
+<meta name="apple-mobile-web-app-title" content="Panda">
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -2182,41 +2145,41 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
 
   <!-- PANDA QUOTE -->
   <div class="panda-quote">
-    <div class="panda-quote-face">🐼</div>
+    <div class="panda-quote-face"><svg width="64" height="64" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg></div>
     <p class="qtxt">"Orice reteta poate fi tradusa in romana cu umor si sarcasm. Unele chiar ies si bune. Chiar si fara bambus."</p>
-    <div class="qauth">— Panda Chef, consultant culinar involuntar 🎋</div>
+    <div class="qauth">Panda Chef, consultant culinar involuntar</div>
   </div>
 
   <!-- SHOPS -->
-  <div class="divider">🛒 Magazine folosite de Panda</div>
+  <div class="divider">Magazine folosite de Panda</div>
   <div class="shops">
-    <a href="https://www.auchan.ro" target="_blank" class="sbadge">🛒 Auchan.ro</a>
-    <a href="https://www.bringo.ro" target="_blank" class="sbadge">🛒 Bringo.ro</a>
-    <a href="https://www.carrefour.ro" target="_blank" class="sbadge">🛒 Carrefour.ro</a>
-    <a href="https://www.emag.ro" target="_blank" class="sbadge">🛒 eMAG.ro</a>
-    <a href="https://www.freshful.ro" target="_blank" class="sbadge">🛒 Freshful.ro</a>
-    <a href="https://www.kaufland.ro" target="_blank" class="sbadge">🛒 Kaufland.ro</a>
-    <a href="https://www.megaimage.ro" target="_blank" class="sbadge">🛒 Mega Image</a>
-    <a href="https://www.metro.ro" target="_blank" class="sbadge">🛒 Metro.ro</a>
-    <a href="https://www.selgros.ro" target="_blank" class="sbadge">🛒 Selgros.ro</a>
+    <a href="https://www.auchan.ro" target="_blank" class="sbadge">Auchan.ro</a>
+    <a href="https://www.bringo.ro" target="_blank" class="sbadge">Bringo.ro</a>
+    <a href="https://www.carrefour.ro" target="_blank" class="sbadge">Carrefour.ro</a>
+    <a href="https://www.emag.ro" target="_blank" class="sbadge">eMAG.ro</a>
+    <a href="https://www.freshful.ro" target="_blank" class="sbadge">Freshful.ro</a>
+    <a href="https://www.kaufland.ro" target="_blank" class="sbadge">Kaufland.ro</a>
+    <a href="https://www.megaimage.ro" target="_blank" class="sbadge">Mega Image</a>
+    <a href="https://www.metro.ro" target="_blank" class="sbadge">Metro.ro</a>
+    <a href="https://www.selgros.ro" target="_blank" class="sbadge">Selgros.ro</a>
   </div>
 
   <!-- ═══ PWA INSTALL CTA ═══ -->
   <div class="pwa-cta" id="pwa-cta" style="display:none">
     <div class="pwa-cta-inner">
       <div class="pwa-cta-left">
-        <div class="pwa-cta-icon">📱</div>
+        <div class="pwa-cta-icon"><svg width="52" height="52" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg></div>
         <div>
           <div class="pwa-cta-title">Ai Panda mereu cu tine</div>
           <div class="pwa-cta-sub">Instaleaza aplicatia si gateste oricand, chiar si offline. Zero bambus necesar.</div>
           <div class="pwa-cta-counter" id="pwa-counter" style="display:none">
-            <span id="pwa-count">0</span> persoane au Panda pe telefon 🐼
+            <span id="pwa-count">0</span> persoane au Panda pe telefon
           </div>
         </div>
       </div>
       <div class="pwa-cta-right">
         <button class="pwa-install-btn" id="pwa-install-btn" onclick="installPWA()">
-          📲 Instaleaza Panda
+          Instaleaza Panda
         </button>
         <div class="pwa-ios-hint" id="pwa-ios-hint" style="display:none">
           Pe iPhone: dai tap pe <strong>⎋ Share</strong> → <strong>Add to Home Screen</strong>
@@ -2226,12 +2189,12 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
   </div>
 
   <!-- ═══ PROPUNE O RETETA ═══ -->
-  <div class="divider" id="propune">🐼 Propune o reteta lui Panda</div>
+  <div class="divider" id="propune">Propune o reteta lui Panda</div>
 
   <div class="propose-wrap">
 
     <div class="propose-intro">
-      <div class="propose-panda">🐼</div>
+      <div class="propose-panda"><svg width="52" height="52" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg></div>
       <div>
         <h3 class="propose-title">Arunci o idee la Panda?</h3>
         <p class="propose-sub">Daca ai gatit ceva interesant — sau ai vazut o reteta si ti-ai zis "asta ar trebui sa fie pe site" — trimite. Panda citeste. Panda nu judeca (mult). Nicio urgenta.</p>
@@ -2241,10 +2204,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="propose-form" id="propose-form">
 
       <textarea class="pf-input pf-textarea pf-big" id="pf-text" rows="7" maxlength="2000"
-        placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa... sau scrie doar 'brownie cu dovleac' si Panda se descurca. 🐼"></textarea>
+        placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa... sau scrie doar 'brownie cu dovleac' si Panda se descurca."></textarea>
 
       <div class="pf-photo-zone" id="pf-photo-zone" onclick="document.getElementById('pf-file').click()">
-        <div class="pf-photo-icon">📸</div>
+        <div class="pf-photo-icon">+</div>
         <div class="pf-photo-txt">Click sau drag &amp; drop poze</div>
         <div class="pf-photo-sub">Poza cu reteta, ingredientele, cum a iesit — orice ajuta</div>
         <input type="file" id="pf-file" accept="image/*" multiple style="display:none" onchange="handleProposePhotos(this)">
@@ -2259,8 +2222,8 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADYZeequGONwnrCy" data-theme="light"></div>
 
       <div class="pf-actions">
-        <button class="pf-submit" onclick="submitProposal()">🐼 Arunc ideea la Panda</button>
-        <span class="pf-submit-note">Se trimite direct lui Panda 🐼</span>
+        <button class="pf-submit" onclick="submitProposal()">Arunc ideea la Panda</button>
+        <span class="pf-submit-note">Se trimite direct lui Panda.</span>
       </div>
 
     </div>
@@ -2284,7 +2247,7 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
         <div class="ps-header">
           <div><div class="ps-title">🐼 Admin Dashboard</div></div>
           <div class="ps-btns">
-            <button class="ps-btn-clear" onclick="adminLogout()" style="color:var(--bamboo-dark);border-color:var(--bamboo)">Logout</button>
+            <button class="ps-btn-clear" onclick="adminLogout()" style="color:var(--bam-dark);border-color:var(--bam)">Logout</button>
           </div>
         </div>
 
@@ -2462,11 +2425,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
    <div class="photo-zone" id="pz-brownies">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Arata ca-n poza? (Sincer, nu conteaza)</div>
+    <div class="photo-zone-title">Arata ca-n poza? (Sincer, nu conteaza)</div>
     <p class="photo-zone-sub">Panda vrea sa vada daca brownie-ul tau a iesit mai bine decat al lui. Spoiler: al lui s-a sfaramat.</p>
     <label class="photo-upload-btn" for="pf-brownies">
-      🎋 Incarca dovada
+      Incarca dovada
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-brownies" onchange="handlePhoto('brownies', this)">
     <div class="photo-preview-wrap" id="ppw-brownies">
@@ -2529,11 +2491,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </ol>
 
    <div class="photo-zone" id="pz-cookies">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Dovedeste ca nu i-ai ars</div>
+    <div class="photo-zone-title">Dovedeste ca nu i-ai ars</div>
     <p class="photo-zone-sub">12 minute. Ti-am spus 12 minute. Hai sa vedem daca ai ascultat.</p>
     <label class="photo-upload-btn" for="pf-cookies">
-      🎋 Arata cookies-urile
+      Arata cookies-urile
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-cookies" onchange="handlePhoto('cookies', this)">
     <div class="photo-preview-wrap" id="ppw-cookies">
@@ -2598,11 +2559,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
    <div class="photo-zone" id="pz-zabaglione">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Crema sau omleta cu portocale?</div>
+    <div class="photo-zone-title">Crema sau omleta cu portocale?</div>
     <p class="photo-zone-sub">Panda stie cat de greu e. Daca a iesit pufos si cremos, meriti o stea. Daca nu — nici o judecata.</p>
     <label class="photo-upload-btn" for="pf-zabaglione">
-      🎋 Incarca rezultatul
+      Incarca rezultatul
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-zabaglione" onchange="handlePhoto('zabaglione', this)">
     <div class="photo-preview-wrap" id="ppw-zabaglione">
@@ -2657,11 +2617,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </ol>
 
    <div class="photo-zone" id="pz-nutella">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 3 ingrediente. Poti da gres?</div>
+    <div class="photo-zone-title">3 ingrediente. Poti da gres?</div>
     <p class="photo-zone-sub">Teoretic imposibil sa iasa prost. Teoretic. Panda a vazut lucruri.</p>
     <label class="photo-upload-btn" for="pf-nutella">
-      🎋 Incarca biscuitii
+      Incarca biscuitii
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nutella" onchange="handlePhoto('nutella', this)">
     <div class="photo-preview-wrap" id="ppw-nutella">
@@ -2731,11 +2690,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
    <div class="photo-zone" id="pz-cana">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Prajitura sau clatita? Tu hotarasti</div>
+    <div class="photo-zone-title">Prajitura sau clatita? Tu hotarasti</div>
     <p class="photo-zone-sub">Textura e... interpretabila. Daca a iesit rotunda si nu s-a rupt in 47 de bucati — victorie.</p>
     <label class="photo-upload-btn" for="pf-cana">
-      🎋 Incarca minunea
+      Incarca minunea
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-cana" onchange="handlePhoto('cana', this)">
     <div class="photo-preview-wrap" id="ppw-cana">
@@ -2813,11 +2771,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
    <div class="photo-zone" id="pz-muffins">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Arata ca-n poza de pe Instagram?</div>
+    <div class="photo-zone-title">Arata ca-n poza de pe Instagram?</div>
     <p class="photo-zone-sub">Muffin cups fotogenice incoming. Sau nu. Oricum sunt bune.</p>
     <label class="photo-upload-btn" for="pf-muffins">
-      🎋 Incarca muffin-urile
+      Incarca muffin-urile
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-muffins" onchange="handlePhoto('muffins', this)">
     <div class="photo-preview-wrap" id="ppw-muffins">
@@ -2890,11 +2847,10 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
    <div class="photo-zone" id="pz-browniefructe">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 S-a taiat frumos sau in haos?</div>
+    <div class="photo-zone-title">S-a taiat frumos sau in haos?</div>
     <p class="photo-zone-sub">Trucul cu cutitul prin apa calda. L-ai folosit? Panda vrea sa stie.</p>
     <label class="photo-upload-btn" for="pf-browniefructe">
-      🎋 Incarca brownie-ul
+      Incarca brownie-ul
     </label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-browniefructe" onchange="handlePhoto('browniefructe', this)">
     <div class="photo-preview-wrap" id="ppw-browniefructe">
@@ -2974,10 +2930,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
     <div class="photo-zone" id="pz-bagels">
-     <div class="photo-panda-stamp">🐼</div>
-     <div class="photo-zone-title">📸 Bagel-ul tau arata ca la revista sau ca un accident fericit?</div>
+     <div class="photo-zone-title">Bagel-ul tau arata ca la revista sau ca un accident fericit?</div>
      <p class="photo-zone-sub">Panda accepta ambele variante. Gustul conteaza, nu estetica Instagram-ului.</p>
-     <label class="photo-upload-btn" for="pf-bagels">🎋 Incarca bagel-ul</label>
+     <label class="photo-upload-btn" for="pf-bagels">Incarca bagel-ul</label>
      <input type="file" accept="image/*" class="photo-upload-input" id="pf-bagels" onchange="handlePhoto('bagels', this)">
      <div class="photo-preview-wrap" id="ppw-bagels">
       <img class="photo-preview" id="pp-bagels" src="" alt="Rezultatul tau">
@@ -3058,10 +3013,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
     <div class="photo-zone" id="pz-pbmuffins">
-     <div class="photo-panda-stamp">🐼</div>
-     <div class="photo-zone-title">📸 Au iesit ca in poza sau ca o provocare artistica?</div>
+     <div class="photo-zone-title">Au iesit ca in poza sau ca o provocare artistica?</div>
      <p class="photo-zone-sub">Panda accepta toate formele si marimile de muffin. Inclusiv pe cel care s-a prabusit.</p>
-     <label class="photo-upload-btn" for="pf-pbmuffins">🎋 Incarca muffin-ul</label>
+     <label class="photo-upload-btn" for="pf-pbmuffins">Incarca muffin-ul</label>
      <input type="file" accept="image/*" class="photo-upload-input" id="pf-pbmuffins" onchange="handlePhoto('pbmuffins', this)">
      <div class="photo-preview-wrap" id="ppw-pbmuffins">
       <img class="photo-preview" id="pp-pbmuffins" src="" alt="Rezultatul tau">
@@ -3126,10 +3080,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/turtite-banichki-cu-ciocolata-si-banane" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-banichki">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Au iesit banichki sau au iesit mici tragedii?</div>
+    <div class="photo-zone-title">Au iesit banichki sau au iesit mici tragedii?</div>
     <p class="photo-zone-sub">Panda accepta toate formele. Inclusiv cele care s-au desfacut.</p>
-    <label class="photo-upload-btn" for="pf-nt-banichki">🎋 Incarca dovada</label>
+    <label class="photo-upload-btn" for="pf-nt-banichki">Incarca dovada</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-banichki" onchange="handlePhoto('nt-banichki', this)">
     <div class="photo-preview-wrap" id="ppw-nt-banichki">
      <img class="photo-preview" id="pp-nt-banichki" src="" alt="Rezultatul tau">
@@ -3180,10 +3133,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/sendvis-din-chifla-dulce-molnarka-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-molnarka">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Arata ca un rulou sau ca un accident fericit?</div>
+    <div class="photo-zone-title">Arata ca un rulou sau ca un accident fericit?</div>
     <p class="photo-zone-sub">Panda le mananca si pe cele strambe. Nu face discriminari.</p>
-    <label class="photo-upload-btn" for="pf-nt-molnarka">🎋 Incarca dovada</label>
+    <label class="photo-upload-btn" for="pf-nt-molnarka">Incarca dovada</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-molnarka" onchange="handlePhoto('nt-molnarka', this)">
     <div class="photo-preview-wrap" id="ppw-nt-molnarka">
      <img class="photo-preview" id="pp-nt-molnarka" src="" alt="Rezultatul tau">
@@ -3247,10 +3199,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/foitaj-cu-branza-de-vaci-topfengolatsche" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-topfen">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Topfengolatsche sau "chestii cu branza"?</div>
+    <div class="photo-zone-title">Topfengolatsche sau "chestii cu branza"?</div>
     <p class="photo-zone-sub">Panda apreciaza si varianta rustica. Mai ales cea lipicioasa.</p>
-    <label class="photo-upload-btn" for="pf-nt-topfen">🎋 Incarca dovada</label>
+    <label class="photo-upload-btn" for="pf-nt-topfen">Incarca dovada</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-topfen" onchange="handlePhoto('nt-topfen', this)">
     <div class="photo-preview-wrap" id="ppw-nt-topfen">
      <img class="photo-preview" id="pp-nt-topfen" src="" alt="Rezultatul tau">
@@ -3313,10 +3264,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/pandispan-babovka-decorat-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-babovka">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 A iesit drept sau "rustic"?</div>
+    <div class="photo-zone-title">A iesit drept sau "rustic"?</div>
     <p class="photo-zone-sub">Panda nu judeca inclinarile. Le numeste "personalitate".</p>
-    <label class="photo-upload-btn" for="pf-nt-babovka">🎋 Incarca babovka</label>
+    <label class="photo-upload-btn" for="pf-nt-babovka">Incarca babovka</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-babovka" onchange="handlePhoto('nt-babovka', this)">
     <div class="photo-preview-wrap" id="ppw-nt-babovka">
      <img class="photo-preview" id="pp-nt-babovka" src="" alt="Rezultatul tau">
@@ -3378,10 +3328,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/covrigi-grecesti-cu-susan-koulouri-thessalonikis" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-koulouri">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Au iesit rotunzi sau mai degraba ovale?</div>
+    <div class="photo-zone-title">Au iesit rotunzi sau mai degraba ovale?</div>
     <p class="photo-zone-sub">Panda accepta toate formele geometrice. Inclusiv "aproximativ rotund".</p>
-    <label class="photo-upload-btn" for="pf-nt-koulouri">🎋 Incarca dovada</label>
+    <label class="photo-upload-btn" for="pf-nt-koulouri">Incarca dovada</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-koulouri" onchange="handlePhoto('nt-koulouri', this)">
     <div class="photo-preview-wrap" id="ppw-nt-koulouri">
      <img class="photo-preview" id="pp-nt-koulouri" src="" alt="Rezultatul tau">
@@ -3443,10 +3392,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/rulouri-crocante-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-rulouri">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Straturi vizibile sau "compact"?</div>
+    <div class="photo-zone-title">Straturi vizibile sau "compact"?</div>
     <p class="photo-zone-sub">Panda stie sa numere straturile. Trimite dovezi.</p>
-    <label class="photo-upload-btn" for="pf-nt-rulouri">🎋 Incarca ruloul</label>
+    <label class="photo-upload-btn" for="pf-nt-rulouri">Incarca ruloul</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-rulouri" onchange="handlePhoto('nt-rulouri', this)">
     <div class="photo-preview-wrap" id="ppw-nt-rulouri">
      <img class="photo-preview" id="pp-nt-rulouri" src="" alt="Rezultatul tau">
@@ -3506,10 +3454,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/churros-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-churros">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Auriu sau "accident culinar"?</div>
+    <div class="photo-zone-title">Auriu sau "accident culinar"?</div>
     <p class="photo-zone-sub">Panda nu judeca primul lot sacrificat. E un ritual universal.</p>
-    <label class="photo-upload-btn" for="pf-nt-churros">🎋 Incarca churros-ii</label>
+    <label class="photo-upload-btn" for="pf-nt-churros">Incarca churros-ii</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-churros" onchange="handlePhoto('nt-churros', this)">
     <div class="photo-preview-wrap" id="ppw-nt-churros">
      <img class="photo-preview" id="pp-nt-churros" src="" alt="Rezultatul tau">
@@ -3561,10 +3508,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/poffertjes" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-poffertjes">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Mini poffertjes sau mega-clatita improvizata?</div>
+    <div class="photo-zone-title">Mini poffertjes sau mega-clatita improvizata?</div>
     <p class="photo-zone-sub">Panda accepta ambele versiuni. Fara judecata (cu multa curiozitate).</p>
-    <label class="photo-upload-btn" for="pf-nt-poffertjes">🎋 Incarca dovada</label>
+    <label class="photo-upload-btn" for="pf-nt-poffertjes">Incarca dovada</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-poffertjes" onchange="handlePhoto('nt-poffertjes', this)">
     <div class="photo-preview-wrap" id="ppw-nt-poffertjes">
      <img class="photo-preview" id="pp-nt-poffertjes" src="" alt="Rezultatul tau">
@@ -3618,10 +3564,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/retete/clatite-pufoase-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-clatitep">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Perna de hotel sau biscuit plat?</div>
+    <div class="photo-zone-title">Perna de hotel sau biscuit plat?</div>
     <p class="photo-zone-sub">Panda intelege amandoua rezultatele. Le-a trait pe amandoua.</p>
-    <label class="photo-upload-btn" for="pf-nt-clatitep">🎋 Incarca clatita</label>
+    <label class="photo-upload-btn" for="pf-nt-clatitep">Incarca clatita</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-clatitep" onchange="handlePhoto('nt-clatitep', this)">
     <div class="photo-preview-wrap" id="ppw-nt-clatitep">
      <img class="photo-preview" id="pp-nt-clatitep" src="" alt="Rezultatul tau">
@@ -3683,10 +3628,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/nalangate" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-nalangate">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Bunica ar aproba? Sau "cam altfel"?</div>
+    <div class="photo-zone-title">Bunica ar aproba? Sau "cam altfel"?</div>
     <p class="photo-zone-sub">Panda sustine inovatia. Si traditia. Simultan.</p>
-    <label class="photo-upload-btn" for="pf-nt-nalangate">🎋 Incarca nalangatele</label>
+    <label class="photo-upload-btn" for="pf-nt-nalangate">Incarca nalangatele</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-nalangate" onchange="handlePhoto('nt-nalangate', this)">
     <div class="photo-preview-wrap" id="ppw-nt-nalangate">
      <img class="photo-preview" id="pp-nt-nalangate" src="" alt="Rezultatul tau">
@@ -3737,10 +3681,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/clatite-cu-zmeura-si-mascarpone" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-clatitez">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Elegant sau "a fost bun oricum"?</div>
+    <div class="photo-zone-title">Elegant sau "a fost bun oricum"?</div>
     <p class="photo-zone-sub">Panda aproba ambele prezentari. Gustul nu se vede in poza.</p>
-    <label class="photo-upload-btn" for="pf-nt-clatitez">🎋 Incarca clatita</label>
+    <label class="photo-upload-btn" for="pf-nt-clatitez">Incarca clatita</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-clatitez" onchange="handlePhoto('nt-clatitez', this)">
     <div class="photo-preview-wrap" id="ppw-nt-clatitez">
      <img class="photo-preview" id="pp-nt-clatitez" src="" alt="Rezultatul tau">
@@ -3789,10 +3732,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     <div class="nutella-credit-text">Reteta originala de <a href="https://www.nutella.com/ro/ro/lasa-te-inspirat/retete/mousse-cu-nutella" target="_blank" rel="noopener">Nutella®</a> — adaptata cu sarcasm de Panda. <span class="nutella-badge">Nutella®</span></div>
    </div>
    <div class="photo-zone" id="pz-nt-mousse">
-    <div class="photo-panda-stamp">🐼</div>
-    <div class="photo-zone-title">📸 Ai asteptat 2 ore sau "aproximativ"?</div>
+    <div class="photo-zone-title">Ai asteptat 2 ore sau "aproximativ"?</div>
     <p class="photo-zone-sub">Panda nu judeca. Panda intelege. Panda a facut la fel.</p>
-    <label class="photo-upload-btn" for="pf-nt-mousse">🎋 Incarca mousse-ul</label>
+    <label class="photo-upload-btn" for="pf-nt-mousse">Incarca mousse-ul</label>
     <input type="file" accept="image/*" class="photo-upload-input" id="pf-nt-mousse" onchange="handlePhoto('nt-mousse', this)">
     <div class="photo-preview-wrap" id="ppw-nt-mousse">
      <img class="photo-preview" id="pp-nt-mousse" src="" alt="Rezultatul tau">
@@ -3867,10 +3809,9 @@ td.egg-active { background: var(--bamboo-pale); border-radius:6px; cursor:pointe
     </div>
 
     <div class="photo-zone" id="pz-trokuti">
-     <div class="photo-panda-stamp">🐼</div>
-     <div class="photo-zone-title">📸 Au iesit triunghiuri sau... alte forme geometrice?</div>
+     <div class="photo-zone-title">Au iesit triunghiuri sau... alte forme geometrice?</div>
      <p class="photo-zone-sub">Panda accepta si patrate. Si dreptunghiuri. Si forme nedefinite. Important e gustul.</p>
-     <label class="photo-upload-btn" for="pf-trokuti">🎋 Incarca dovada</label>
+     <label class="photo-upload-btn" for="pf-trokuti">Incarca dovada</label>
      <input type="file" accept="image/*" class="photo-upload-input" id="pf-trokuti" onchange="handlePhoto('trokuti', this)">
      <div class="photo-preview-wrap" id="ppw-trokuti">
       <img class="photo-preview" id="pp-trokuti" src="" alt="Rezultatul tau">
@@ -3932,8 +3873,8 @@ document.querySelectorAll('.fbtn').forEach(btn => {
   max-width: 92vw;
   max-height: 88vh;
   object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  border-radius: 0;
+  box-shadow: none;
   cursor: default;
   animation: lbIn .25s cubic-bezier(.34,1.56,.64,1);
 }
@@ -3942,10 +3883,10 @@ document.querySelectorAll('.fbtn').forEach(btn => {
   position: fixed;
   top: 20px; right: 20px;
   width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  border: 2px solid rgba(255,255,255,0.3);
-  color: white;
+  border-radius: 0;
+  background: rgba(251,246,236,0.15);
+  border: 2px solid rgba(251,246,236,0.3);
+  color: var(--cream);
   font-size: 20px;
   font-weight: 900;
   cursor: pointer;
@@ -3953,7 +3894,7 @@ document.querySelectorAll('.fbtn').forEach(btn => {
   transition: background .2s, transform .2s;
   z-index: 10000;
 }
-.lightbox-close:hover { background: var(--accent-red); transform: rotate(90deg); }
+.lightbox-close:hover { background: var(--red); transform: rotate(90deg); }
 
 /* expand cursor pe poza */
 .photo-preview { cursor: zoom-in !important; }
@@ -4296,7 +4237,7 @@ window.submitProposal = async function() {
     if (window.turnstile) window.turnstile.reset();
 
     btn.textContent = '🎋 Primit. Panda a luat nota.';
-    btn.style.background = 'var(--bamboo-dark)';
+    btn.style.background = 'var(--bam-dark)';
     setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; btn.disabled = false; }, 2500);
   } catch(e) {
     btn.textContent = '❌ Eroare — incearca din nou';
@@ -4322,7 +4263,7 @@ window.adminLogin = async function() {
   const err   = document.getElementById('admin-login-err');
   const btn   = document.getElementById('admin-login-btn');
 
-  btn.textContent = '⏳ Se verifica...';
+  btn.textContent = 'Se verifica...';
   btn.disabled = true;
   err.textContent = '';
 
@@ -4436,10 +4377,10 @@ async function loadUsers() {
       const dateReg = u.createdAt ? new Date(u.createdAt).toLocaleDateString('ro-RO') : '—';
       const saved = (u.savedRecipes||[]).length;
       const total = u.totalSearches || 0;
-      u._metaHtml = `Inregistrat: ${dateReg} · Salvate: ${saved} · <b style="color:${color}">AI azi: ${count}/10</b><span style="font-size:10px;color:rgba(43,43,43,.35)">${resetLabel}</span> · <b style="color:var(--bamboo-dark)">Total: ${total}</b>`;
+      u._metaHtml = `Inregistrat: ${dateReg} · Salvate: ${saved} · <b style="color:${color}">AI azi: ${count}/10</b><span style="font-size:10px;color:rgba(43,43,43,.35)">${resetLabel}</span> · <b style="color:var(--bam-dark)">Total: ${total}</b>`;
       return `
       <div class="user-row">
-        <div style="width:36px;height:36px;border-radius:50%;background:var(--bamboo);color:white;font-family:var(--f-disp);font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--bam);color:white;font-family:var(--f-disp);font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
           ${(u.email || '?').charAt(0).toUpperCase()}
         </div>
         <div class="user-row-info">
@@ -4450,14 +4391,14 @@ async function loadUsers() {
           const isOwner = u.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
           const isAdmin = isOwner || u.role === 'admin';
           const badge = isOwner
-            ? '<span style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#4E7C3F;background:#EDF5E7;border:2px solid #C8E6B8;border-radius:20px;padding:4px 10px">👑 OWNER</span>'
+            ? '<span style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#4E7C3F;background:#EDF5E7;border:2px solid #C8E6B8;border-radius:0;padding:4px 10px">👑 OWNER</span>'
             : isAdmin
-              ? '<span style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--bamboo);background:var(--panda-dark);border:2px solid var(--panda-dark);border-radius:20px;padding:4px 10px">🛡 ADMIN</span>'
-              : '<span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(43,43,43,.35);background:transparent;border:1px solid var(--panda-grey-light);border-radius:20px;padding:3px 9px">user</span>';
+              ? '<span style="font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--bam);background:var(--ink);border:2px solid var(--ink);border-radius:0;padding:4px 10px">🛡 ADMIN</span>'
+              : '<span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(43,43,43,.35);background:transparent;border:1px solid var(--line-soft);border-radius:0;padding:3px 9px">user</span>';
           const roleBtn = isOwner ? '' : `<button class="ps-item-copy" onclick="setUserRole('${u.id}', '${isAdmin ? 'user' : 'admin'}')" style="font-size:11px">${isAdmin ? '⬇ Revoca admin' : '⬆ Fa admin'}</button>`;
           return badge + roleBtn;
         })()}
-        <button onclick="resetAiSearches('${u.id}', '${u.email}')" style="font-family:var(--f-body);font-size:11px;font-weight:900;background:none;color:var(--bamboo-dark);border:2px solid var(--bamboo-light);border-radius:20px;padding:5px 12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='var(--bamboo)';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='var(--bamboo-dark)'">
+        <button onclick="resetAiSearches('${u.id}', '${u.email}')" style="font-family:var(--f-body);font-size:11px;font-weight:900;background:none;color:var(--bam-dark);border:2px solid var(--bam-light);border-radius:0;padding:5px 12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='var(--bam)';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='var(--bam-dark)'">
           🔄 Reset AI
         </button>
       </div>`;}).join('');
@@ -4640,13 +4581,13 @@ function updateAuthHeader(user) {
         <div class="auth-dd-email">${user.email}</div>
         <button class="auth-dd-btn" onclick="openProfileModal()">🐼 Profilul meu</button>
         ${isOwnerOrAdmin ? `
-        <div style="height:1px;background:var(--panda-grey-light);margin:6px 0"></div>
+        <div style="height:1px;background:var(--line-soft);margin:6px 0"></div>
         <div style="font-size:9px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:rgba(43,43,43,.3);padding:4px 10px 2px">Admin</div>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-proposals')">📋 Propuneri <span id="dd-badge-proposals" style="display:none;background:var(--accent-red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-ai-proposals')">🤖 AI Propuse <span id="dd-badge-ai" style="display:none;background:var(--accent-red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-proposals')">📋 Propuneri <span id="dd-badge-proposals" style="display:none;background:var(--red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-ai-proposals')">🤖 AI Propuse <span id="dd-badge-ai" style="display:none;background:var(--red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
         <button class="auth-dd-btn" onclick="openAdminTab('tab-users')">👥 Useri</button>
-        <button class="auth-dd-btn" onclick="openAdminTab('tab-notifications')">🔔 Notificari <span id="dd-badge-notif" style="display:none;background:var(--accent-red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
-        <div style="height:1px;background:var(--panda-grey-light);margin:6px 0"></div>` : ''}
+        <button class="auth-dd-btn" onclick="openAdminTab('tab-notifications')">🔔 Notificari <span id="dd-badge-notif" style="display:none;background:var(--red);color:white;border-radius:50%;width:16px;height:16px;font-size:9px;font-weight:900;align-items:center;justify-content:center;margin-left:4px"></span></button>
+        <div style="height:1px;background:var(--line-soft);margin:6px 0"></div>` : ''}
         <button class="auth-dd-btn" onclick="logoutUser()" style="color:#c0392b">🚪 Deconectare</button>
       </div>`;
   } else {
@@ -4866,7 +4807,7 @@ window.saveAiRecipeToFavorites = async function() {
     // Nu inchidem modalul — schimbam butonul in "Salvat"
     if (btn) {
       btn.textContent = '✅ Salvata la Favorite!';
-      btn.style.background = 'var(--bamboo-dark)';
+      btn.style.background = 'var(--bam-dark)';
       btn.disabled = true;
     }
     showToast('🔖 Reteta salvata la favorite!', 'bamboo');
@@ -4979,7 +4920,7 @@ window.loadProfileData = async function() {
     <div class="profile-stats">
       <div class="profile-stat"><div class="profile-stat-val">${createdAt}</div><div class="profile-stat-lbl">Membru din</div></div>
       <div class="profile-stat"><div class="profile-stat-val">${saved.length + savedAi.length}</div><div class="profile-stat-lbl">Retete salvate</div></div>
-      <div class="profile-stat"><div class="profile-stat-val" style="color:${searchesLeft < 3 ? '#e05c5c' : 'var(--bamboo-dark)'}">${searchesLeft}</div><div class="profile-stat-lbl">Cautari AI azi</div></div>
+      <div class="profile-stat"><div class="profile-stat-val" style="color:${searchesLeft < 3 ? '#e05c5c' : 'var(--bam-dark)'}">${searchesLeft}</div><div class="profile-stat-lbl">Cautari AI azi</div></div>
       <div class="profile-stat"><div class="profile-stat-val">${proposalsCount}</div><div class="profile-stat-lbl">Retete propuse</div></div>
     </div>
     <div class="total-searches-block">
@@ -4990,7 +4931,7 @@ window.loadProfileData = async function() {
       <div class="tsb-comment">${_tsComment.txt}</div>
     </div>
     <div class="ai-progress-wrap" title="${searchesUsed}/${AI_DAILY_LIMIT} cautari folosite azi">
-      <div class="ai-progress-bar" style="width:${pct}%;background:${pct > 80 ? '#e05c5c' : 'var(--bamboo)'}"></div>
+      <div class="ai-progress-bar" style="width:${pct}%;background:${pct > 80 ? '#e05c5c' : 'var(--bam)'}"></div>
     </div>
     <p style="font-size:11px;color:rgba(43,43,43,.4);font-style:italic;margin:6px 0 24px">${searchesUsed} din ${AI_DAILY_LIMIT} cautari AI folosite azi · se reseteaza zilnic</p>
     <h3>🔖 Retete salvate</h3>
@@ -5151,8 +5092,8 @@ window.showPublishPreview = function(recipe) {
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
       <span style="font-size:40px">${recipe.emoji||'🍽️'}</span>
       <div>
-        <div style="font-size:11px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--bamboo);margin-bottom:4px">${recipe.categorie||''} · ${(recipe.tags||[]).join(', ')}</div>
-        <div style="font-family:var(--f-disp);font-size:22px;color:var(--panda-dark)">${recipe.titlu}</div>
+        <div style="font-size:11px;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:var(--bam);margin-bottom:4px">${recipe.categorie||''} · ${(recipe.tags||[]).join(', ')}</div>
+        <div style="font-family:var(--f-disp);font-size:22px;color:var(--ink)">${recipe.titlu}</div>
         <div style="font-size:13px;font-style:italic;color:rgba(43,43,43,.5)">${recipe.subtitlu||''}</div>
       </div>
     </div>
@@ -5165,8 +5106,8 @@ window.showPublishPreview = function(recipe) {
     <ol class="slist">${steps}</ol>
     <div class="rstitle" style="margin-top:20px">Sfaturi</div>
     <div class="tips">${tips}</div>
-    ${recipe.sursa ? `<div style="margin-top:20px;padding-top:14px;border-top:2px dashed var(--panda-grey-light);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
-      🔗 Sursa / Credits: <a href="${recipe.sursa}" target="_blank" rel="noopener" style="color:var(--bamboo-dark)">${recipe.sursa}</a>
+    ${recipe.sursa ? `<div style="margin-top:20px;padding-top:14px;border-top:2px dashed var(--line-soft);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
+      🔗 Sursa / Credits: <a href="${recipe.sursa}" target="_blank" rel="noopener" style="color:var(--bam-dark)">${recipe.sursa}</a>
     </div>` : ''}`;
 
   // Butoane dinamice: admin = Publica, user normal = Salveaza la Favorite
@@ -5176,8 +5117,8 @@ window.showPublishPreview = function(recipe) {
 
   const actionsEl = document.getElementById('publish-preview-actions');
   if (actionsEl) {
-    const cancelBtn = `<button onclick="closePublishPreview()" style="background:none;border:2px solid var(--panda-grey-light);border-radius:20px;padding:12px 20px;font-family:var(--f-body);font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Inchide</button>`;
-    const saveBtn = `<button class="pf-submit" id="btn-save-favorite" onclick="saveAiRecipeToFavorites()" style="font-size:15px;padding:12px 24px;background:var(--bamboo)">🔖 Salveaza la Favorite</button>`;
+    const cancelBtn = `<button onclick="closePublishPreview()" style="background:none;border:2px solid var(--line-soft);border-radius:0;padding:12px 20px;font-family:var(--f-body);font-size:13px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.5)">Inchide</button>`;
+    const saveBtn = `<button class="pf-submit" id="btn-save-favorite" onclick="saveAiRecipeToFavorites()" style="font-size:15px;padding:12px 24px;background:var(--bam)">🔖 Salveaza la Favorite</button>`;
     if (isAdminUser) {
       actionsEl.innerHTML = `
         <button class="pf-submit" id="btn-confirm-publish" onclick="confirmPublishRecipe()" style="font-size:15px;padding:12px 24px">✅ Publica acum in site</button>
@@ -5186,7 +5127,7 @@ window.showPublishPreview = function(recipe) {
     } else {
       actionsEl.innerHTML = `
         ${saveBtn}
-        <button class="pf-submit" id="btn-propose-recipe" onclick="proposeAiRecipeForSite()" style="font-size:15px;padding:12px 24px;background:var(--panda-dark)">🎋 Propune pentru site</button>
+        <button class="pf-submit" id="btn-propose-recipe" onclick="proposeAiRecipeForSite()" style="font-size:15px;padding:12px 24px;background:var(--ink)">🎋 Propune pentru site</button>
         ${cancelBtn}`;
     }
   }
@@ -5321,8 +5262,8 @@ function renderDynamicRecipe(r) {
         <div class="rsec"><div class="rstitle">Pasi</div><ol class="slist">${steps}</ol></div>
         <div class="rsec"><div class="rstitle">Sfaturi</div><div class="tips">${tips}</div></div>
         <p class="mthanks">Ti-a iesit? Panda accepta plata in bambus: <a href="https://ko-fi.com/bucatarialuipanda" target="_blank" rel="noopener">sustine proiectul</a>.</p>
-        ${r.sursa ? `<div style="margin-top:24px;padding-top:16px;border-top:2px dashed var(--panda-grey-light);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
-          🔗 Inspirat de: <a href="${r.sursa}" target="_blank" rel="noopener" style="color:var(--bamboo-dark)">${r.sursa}</a>
+        ${r.sursa ? `<div style="margin-top:24px;padding-top:16px;border-top:2px dashed var(--line-soft);font-size:11px;color:rgba(43,43,43,0.4);font-style:italic">
+          🔗 Inspirat de: <a href="${r.sursa}" target="_blank" rel="noopener" style="color:var(--bam-dark)">${r.sursa}</a>
         </div>` : ''}
       </div>
     </div>`;
@@ -5394,7 +5335,7 @@ window.submitRegister = async function() {
   if (pass !== pass2) { err.textContent = 'Parolele nu coincid.'; return; }
   if (pass.length < 6) { err.textContent = 'Parola trebuie sa aiba minim 6 caractere.'; return; }
 
-  btn.disabled = true; btn.textContent = '⏳ Se creeaza contul...';
+  btn.disabled = true; btn.textContent = 'Se creeaza contul...';
   try {
     splashPending = false; // Nu aratam splash pana nu e verificat emailul
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
@@ -5405,7 +5346,7 @@ window.submitRegister = async function() {
   } catch(e) {
     err.textContent = authErrMsg(e.code);
   } finally {
-    btn.disabled = false; btn.textContent = '🐼 Creeaza cont';
+    btn.disabled = false; btn.textContent = 'Creeaza cont';
   }
 };
 
@@ -5415,23 +5356,23 @@ window.submitLogin = async function() {
   const err   = document.getElementById('err-login');
   const btn   = document.getElementById('btn-login');
 
-  btn.disabled = true; btn.textContent = '⏳ Se verifica...';
+  btn.disabled = true; btn.textContent = 'Se verifica...';
   try {
     splashPending = true;
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     if (!cred.user.emailVerified) {
       await signOut(auth);
       splashPending = false;
-      err.style.color = 'var(--accent-red)';
-      err.innerHTML = '📧 Emailul nu este verificat. Verifică inbox-ul.<br><button onclick="resendVerificationEmail(\'' + email + '\')" style="margin-top:8px;background:none;border:none;color:var(--bamboo-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:13px;padding:0">Retrimite email de verificare</button>';
-      btn.disabled = false; btn.textContent = '🎋 Autentificare';
+      err.style.color = 'var(--red)';
+      err.innerHTML = '📧 Emailul nu este verificat. Verifică inbox-ul.<br><button onclick="resendVerificationEmail(\'' + email + '\')" style="margin-top:8px;background:none;border:none;color:var(--bam-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:13px;padding:0">Retrimite email de verificare</button>';
+      btn.disabled = false; btn.textContent = 'Autentificare';
       return;
     }
     closeAuthModal();
   } catch(e) {
     err.textContent = authErrMsg(e.code);
   } finally {
-    btn.disabled = false; btn.textContent = '🎋 Autentificare';
+    btn.disabled = false; btn.textContent = 'Autentificare';
   }
 };
 
@@ -5469,7 +5410,7 @@ window.submitForgotPassword = async function() {
   const email = document.getElementById('login-email').value.trim();
   const err   = document.getElementById('err-login');
   if (!email) { err.textContent = 'Scrie emailul mai intai.'; return; }
-  err.style.color = 'var(--bamboo-dark)';
+  err.style.color = 'var(--bam-dark)';
   err.textContent = '⏳ Se trimite emailul...';
   try {
     const resp = await fetch('/api/reset-password', {
@@ -5479,7 +5420,7 @@ window.submitForgotPassword = async function() {
     });
     const data = await resp.json();
     if (data.message === 'google_user') {
-      err.style.color = 'var(--accent-red)';
+      err.style.color = 'var(--red)';
       err.textContent = 'Contul tau foloseste Google Sign-In. Reseteaza parola din contul Google.';
     } else {
       err.textContent = '✓ Email trimis! Verifica inbox-ul (si spam-ul, ca Panda e timid).';
@@ -5640,7 +5581,7 @@ window.rejectTextProposal = async function(id) {
 (function() {
   const zone = document.getElementById('pf-photo-zone');
   if (!zone) return;
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--bamboo-dark)'; });
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--bam-dark)'; });
   zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
   zone.addEventListener('drop', e => {
     e.preventDefault(); zone.style.borderColor = '';
@@ -6225,22 +6166,13 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 
 /* ── PWA Install CTA ── */
 .pwa-cta {
-  background: linear-gradient(135deg, var(--panda-dark), #3a3a3a);
-  border-radius: 24px;
-  padding: 32px 40px;
+  background: var(--ink);
+  padding: 28px 32px;
   margin: 50px 0;
-  border: 2px solid rgba(76,127,58,0.2);
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--bam);
   position: relative;
   overflow: hidden;
-}
-.pwa-cta::before {
-  content: '📱';
-  position: absolute;
-  right: 30px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 100px;
-  opacity: 0.04;
-  pointer-events: none;
 }
 .pwa-cta-inner {
   display: flex;
@@ -6254,12 +6186,12 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .pwa-cta-title {
   font-family: var(--f-disp);
   font-size: clamp(18px, 2.5vw, 24px);
-  color: var(--white);
+  color: var(--cream);
   margin-bottom: 6px;
 }
 .pwa-cta-sub {
   font-size: 13px;
-  color: rgba(250,250,248,0.5);
+  color: rgba(251,246,236,0.5);
   line-height: 1.6;
   max-width: 400px;
 }
@@ -6267,33 +6199,33 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   margin-top: 10px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--bamboo);
+  color: var(--bam);
   letter-spacing: 0.05em;
 }
 .pwa-cta-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
 .pwa-install-btn {
   font-family: var(--f-disp);
   font-size: 16px;
-  background: var(--bamboo);
-  color: white;
+  background: var(--bam);
+  color: var(--cream);
   border: none;
-  border-radius: 30px;
+  border-radius: 0;
   padding: 14px 28px;
   cursor: pointer;
   transition: all .25s cubic-bezier(.34,1.56,.64,1);
-  box-shadow: 0 6px 20px rgba(76,127,58,0.4);
+  box-shadow: none;
   white-space: nowrap;
 }
-.pwa-install-btn:hover { background: var(--bamboo-dark); transform: scale(1.05); }
-.pwa-install-btn.installed { background: var(--panda-dark); border: 2px solid var(--bamboo); cursor: default; transform: none; }
+.pwa-install-btn:hover { background: var(--bam-dark); transform: scale(1.05); }
+.pwa-install-btn.installed { background: var(--ink); border: 2px solid var(--bam); cursor: default; transform: none; }
 .pwa-ios-hint {
   font-size: 12px;
-  color: rgba(250,250,248,0.45);
+  color: rgba(251,246,236,0.45);
   text-align: right;
   line-height: 1.5;
   max-width: 220px;
 }
-.pwa-ios-hint strong { color: rgba(250,250,248,0.7); }
+.pwa-ios-hint strong { color: rgba(251,246,236,0.7); }
 @media(max-width:600px) {
   .pwa-cta { padding: 24px 20px; }
   .pwa-cta-inner { flex-direction: column; gap: 20px; }
@@ -6332,26 +6264,26 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .panda-splash-avatar {
   width: 160px;
   height: 160px;
-  border-radius: 50%;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 4px solid rgba(255,255,255,0.15);
+  border: 4px solid rgba(251,246,236,0.15);
   animation: splashPop .7s cubic-bezier(.34,1.56,.64,1);
 }
 .panda-splash-avatar svg { width: 100%; height: 100%; }
 .panda-splash-text {
   font-family: var(--f-body);
   font-size: 16px;
-  color: rgba(250,250,248,0.5);
+  color: rgba(251,246,236,0.5);
   letter-spacing: 0.05em;
   animation: splashFadeUp .5s .3s both;
 }
 .panda-splash-mood {
   font-family: var(--f-disp);
   font-size: 36px;
-  color: var(--white);
+  color: var(--cream);
   animation: splashFadeUp .5s .5s both;
 }
 @keyframes splashPop {
@@ -6366,14 +6298,14 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 /* ── Profile modal ── */
 .profile-avatar-big {
   width: 72px; height: 72px;
-  border-radius: 50%;
-  background: var(--bamboo);
-  color: white;
+  border-radius: 0;
+  background: var(--bam);
+  color: var(--cream);
   font-family: var(--f-disp);
   font-size: 32px;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto;
-  border: 4px solid rgba(255,255,255,0.2);
+  border: 4px solid rgba(251,246,236,0.2);
 }
 .profile-stats {
   display: grid;
@@ -6382,15 +6314,15 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   margin-bottom: 28px;
 }
 .profile-stat {
-  background: var(--panda-grey-light);
-  border-radius: 14px;
+  background: var(--line-soft);
+  border-radius: 0;
   padding: 16px 10px;
   text-align: center;
 }
 .profile-stat-val {
   font-family: var(--f-disp);
   font-size: 24px;
-  color: var(--panda-dark);
+  color: var(--ink);
   line-height: 1;
 }
 .profile-stat-lbl {
@@ -6411,12 +6343,12 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bamboo-pale);
-  border-radius: 10px;
+  background: var(--bam-pale);
+  border-radius: 0;
   padding: 10px 14px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--panda-dark);
+  color: var(--ink);
 }
 .profile-saved-rm {
   background: none;
@@ -6425,12 +6357,12 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   color: rgba(30,26,22,0.35);
   cursor: pointer;
   padding: 2px 6px;
-  border-radius: 6px;
+  border-radius: 0;
   transition: all .15s;
 }
 .profile-saved-rm:hover { color: #c0392b; background: rgba(192,57,43,0.08); }
 .profile-danger {
-  border-top: 2px solid var(--panda-grey-light);
+  border-top: 2px solid var(--line-soft);
   padding-top: 20px;
   margin-top: 4px;
 }
@@ -6449,7 +6381,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   background: none;
   color: #c0392b;
   border: 2px solid rgba(192,57,43,0.25);
-  border-radius: 20px;
+  border-radius: 0;
   padding: 9px 20px;
   cursor: pointer;
   transition: all .2s;
@@ -6458,24 +6390,24 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 
 /* ── Progress bar AI searches ── */
 .ai-progress-wrap {
-  background: var(--panda-grey-light);
-  border-radius: 6px;
+  background: var(--line-soft);
+  border-radius: 0;
   height: 6px;
   margin-top: 8px;
   overflow: hidden;
 }
 .ai-progress-bar {
   height: 100%;
-  border-radius: 6px;
-  background: var(--bamboo);
+  border-radius: 0;
+  background: var(--bam);
   transition: width .4s;
 }
 
 /* ── Total Searches Block ── */
 .total-searches-block {
-  background: var(--bamboo-pale);
-  border: 2px solid var(--bamboo-light);
-  border-radius: 16px;
+  background: var(--bam-pale);
+  border: 2px solid var(--bam-light);
+  border-radius: 0;
   padding: 16px 18px;
   margin: 16px 0 24px;
 }
@@ -6489,7 +6421,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .tsb-count {
   font-family: var(--f-disp);
   font-size: 36px;
-  color: var(--bamboo-dark);
+  color: var(--bam-dark);
   line-height: 1;
   display: flex;
   flex-direction: column;
@@ -6506,9 +6438,9 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .tsb-comment {
   font-size: 13px;
   font-style: italic;
-  color: var(--bamboo-dark);
+  color: var(--bam-dark);
   line-height: 1.55;
-  border-top: 1px solid var(--bamboo-light);
+  border-top: 1px solid var(--bam-light);
   padding-top: 8px;
 }
 
@@ -6519,13 +6451,14 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
   z-index: 99999;
-  background: var(--panda-dark);
-  color: white;
-  font-family: var(--f-disp);
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--f-body);
+  font-weight: 700;
   font-size: 15px;
-  padding: 12px 24px;
-  border-radius: 30px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  padding: 11px 20px;
+  border: 2px solid var(--cream);
+  box-shadow: 5px 5px 0 var(--mustard);
   opacity: 0;
   pointer-events: none;
   transition: opacity .3s, transform .3s;
@@ -6535,7 +6468,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-.panda-toast.bamboo { background: var(--bamboo-dark); }
+.panda-toast.bamboo { background: var(--bam-dark); }
 
 /* ── Auth header button & user chip ── */
 .auth-header-area {
@@ -6565,19 +6498,19 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(251,246,236,0.08);
   border: 2px solid rgba(76,127,58,0.3);
-  border-radius: 24px;
+  border-radius: 0;
   padding: 6px 14px 6px 6px;
   cursor: pointer;
   transition: background .2s, border-color .2s;
 }
-.auth-user-chip:hover { background: rgba(255,255,255,0.14); border-color: var(--bamboo); }
+.auth-user-chip:hover { background: rgba(251,246,236,0.14); border-color: var(--bam); }
 .auth-avatar {
   width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--bamboo);
-  color: white;
+  border-radius: 0;
+  background: var(--bam);
+  color: var(--cream);
   font-family: var(--f-disp);
   font-size: 14px;
   display: flex; align-items: center; justify-content: center;
@@ -6588,25 +6521,25 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .auth-name {
   font-size: 13px;
   font-weight: 700;
-  color: rgba(250,250,248,0.85);
+  color: rgba(251,246,236,0.85);
   max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.auth-caret { font-size: 10px; color: rgba(250,250,248,0.4); }
+.auth-caret { font-size: 10px; color: rgba(251,246,236,0.4); }
 
 .auth-dropdown {
   display: none;
   position: absolute;
   top: calc(100% + 8px);
   right: 8px;
-  background: var(--white);
-  border: 2px solid var(--panda-grey-light);
-  border-radius: 14px;
+  background: var(--cream);
+  border: 2px solid var(--line-soft);
+  border-radius: 0;
   padding: 10px;
   min-width: 200px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  box-shadow: none;
   z-index: 200;
 }
 .auth-dropdown.open { display: block; }
@@ -6614,7 +6547,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   font-size: 11px;
   color: rgba(30,26,22,0.45);
   padding: 4px 8px 10px;
-  border-bottom: 2px solid var(--panda-grey-light);
+  border-bottom: 2px solid var(--line-soft);
   margin-bottom: 8px;
   word-break: break-all;
 }
@@ -6626,19 +6559,19 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   font-family: var(--f-body);
   font-size: 13px;
   font-weight: 700;
-  color: var(--panda-dark);
+  color: var(--ink);
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   transition: background .15s;
 }
-.auth-dd-btn:hover { background: var(--panda-grey-light); }
+.auth-dd-btn:hover { background: var(--line-soft); }
 
 /* ── Auth Modal internals ── */
 .auth-tabs {
   display: flex;
-  background: var(--panda-grey-light);
-  border-radius: 12px;
+  background: var(--line-soft);
+  border-radius: 0;
   padding: 4px;
   margin-bottom: 20px;
   gap: 4px;
@@ -6649,16 +6582,15 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   font-size: 15px;
   background: none;
   border: none;
-  border-radius: 9px;
+  border-radius: 0;
   padding: 10px;
   cursor: pointer;
   color: rgba(30,26,22,0.45);
   transition: all .2s;
 }
 .auth-tab-btn.on {
-  background: var(--white);
-  color: var(--panda-dark);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: var(--ink);
+  color: var(--cream);
 }
 
 .auth-google-btn {
@@ -6667,19 +6599,19 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: white;
-  border: 2px solid var(--panda-grey-light);
-  border-radius: 12px;
+  background: var(--cream);
+  border: 2px solid var(--line-soft);
+  border-radius: 0;
   padding: 12px 20px;
   font-family: var(--f-body);
   font-size: 14px;
   font-weight: 700;
-  color: var(--panda-dark);
+  color: var(--ink);
   cursor: pointer;
   transition: border-color .2s, box-shadow .2s;
   margin-bottom: 4px;
 }
-.auth-google-btn:hover { border-color: #4285F4; box-shadow: 0 2px 12px rgba(66,133,244,0.2); }
+.auth-google-btn:hover { border-color: #4285F4; box-shadow: none; }
 
 .auth-or {
   display: flex;
@@ -6692,7 +6624,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.auth-or::before, .auth-or::after { content:''; flex:1; height:2px; background:var(--panda-grey-light); border-radius:2px; }
+.auth-or::before, .auth-or::after { content:''; flex:1; height:2px; background:var(--line-soft); border-radius: 0; }
 
 .auth-err {
   font-size: 12px;
@@ -6711,12 +6643,12 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   line-height: 1.5;
   cursor: pointer;
 }
-.auth-gdpr-check input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--bamboo); }
+.auth-gdpr-check input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--bam); }
 
 .auth-link {
   background: none;
   border: none;
-  color: var(--bamboo-dark);
+  color: var(--bam-dark);
   font-size: inherit;
   font-family: inherit;
   cursor: pointer;
@@ -6751,7 +6683,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   letter-spacing: 0.03em;
 }
 .flegal-btn:hover { color: var(--mustard); }
-.flegal-sep { color: rgba(250,250,248,0.2); font-size: 11px; }
+.flegal-sep { color: rgba(251,246,236,0.2); font-size: 11px; }
 
 /* ── Cookie Banner: o linie ── */
 .cookie-banner {
@@ -6784,8 +6716,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   position: fixed;
   inset: 0;
   z-index: 8000;
-  background: rgba(26,26,26,0.85);
-  backdrop-filter: blur(6px);
+  background: rgba(30,26,22,0.85);
   align-items: flex-start;
   justify-content: center;
   padding: 30px 20px;
@@ -6793,18 +6724,21 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 }
 .legal-overlay.open { display: flex; }
 .legal-modal {
-  background: var(--white);
-  border-radius: 24px;
+  border: 3px solid var(--ink);
+  box-shadow: 10px 10px 0 var(--ink);
+  background: var(--cream);
+  border-radius: 0;
   width: 100%;
   max-width: 760px;
   margin: auto;
   position: relative;
   animation: popIn .35s cubic-bezier(.34,1.56,.64,1);
-  border: 3px solid var(--bamboo);
+  border: 3px solid var(--bam);
   overflow: hidden;
 }
 .legal-mhead {
-  background: var(--panda-dark);
+  border-bottom: 3px solid var(--ink);
+  background: var(--ink);
   padding: 28px 44px 24px;
   position: relative;
 }
@@ -6812,25 +6746,25 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   position: absolute;
   top: 16px; right: 16px;
   width: 38px; height: 38px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 0;
+  background: var(--cream);
+  border: 2px solid var(--cream);
   cursor: pointer;
   font-size: 16px;
   display: flex; align-items: center; justify-content: center;
-  color: white; font-weight: 900;
-  transition: background .2s, transform .25s;
+  color: var(--ink); font-weight: 900;
+  transition: background .15s;
 }
-.legal-mclose:hover { background: var(--accent-red); border-color: var(--accent-red); transform: rotate(90deg) scale(1.1); }
+.legal-mclose:hover { background: var(--red); border-color: var(--red); transform: rotate(90deg) scale(1.1); }
 .legal-mtitle {
   font-family: var(--f-disp);
   font-size: 26px;
-  color: var(--white);
+  color: var(--cream);
   margin-bottom: 6px;
 }
 .legal-msub {
   font-size: 12px;
-  color: rgba(250,250,248,0.4);
+  color: rgba(251,246,236,0.4);
   font-style: italic;
 }
 .legal-mbody {
@@ -6841,10 +6775,10 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 .legal-mbody h3 {
   font-family: var(--f-disp);
   font-size: 16px;
-  color: var(--panda-dark);
+  color: var(--ink);
   margin: 24px 0 10px;
   padding-bottom: 6px;
-  border-bottom: 2px solid var(--panda-grey-light);
+  border-bottom: 2px solid var(--line-soft);
 }
 .legal-mbody h3:first-child { margin-top: 0; }
 .legal-mbody p {
@@ -6864,19 +6798,19 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   line-height: 1.65;
   color: rgba(30,26,22,0.75);
 }
-.legal-mbody strong { color: var(--panda-dark); }
-.legal-mbody a { color: var(--bamboo-dark); }
+.legal-mbody strong { color: var(--ink); }
+.legal-mbody a { color: var(--bam-dark); }
 .legal-tag {
   display: inline-block;
-  background: var(--bamboo-pale);
-  border: 2px solid var(--bamboo-light);
-  color: var(--bamboo-dark);
+  background: var(--bam-pale);
+  border: 2px solid var(--bam-light);
+  color: var(--bam-dark);
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: 0;
   margin-bottom: 20px;
 }
 @media(max-width:480px) {
@@ -6906,7 +6840,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
       <div class="legal-msub">Generata de Panda AI · Respecta toate regulile de stil</div>
     </div>
     <div class="legal-mbody" id="publish-preview-body" style="max-height:60vh;overflow-y:auto"></div>
-    <div id="publish-preview-actions" style="padding:20px 44px 28px;display:flex;gap:12px;flex-wrap:wrap;border-top:2px solid var(--panda-grey-light)">
+    <div id="publish-preview-actions" style="padding:20px 44px 28px;display:flex;gap:12px;flex-wrap:wrap;border-top:2px solid var(--line-soft)">
       <!-- butoanele se injecteaza dinamic in showPublishPreview -->
     </div>
   </div>
@@ -6945,7 +6879,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   <div class="legal-modal" style="max-width:480px">
     <div class="legal-mhead">
       <button class="legal-mclose" onclick="closeAuthModal()">✕</button>
-      <div style="font-size:40px;margin-bottom:10px">🐼</div>
+      <div style="margin-bottom:10px"><svg width="48" height="48" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg></div>
       <div class="legal-mtitle" id="auth-modal-title">Contul tau Panda</div>
       <div class="legal-msub">Salveaza retete si tine minte preferintele tale</div>
     </div>
@@ -6975,7 +6909,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
           <span>Am citit si accept <button onclick="closeAuthModal();openLegalModal('privacy')" class="auth-link">Politica de Confidentialitate</button> si <button onclick="closeAuthModal();openLegalModal('terms')" class="auth-link">Termenii si Conditiile</button></span>
         </label>
         <div class="auth-err" id="err-register"></div>
-        <button class="pf-submit" id="btn-register" onclick="submitRegister()" style="font-size:15px;padding:13px 24px">🐼 Creeaza cont</button>
+        <button class="pf-submit" id="btn-register" onclick="submitRegister()" style="font-size:15px;padding:13px 24px">Creeaza cont</button>
       </div>
 
       <!-- Login form -->
@@ -6983,7 +6917,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
         <input class="pf-input" id="login-email" type="email" placeholder="Email" autocomplete="email">
         <input class="pf-input" id="login-pass" type="password" placeholder="Parola" autocomplete="current-password">
         <div class="auth-err" id="err-login"></div>
-        <button class="pf-submit" id="btn-login" onclick="submitLogin()" style="font-size:15px;padding:13px 24px">🎋 Autentificare</button>
+        <button class="pf-submit" id="btn-login" onclick="submitLogin()" style="font-size:15px;padding:13px 24px">Autentificare</button>
         <button class="auth-link" style="text-align:center;margin-top:-4px" onclick="submitForgotPassword()">Am uitat parola</button>
       </div>
 
@@ -7187,7 +7121,7 @@ var LEGAL_CONTENT = {
         <li><strong>Cookie-uri esențiale</strong> — funcționarea site-ului, autentificare; nu necesită consimțământ</li>
         <li><strong>Cookie-uri de analiză</strong> — Google Analytics 4; necesită consimțământul tău</li>
       </ul>
-      <p>Poți gestiona preferințele oricând din <button onclick="openCookieSettings();closeLegalModal();" style="background:none;border:none;color:var(--bamboo-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:14px;padding:0">Setări Cookie-uri</button> sau din setările browserului.</p>
+      <p>Poți gestiona preferințele oricând din <button onclick="openCookieSettings();closeLegalModal();" style="background:none;border:none;color:var(--bam-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:14px;padding:0">Setări Cookie-uri</button> sau din setările browserului.</p>
     `
   },
   terms: {
