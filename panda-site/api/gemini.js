@@ -25,7 +25,7 @@ function checkRateLimit(ip) {
 
 export default async function handler(req, res) {
   // CORS
-  const allowedOrigins = ['https://bucataria-lui-panda.vercel.app', 'https://bucatarialuipanda.ro'];
+  const allowedOrigins = ['https://bucatarialuipanda.ro', 'https://www.bucatarialuipanda.ro', 'https://bucataria-lui-panda.vercel.app'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) res.setHeader('Access-Control-Allow-Origin', origin);
   else res.setHeader('Access-Control-Allow-Origin', allowedOrigins[0]);

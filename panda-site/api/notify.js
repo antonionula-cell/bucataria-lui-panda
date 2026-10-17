@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         <p><b>Email:</b> ${data?.email}</p>
         <p><b>Inregistrat la:</b> ${data?.createdAt}</p>
         <p><b>Metoda:</b> ${data?.provider || 'email/parola'}</p>
-        ${btn('Deschide Admin Panel', 'https://bucataria-lui-panda.vercel.app')}
+        ${btn('Deschide Admin Panel', 'https://bucatarialuipanda.ro')}
       </div>`
     },
     welcome_user: {
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
             <li>🎋 Propune o reteta noua pentru comunitate</li>
           </ul>
           <p style="font-size:12px;color:#999;margin-top:24px">PS: Panda nu garanteaza ca retetele vor iesi exact ca in poza. Garanteaza doar sarcasticul.</p>
-          ${btn('Mergi la Bucataria lui Panda 🐼', 'https://bucataria-lui-panda.vercel.app')}
+          ${btn('Mergi la Bucataria lui Panda 🐼', 'https://bucatarialuipanda.ro')}
         </div>
       </div>`
     },
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         <p><b>Trimisa la:</b> ${data?.timestamp}</p>
         <p><b>Continut:</b></p>
         <p style="background:#f5f5f5;padding:12px;border-radius:8px">${(data?.text || '').substring(0, 600)}</p>
-        ${btn('Deschide Admin Panel', 'https://bucataria-lui-panda.vercel.app')}
+        ${btn('Deschide Admin Panel', 'https://bucatarialuipanda.ro')}
       </div>`
     },
     reset_password: {
