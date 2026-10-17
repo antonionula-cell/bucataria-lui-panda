@@ -4144,10 +4144,16 @@ function renderProposeThumbs() {
       </div>`).join('');
 }
 
-// ── submit proposal → Firestore ──
+// ── submit proposal → /api/propose (Turnstile validat pe server) ──
 window.submitProposal = async function() {
   const text = document.getElementById('pf-text').value.trim();
   const btn  = document.querySelector('.pf-submit');
+  const idle = 'Arunc ideea la Panda';
+  const flash = (msg, bg, ms) => {
+    btn.textContent = msg;
+    btn.style.background = bg;
+    setTimeout(() => { btn.textContent = idle; btn.style.background = ''; btn.disabled = false; }, ms);
+  };
 
   // 1. Honeypot check — daca e completat = bot
   const hp = document.getElementById('pf-hp').value;
@@ -4155,56 +4161,47 @@ window.submitProposal = async function() {
 
   // 2. Turnstile token check
   const tsToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
-  if (!tsToken) {
-    btn.textContent = '🐼 Asteapta verificarea Cloudflare...';
-    btn.style.background = '#c0392b';
-    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; }, 2500);
-    return;
-  }
+  if (!tsToken) return flash('Asteapta verificarea Cloudflare...', '#c0392b', 2500);
 
   // 3. Continut check
-  if (!text && !proposePhotos.length) {
-    btn.textContent = '🐼 Scrie ceva sau urca o poza!';
-    btn.style.background = '#c0392b';
-    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; }, 2500);
-    return;
-  }
+  if (!text && !proposePhotos.length) return flash('Scrie ceva sau urca o poza!', '#c0392b', 2500);
 
-  btn.textContent = '⏳ Se trimite...';
+  btn.textContent = 'Se trimite...';
   btn.disabled = true;
 
   try {
-    const propData = {
-      text,
-      photos: proposePhotos.map(p => ({ name: p.name, dataUrl: p.dataUrl })),
-      timestamp: new Date().toISOString(),
-      timestampDisplay: new Date().toLocaleString('ro-RO'),
-      status: 'pending',
-      uid: currentUser?.uid || null,
-      userEmail: currentUser?.email || 'anonim'
-    };
-    await addDoc(collection(db, 'proposals'), propData);
+    const resp = await fetch('/api/propose', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        photos: proposePhotos.map(p => ({ name: p.name, dataUrl: p.dataUrl })),
+        token: tsToken,
+        idToken: currentUser ? await currentUser.getIdToken() : null
+      })
+    });
+    if (resp.status === 413) return flash('Pozele sunt prea mari. Scoate cateva.', '#c0392b', 3000);
+    if (resp.status === 403) return flash('Verificarea Cloudflare a picat. Mai incearca.', '#c0392b', 3000);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const { userEmail, timestampDisplay } = await resp.json();
+
     // Notificare admin
     fetch('/api/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'new_proposal', data: { email: propData.userEmail, text, timestamp: propData.timestampDisplay } })
+      body: JSON.stringify({ type: 'new_proposal', data: { email: userEmail, text, timestamp: timestampDisplay } })
     }).catch(() => {});
 
     document.getElementById('pf-text').value = '';
     proposePhotos = [];
     renderProposeThumbs();
 
-    // Reset Turnstile pt urmatoarea trimitere
-    if (window.turnstile) window.turnstile.reset();
-
-    btn.textContent = '🎋 Primit. Panda a luat nota.';
-    btn.style.background = 'var(--bam-dark)';
-    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; btn.disabled = false; }, 2500);
+    flash('Primit. Panda a luat nota.', 'var(--bam-dark)', 2500);
   } catch(e) {
-    btn.textContent = '❌ Eroare — incearca din nou';
-    btn.style.background = '#c0392b';
-    setTimeout(() => { btn.textContent = '🐼 Arunc ideea la Panda'; btn.style.background = ''; btn.disabled = false; }, 3000);
+    flash('Eroare — incearca din nou', '#c0392b', 3000);
+  } finally {
+    // Tokenul Turnstile e de unica folosinta — reset indiferent de rezultat
+    if (window.turnstile) window.turnstile.reset();
   }
 };
 
