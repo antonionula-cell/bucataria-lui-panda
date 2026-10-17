@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
     // Genereaza link de resetare
     const resetLink = await admin.auth().generatePasswordResetLink(email, {
-      url: 'https://bucataria-lui-panda.vercel.app',
+      url: 'https://bucatarialuipanda.ro',
       handleCodeInApp: false
     });
 
