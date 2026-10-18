@@ -389,16 +389,17 @@ body[data-time="evening"] .label-strip { background: var(--red); }
   inset: 0;
   z-index: 200;
   background: rgba(31,22,14,0.82);
-  /* backdrop-filter DOAR pe starea activa — nu pe toate 21 modale inactive */
-  display: flex;
+  /* Inchise = scoase complet din randare. Cu opacity:0, WebKit pe iPhone tinea
+     in memorie toate cele ~24 de straturi fixe si inchidea pagina la scroll. */
+  display: none;
   align-items: flex-start;
   justify-content: center;
   padding: 30px 20px;
   overflow-y: auto;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .3s;
 }
+@keyframes moverlayIn { from { opacity: 0; } }
+@keyframes modalIn { from { transform: translateY(24px); } }
+@media (prefers-reduced-motion: reduce) { .moverlay, .moverlay .modal { animation: none !important; } }
 /* CSS-only modal: checkbox trick */
 #cb-brownies:checked ~ #m-brownies,
 #cb-cookies:checked ~ #m-cookies,
@@ -421,43 +422,19 @@ body[data-time="evening"] .label-strip { background: var(--red); }
 #cb-nt-nalangate:checked ~ #m-nt-nalangate,
 #cb-nt-clatitez:checked ~ #m-nt-clatitez,
 #cb-nt-mousse:checked ~ #m-nt-mousse,
-#cb-trokuti:checked ~ #m-trokuti { opacity: 1; pointer-events: all; backdrop-filter: blur(6px); }
+#cb-trokuti:checked ~ #m-trokuti { display: flex; animation: moverlayIn .25s ease-out; }
 
 .modal {
   background: var(--cream);
   width: 100%;
   max-width: 820px;
   position: relative;
-  transform: translateY(24px);
-  transition: transform .25s ease-out;
+  animation: modalIn .25s ease-out;
   overflow: hidden;
   margin: auto;
   border: 3px solid var(--ink);
   box-shadow: 10px 10px 0 var(--ink);
 }
-.moverlay.open .modal,
-#cb-brownies:checked ~ #m-brownies .modal,
-#cb-cookies:checked ~ #m-cookies .modal,
-#cb-zabaglione:checked ~ #m-zabaglione .modal,
-#cb-nutella:checked ~ #m-nutella .modal,
-#cb-cana:checked ~ #m-cana .modal,
-#cb-muffins:checked ~ #m-muffins .modal,
-#cb-browniefructe:checked ~ #m-browniefructe .modal,
-#cb-bagels:checked ~ #m-bagels .modal,
-#cb-pbmuffins:checked ~ #m-pbmuffins .modal,
-#cb-nt-banichki:checked ~ #m-nt-banichki .modal,
-#cb-nt-molnarka:checked ~ #m-nt-molnarka .modal,
-#cb-nt-topfen:checked ~ #m-nt-topfen .modal,
-#cb-nt-babovka:checked ~ #m-nt-babovka .modal,
-#cb-nt-koulouri:checked ~ #m-nt-koulouri .modal,
-#cb-nt-rulouri:checked ~ #m-nt-rulouri .modal,
-#cb-nt-churros:checked ~ #m-nt-churros .modal,
-#cb-nt-poffertjes:checked ~ #m-nt-poffertjes .modal,
-#cb-nt-clatitep:checked ~ #m-nt-clatitep .modal,
-#cb-nt-nalangate:checked ~ #m-nt-nalangate .modal,
-#cb-nt-clatitez:checked ~ #m-nt-clatitez .modal,
-#cb-nt-mousse:checked ~ #m-nt-mousse .modal,
-#cb-trokuti:checked ~ #m-trokuti .modal { transform: none; }
 
 
 .mhead {
@@ -5231,8 +5208,7 @@ function renderDynamicRecipe(r) {
 
   // CSS trigger pentru modal
   const style = document.createElement('style');
-  style.textContent = `#${cbId}:checked ~ #${mId} { opacity:1; pointer-events:all; }
-    #${cbId}:checked ~ #${mId} .modal { transform:translateY(0) scale(1); }`;
+  style.textContent = `#${cbId}:checked ~ #${mId} { display:flex; animation: moverlayIn .25s ease-out; }`;
   document.head.appendChild(style);
 
   // Click outside / ESC
