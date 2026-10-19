@@ -4094,6 +4094,18 @@ function compressImage(file, maxWidth, maxHeight, quality) {
   });
 }
 
+// Imaginea AI a retetei: ~800px latime, JPEG sub ~120 KB (incape in documentul Firestore)
+async function compressRecipeImage(dataUrl) {
+  const blob = await (await fetch(dataUrl)).blob();
+  const file = new File([blob], 'reteta.jpg', { type: blob.type });
+  let out;
+  for (const q of [0.8, 0.7, 0.6, 0.5, 0.4]) {
+    out = await compressImage(file, 800, 800, q);
+    if (out.dataUrl.length * 0.75 < 120 * 1024) break;
+  }
+  return out;
+}
+
 window.handleProposePhotos = async function(input) {
   const files = Array.from(input.files);
   if (!files.length) return;
@@ -5025,7 +5037,15 @@ window.showPublishPreview = function(recipe) {
       <div><div class="olbl">Timp</div><div class="oval">${recipe.cuptor.timp}</div><div class="osub">${recipe.cuptor.nota||''}</div></div>
     </div>` : '';
 
+  window._pendingImage = null;
   body.innerHTML = `
+    ${isAdminUser ? `<div id="pp-img" style="margin-bottom:20px">
+      <div class="mrecipe-img" id="pp-img-box" style="display:flex;align-items:center;justify-content:center;background:var(--paper)"></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" id="pp-img-regen" onclick="generateRecipeImage()" style="background:none;border:2px solid var(--ink);border-radius:0;padding:8px 14px;font-family:var(--f-body);font-size:12px;font-weight:700;cursor:pointer">Genereaza alta</button>
+        <button type="button" id="pp-img-drop" onclick="dropRecipeImage()" style="background:none;border:2px solid var(--line-soft);border-radius:0;padding:8px 14px;font-family:var(--f-body);font-size:12px;font-weight:700;cursor:pointer;color:rgba(43,43,43,.6)">Publica fara imagine</button>
+      </div>
+    </div>` : ''}
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
       <span style="font-size:40px">${recipe.emoji||'🍽️'}</span>
       <div>
@@ -5071,6 +5091,54 @@ window.showPublishPreview = function(recipe) {
 
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  if (isAdminUser) generateRecipeImage();
+};
+
+// ── Imaginea preparatului (doar admin): /api/image → comprimata → photos[0] la publicare ──
+let recipeImageRun = 0;
+window.generateRecipeImage = async function() {
+  const recipe = window._pendingRecipe;
+  const box = document.getElementById('pp-img-box');
+  if (!recipe || !box) return;
+  const run = ++recipeImageRun;
+  window._pendingImage = null;
+  setPublishWaiting(true);
+  box.innerHTML = '<span style="font-size:13px;font-style:italic;color:rgba(43,43,43,.5)">Panda fotografiaza preparatul...</span>';
+  try {
+    const resp = await fetch('/api/image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        titlu: recipe.titlu || '',
+        ingrediente: (recipe.ingrediente || []).map(i => cleanIngredientItem(i).nume).filter(Boolean).slice(0, 6),
+        idToken: await currentUser?.getIdToken()
+      })
+    });
+    const data = await resp.json().catch(() => ({}));
+    if (!resp.ok || !data.dataUrl) throw new Error(data.error || 'API error ' + resp.status);
+    const img = await compressRecipeImage(data.dataUrl);
+    if (run !== recipeImageRun || recipe !== window._pendingRecipe) return; // preview schimbat intre timp
+    window._pendingImage = img;
+    box.innerHTML = `<img src="${img.dataUrl}" alt="${escHtml(recipe.titlu || '')}">`;
+  } catch(e) {
+    if (run !== recipeImageRun) return;
+    box.innerHTML = `<span style="font-size:13px;color:var(--red)">Imaginea nu a iesit: ${escHtml(e.message)}</span>`;
+  }
+  if (run === recipeImageRun) setPublishWaiting(false);
+};
+
+// Cat timp se genereaza imaginea, publicarea asteapta (sau adminul alege fara imagine)
+function setPublishWaiting(waiting) {
+  const btn = document.getElementById('btn-confirm-publish');
+  if (btn) { btn.disabled = waiting; btn.style.opacity = waiting ? '.5' : ''; }
+}
+
+window.dropRecipeImage = function() {
+  recipeImageRun++;
+  window._pendingImage = null;
+  setPublishWaiting(false);
+  const box = document.getElementById('pp-img-box');
+  if (box) box.innerHTML = '<span style="font-size:13px;font-style:italic;color:rgba(43,43,43,.5)">Fara imagine. Apasa Genereaza alta daca te razgandesti.</span>';
 };
 
 window.closePublishPreview = function() {
@@ -5084,16 +5152,20 @@ window.confirmPublishRecipe = async function() {
   const btn = document.getElementById('btn-confirm-publish');
   if (btn) { btn.disabled = true; btn.textContent = '⏳ Se publica...'; }
   try {
+    const photos = window._pendingImage ? [window._pendingImage] : [];
     const docRef = await addDoc(collection(db, 'publishedRecipes'), {
       ...recipe,
+      ...(photos.length && { photos }),
       publishedAt: new Date().toISOString(),
       publishedBy: currentUser?.email || 'admin'
     });
     closePublishPreview();
     showToast('🎋 Reteta publicata! Apare imediat in site.', 'bamboo');
     window._pendingRecipe = null;
+    window._pendingImage = null;
+    recipeImageRun++;
     // Rendarizeaza reteta nou publicata direct pe pagina
-    renderDynamicRecipe({ id: docRef.id, ...recipe });
+    renderDynamicRecipe({ id: docRef.id, ...recipe, photos });
   } catch(e) {
     if (btn) { btn.disabled = false; btn.textContent = '✅ Publica in Panda'; }
     showToast('❌ Eroare: ' + e.message, '');
@@ -5133,11 +5205,17 @@ function renderDynamicRecipe(r) {
   card.setAttribute('data-tags', tags);
   const communityBadge = r.source === 'community' ? `<span class="community-badge">Comunitate</span>` : '';
   const lotNr = String(grid.querySelectorAll('.rcard').length + 1).padStart(2, '0');
+  const photo = r.photos?.[0]?.dataUrl;
+  const imgSrc = typeof photo === 'string' && photo.startsWith('data:image/') ? photo : '';
+  const imgTag = imgSrc ? `<img src="${imgSrc}" alt="${escHtml(r.titlu||'')}" decoding="async" onload="this.classList.add('img-loaded')" onerror="this.style.display='none'">` : '';
   card.innerHTML = `
     <button class="save-btn" data-recipe="${r.id}" onclick="toggleSaveRecipe('${r.id}',event)" title="Salveaza reteta"></button>
-    <div class="cthumb"><span class="clot">Lot nr. ${lotNr}</span><h3 class="ctitle">${r.titlu}</h3></div>
+    ${imgSrc
+      ? `<div class="cthumb has-img"><span class="clot">Lot nr. ${lotNr}</span>${imgTag}</div>`
+      : `<div class="cthumb"><span class="clot">Lot nr. ${lotNr}</span><h3 class="ctitle">${r.titlu}</h3></div>`}
     <div class="cbody">
       <div class="ccat">${r.categorie||'Reteta noua'}${communityBadge}</div>
+      ${imgSrc ? `<h3 class="ctitle">${r.titlu}</h3>` : ''}
       <p class="ctag">${r.subtitlu||r.descriere||''}</p>
       <div class="cfooter"><span class="clang">Generata cu AI</span><span class="copen">Mananc asta! →</span></div>
     </div>`;
@@ -5188,6 +5266,7 @@ function renderDynamicRecipe(r) {
     <div class="modal">
       <div class="mhead">
         <label class="mclose" for="${cbId}">✕</label>
+        ${imgSrc ? `<div class="mrecipe-img">${imgTag}</div>` : ''}
         <div class="mcat">${r.categorie||''}</div>
         <h2 class="mtitle">${r.titlu}</h2>
         <p class="msub">${r.subtitlu||''}</p>
