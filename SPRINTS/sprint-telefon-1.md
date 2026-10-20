@@ -29,7 +29,7 @@ Analiza facuta pe 2026-10-20 dintr-o sesiune cloud (main `bf4ab53`), de verifica
 
 ## Curatenie
 
-- [ ] **`PANDA_CONTEXT.md` e depasit si contrazice `CLAUDE.md`** (Netlify, 9 retete, paleta si fonturile vechi) si contine cheia secreta Turnstile. Propunere: sters sau redus la o linie "vezi CLAUDE.md". Cheia ramane in istoricul git, deci rotirea din `sprint-tehnic.md` ramane obligatorie.
+- [ ] **`PANDA_CONTEXT.md` e depasit si contrazice `CLAUDE.md`** (Netlify, 9 retete, paleta si fonturile vechi) si contine cheia secreta Turnstile. Propunere: sters sau redus la o linie "vezi CLAUDE.md". Cheia veche ramane in istoricul git, dar a fost deja rotita pe 2026-10-20 (vezi `sprint-tehnic.md`), deci nu mai e valida.
 - [ ] **Cod Netlify ramas**: `panda-site/netlify/functions/gemini.js` si `panda-site/netlify.toml` nu mai sunt folosite (site-ul e pe Vercel). De sters dupa confirmare ca nu mai exista deploy Netlify activ.
 - [ ] **Reguli Firestore in repo**: nu exista `firestore.rules` in repo, deci regulile nu pot fi revizuite sau versionate. Propunere: exporta regulile actuale din consola Firebase in `firestore.rules` (fara secrete, e sigur in repo public).
 
