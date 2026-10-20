@@ -14,6 +14,7 @@ Site personal de retete cu umor si sarcasm. Proprietar: Antonio. Acest fisier e 
 
 ## Flux de lucru (obligatoriu)
 
+0. **Inainte de orice lucru, verifica ce s-a facut deja din alt loc** (laptop / telefon / cloud): `git fetch origin --prune`, citeste `LATEST_CHANGES.md` de pe `origin/main` si de pe branch-urile recente (`git for-each-ref --sort=-committerdate refs/remotes/origin | head`) si `git log` pe ele. Daca sarcina e deja facuta, nu o reface: spune-i lui Antonio ce ai gasit si porneste de la starea aceea. Daca alt branch atinge aceleasi fisiere, porneste din el (sau intreaba) ca sa nu suprascrii munca altei sesiuni.
 1. Branch nou din `main` pentru fiecare schimbare. Niciodata direct pe `main`.
 2. Orice schimbare in `index.html` → creste versiunea `CACHE` din `sw.js` (`panda-vN` → `panda-vN+1`), altfel vizitatorii cu PWA vad versiunea veche.
 3. Inainte de commit: verifica sintaxa scripturilor inline si a functiilor din `api/` (`node --check`, functiile copiate ca `.mjs`).
@@ -21,6 +22,7 @@ Site personal de retete cu umor si sarcasm. Proprietar: Antonio. Acest fisier e 
 5. **Merge in `main` doar cu acordul explicit al lui Antonio**, cu `git merge --no-ff`. Push pe `main` = deploy automat in productie.
 6. Dupa deploy, verifica in productie (ex. versiunea din `/sw.js`).
 7. Fara secrete in repo: repo-ul e PUBLIC. Cheile stau doar in Vercel → Environment Variables.
+8. **Orice modificare se noteaza in `LATEST_CHANGES.md`** (radacina repo-ului): intrare noua sus, cu data si ora (ora Romaniei, `TZ=Europe/Bucharest date '+%Y-%m-%d %H:%M'`), cine, branch, ce s-a facut, fisiere, stare. In acelasi commit cu schimbarea. La merge in `main`, actualizeaza "Stare" la intrarea respectiva.
 
 ## Reguli de continut
 

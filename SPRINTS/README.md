@@ -21,6 +21,7 @@ Aici stau toate sprinturile proiectului, ca sa putem lucra si de pe telefon (Cla
 |---|---|---|
 | [sprint-0-admin-propuneri.md](sprint-0-admin-propuneri.md) | Panou admin, useri, propuneri | aproape gata |
 | [sprint-tehnic.md](sprint-tehnic.md) | Securitate, buguri, mentenanta | deschis |
+| [sprint-telefon-1.md](sprint-telefon-1.md) | Constatari din analiza de pe telefon, de verificat pe laptop | deschis |
 | [sprint-seo-retete.md](sprint-seo-retete.md) | Poze retete, date pentru Google, pagini separate | deschis |
 | [sprint-promo-1.md](sprint-promo-1.md) | Product Hunt + Facebook Ads | neinceput |
 | [sprint-promo-2.md](sprint-promo-2.md) | Afiliere 2Performant | neinceput |
