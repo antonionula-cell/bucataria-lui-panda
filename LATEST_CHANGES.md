@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-10-20 16:06 — Regula: verifica intai ce s-a facut din cloud
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `latest-changes`
+- Ce s-a facut: adaugat punctul 0 in "Flux de lucru" din `CLAUDE.md`: inainte de orice lucru, `git fetch`, citeste `LATEST_CHANGES.md` (pe `main` si pe branch-urile recente) si verifica branch-urile din cloud, ca nicio sesiune sa nu refaca sau sa suprascrie munca alteia. Aplicata imediat: la 2026-10-20 16:06 nu existau schimbari noi din cloud dupa `1962384` (telefon, inclus deja in acest branch).
+- Fisiere: `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-10-20 16:05 — Jurnalul completat cu modificarile de pe laptop
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `latest-changes` (pornit din `claude/repository-overview-1jtsju` + `main`)
