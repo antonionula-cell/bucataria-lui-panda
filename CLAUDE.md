@@ -21,6 +21,7 @@ Site personal de retete cu umor si sarcasm. Proprietar: Antonio. Acest fisier e 
 5. **Merge in `main` doar cu acordul explicit al lui Antonio**, cu `git merge --no-ff`. Push pe `main` = deploy automat in productie.
 6. Dupa deploy, verifica in productie (ex. versiunea din `/sw.js`).
 7. Fara secrete in repo: repo-ul e PUBLIC. Cheile stau doar in Vercel → Environment Variables.
+8. **Orice modificare se noteaza in `LATEST_CHANGES.md`** (radacina repo-ului): intrare noua sus, cu data si ora (ora Romaniei, `TZ=Europe/Bucharest date '+%Y-%m-%d %H:%M'`), cine, branch, ce s-a facut, fisiere, stare. In acelasi commit cu schimbarea. La merge in `main`, actualizeaza "Stare" la intrarea respectiva.
 
 ## Reguli de continut
 
