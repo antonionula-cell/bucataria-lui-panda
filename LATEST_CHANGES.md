@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-10-20 16:06 — Regula: verifica LATEST_CHANGES inainte de orice lucru
+- Cine: Claude (telefon, sesiune cloud)
+- Branch: `claude/repository-overview-1jtsju` (pornit din `latest-changes`)
+- Ce s-a facut: adaugat pasul 0 in "Flux de lucru" din `CLAUDE.md`: inainte de orice sarcina, `git fetch`, citit `LATEST_CHANGES.md` si branch-urile recente, ca sa nu refacem ce s-a facut deja de pe laptop. Actualizat `sprint-telefon-1.md`: cheia Turnstile e deja rotita.
+- Fisiere: `CLAUDE.md`, `SPRINTS/sprint-telefon-1.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-10-20 16:05 — Jurnalul completat cu modificarile de pe laptop
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `latest-changes` (pornit din `claude/repository-overview-1jtsju` + `main`)

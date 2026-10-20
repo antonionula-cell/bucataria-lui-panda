@@ -14,6 +14,7 @@ Site personal de retete cu umor si sarcasm. Proprietar: Antonio. Acest fisier e 
 
 ## Flux de lucru (obligatoriu)
 
+0. **Inainte de orice lucru**: `git fetch origin`, apoi citeste `LATEST_CHANGES.md` din `origin/main` si din branch-urile recente (`git branch -r --sort=-committerdate | head`) si `git log` pe ele. Verifica daca sarcina a fost deja facuta (de pe laptop sau din alta sesiune). Daca da, nu o reface: spune-i lui Antonio ce ai gasit si porneste de la starea aceea.
 1. Branch nou din `main` pentru fiecare schimbare. Niciodata direct pe `main`.
 2. Orice schimbare in `index.html` → creste versiunea `CACHE` din `sw.js` (`panda-vN` → `panda-vN+1`), altfel vizitatorii cu PWA vad versiunea veche.
 3. Inainte de commit: verifica sintaxa scripturilor inline si a functiilor din `api/` (`node --check`, functiile copiate ca `.mjs`).
