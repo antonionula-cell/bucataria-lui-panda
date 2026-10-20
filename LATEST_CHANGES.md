@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-20 16:39 — Propune reteta: formularul se deschide dintr-un buton
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `propune-pagina`
+- Ce s-a facut: formularul "Propune o reteta" nu mai sta direct in pagina. In pagina ramane doar caseta "Arunci o idee la Panda?" cu butonul "Propune o reteta", care deschide formularul intr-o fereastra (acelasi mecanism ca la retete: Esc si click in afara inchid, link direct `#cb-propune`). Scriptul Cloudflare Turnstile se incarca abia la deschiderea ferestrei (render explicit), nu la fiecare vizita, asa ca tokenurile se emit doar pentru cine chiar propune si dispare avertismentul "Siteverify isn't being called". Butonul de trimitere are acum id propriu (`pf-send`), ca sa nu se confunde cu butonul de login admin. `sw.js` CACHE `panda-v14`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
+- Stare: pe branch (preview Vercel), asteapta acordul lui Antonio pentru `main`
+
 ## AAAA-LL-ZZ HH:MM — titlu scurt
 - Cine: Antonio / Claude (laptop / telefon)
 - Branch: nume-branch (commit abc1234)
