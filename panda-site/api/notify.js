@@ -90,7 +90,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: process.env.RESEND_FROM || 'Bucataria lui Panda <onboarding@resend.dev>',
+        from: process.env.RESEND_FROM || 'Bucataria lui Panda <panda@bucatarialuipanda.ro>',
         to: [tpl.to || 'Antonio.nula@gmail.com'],
         subject: tpl.subject,
         html: tpl.html

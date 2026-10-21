@@ -8,7 +8,7 @@ Format:
 ## 2026-10-21 11:41 — Emailurile prin Resend nu mai esueaza in tacere
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `notify-erori`
-- Ce s-a facut: la propunerea de test din 2026-10-21 a sosit doar emailul scriptului vechi (Google Apps Script "Panda Email Notifier"), nu si cel trimis de site prin Resend. `api/notify.js` ignora raspunsul Resend, deci orice refuz (cheie gresita, destinatar nepermis) trecea neobservat. Acum un refuz e scris in logurile Vercel (`[Notify] Resend refuzat`) si endpoint-ul raspunde 502 cu detaliul. Site-ul apeleaza notify fara sa astepte raspunsul, deci vizitatorii nu vad nimic diferit. Trigger-ul scriptului vechi ramane activ pana merg emailurile Resend.
+- Ce s-a facut: la propunerea de test din 2026-10-21 a sosit doar emailul scriptului vechi (Google Apps Script "Panda Email Notifier"), nu si cel trimis de site prin Resend. `api/notify.js` ignora raspunsul Resend, deci orice refuz (cheie gresita, destinatar nepermis) trecea neobservat. Acum un refuz e scris in logurile Vercel (`[Notify] Resend refuzat`) si endpoint-ul raspunde 502 cu detaliul. Site-ul apeleaza notify fara sa astepte raspunsul, deci vizitatorii nu vad nimic diferit. Cauza gasita in Resend → Logs: 403 "Testing domain restriction", adica `onboarding@resend.dev` trimite doar catre emailul contului Resend. Expeditorul implicit devine `panda@bucatarialuipanda.ro` (domeniul trebuie verificat in Resend, cu inregistrarile DNS puse in Vercel). Trigger-ul scriptului vechi ramane activ pana merg emailurile Resend.
 - Fisiere: `panda-site/api/notify.js`, `LATEST_CHANGES.md`
 - Stare: pe branch, asteapta acordul lui Antonio pentru `main`
 
