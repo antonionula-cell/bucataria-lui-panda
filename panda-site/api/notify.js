@@ -83,21 +83,28 @@ export default async function handler(req, res) {
   if (!tpl) return res.status(400).json({ error: 'Unknown notification type' });
 
   try {
-    await fetch('https://api.resend.com/emails', {
+    const resp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: process.env.RESEND_FROM || 'Bucataria lui Panda <onboarding@resend.dev>',
+        from: process.env.RESEND_FROM || 'Bucataria lui Panda <panda@bucatarialuipanda.ro>',
         to: [tpl.to || 'Antonio.nula@gmail.com'],
         subject: tpl.subject,
         html: tpl.html
       })
     });
+    // Resend raspunde cu 4xx (cheie gresita, destinatar nepermis) fara sa arunce eroare
+    if (!resp.ok) {
+      const detail = await resp.text();
+      console.error('[Notify] Resend refuzat:', resp.status, detail);
+      return res.status(502).json({ error: 'Email not sent', status: resp.status, detail });
+    }
   } catch(e) {
     console.error('[Notify] Resend error:', e.message);
+    return res.status(502).json({ error: 'Email not sent' });
   }
 
   return res.status(200).json({ ok: true });

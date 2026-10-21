@@ -5,6 +5,20 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-21 13:43 — Emailuri de pe panda@bucatarialuipanda.ro, in main
+- Cine: Claude (laptop), cu acordul lui Antonio
+- Branch: `main` (merge din `notify-erori`)
+- Ce s-a facut: domeniul `bucatarialuipanda.ro` verificat in Resend (regiunea EU, Irlanda; doar trimitere, primirea ramane la Zoho). In Vercel DNS: TXT `resend._domainkey`, CNAME `send` → `send.forge.rmta.net`, CNAME `rsend` → `rsend-euw1.forge.rmta.net`. MX si SPF-ul Zoho de pe domeniul principal neatinse. Notificarile si emailurile de bun venit pleaca acum de pe `panda@bucatarialuipanda.ro`.
+- Fisiere: `panda-site/api/notify.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (live)
+
+## 2026-10-21 11:41 — Emailurile prin Resend nu mai esueaza in tacere
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `notify-erori`
+- Ce s-a facut: la propunerea de test din 2026-10-21 a sosit doar emailul scriptului vechi (Google Apps Script "Panda Email Notifier"), nu si cel trimis de site prin Resend. `api/notify.js` ignora raspunsul Resend, deci orice refuz (cheie gresita, destinatar nepermis) trecea neobservat. Acum un refuz e scris in logurile Vercel (`[Notify] Resend refuzat`) si endpoint-ul raspunde 502 cu detaliul. Site-ul apeleaza notify fara sa astepte raspunsul, deci vizitatorii nu vad nimic diferit. Cauza gasita in Resend → Logs: 403 "Testing domain restriction", adica `onboarding@resend.dev` trimite doar catre emailul contului Resend. Expeditorul implicit devine `panda@bucatarialuipanda.ro` (domeniul trebuie verificat in Resend, cu inregistrarile DNS puse in Vercel). Trigger-ul scriptului vechi ramane activ pana merg emailurile Resend.
+- Fisiere: `panda-site/api/notify.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-21 13:43)
+
 ## 2026-10-21 11:23 — Propune reteta in fereastra separata, in main
 - Cine: Claude (laptop), cu acordul lui Antonio (preview verificat)
 - Branch: `main` (merge din `propune-pagina`)
