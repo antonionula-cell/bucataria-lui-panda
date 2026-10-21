@@ -1,4 +1,6 @@
 // ── Email notifications via Resend ──
+const ADMIN_INBOX = 'panda@bucatarialuipanda.ro'; // alias pe contul Zoho
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -15,7 +17,7 @@ export default async function handler(req, res) {
 
   const templates = {
     new_user: {
-      to: 'Antonio.nula@gmail.com',
+      to: ADMIN_INBOX,
       subject: `🐼 User nou pe Bucataria lui Panda!`,
       html: `<div style="${brandStyle}">
         <h2 style="color:#4E7C3F">User nou inregistrat 🐼</h2>
@@ -49,7 +51,7 @@ export default async function handler(req, res) {
       </div>`
     },
     new_proposal: {
-      to: 'Antonio.nula@gmail.com',
+      to: ADMIN_INBOX,
       subject: `🎋 Propunere noua de reteta!`,
       html: `<div style="${brandStyle}">
         <h2 style="color:#4E7C3F">Propunere noua de reteta 🎋</h2>
@@ -91,7 +93,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: process.env.RESEND_FROM || 'Bucataria lui Panda <panda@bucatarialuipanda.ro>',
-        to: [tpl.to || 'Antonio.nula@gmail.com'],
+        to: [tpl.to || ADMIN_INBOX],
         subject: tpl.subject,
         html: tpl.html
       })

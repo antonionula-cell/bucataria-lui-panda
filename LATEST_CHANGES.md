@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-21 13:48 — Notificarile admin sosesc pe panda@bucatarialuipanda.ro
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `notify-panda`
+- Ce s-a facut: emailurile "Propunere noua" si "User nou" (si adresa de rezerva) merg acum la `panda@bucatarialuipanda.ro` (alias pe contul Zoho), nu la `Antonio.nula@gmail.com`. Adresa sta intr-o singura constanta, `ADMIN_INBOX`. Neatinse: `ADMIN_EMAIL` din `index.html` (contul de login admin) si adresele de contact din textele legale.
+- Fisiere: `panda-site/api/notify.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-21 13:55, live)
+
 ## 2026-10-21 13:43 — Emailuri de pe panda@bucatarialuipanda.ro, in main
 - Cine: Claude (laptop), cu acordul lui Antonio
 - Branch: `main` (merge din `notify-erori`)
