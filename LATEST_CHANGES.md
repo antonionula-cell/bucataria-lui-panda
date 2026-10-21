@@ -5,6 +5,18 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-21 14:30 — Cautarea merge si doar cu "Ce vrei sa gatesti?"
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `cautare-un-camp`
+- Ce s-a facut: "Gaseste-mi retete, Panda!" cerea macar un ingredient (chip sau "Alte ingrediente") si refuza cautarea cand era completat doar preparatul dorit. Acum ajunge oricare dintre cele 3 campuri. Fara ingrediente, prompt-ul cere variante ale preparatului cu ingrediente obisnuite, iar Panda are replici proprii pentru cazul asta (inainte ar fi zis "Doua ingrediente"). `sw.js` CACHE `panda-v15`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-21 14:33, live; publicat direct la cererea lui Antonio, testat pe bucatarialuipanda.ro)
+
+## 2026-10-21 14:31 — Scriptul vechi de notificari oprit (in afara repo-ului, consemnat acum)
+- Cine: Antonio
+- Ce s-a facut: sters trigger-ul `checkNewProposals` al Google Apps Script "Panda Email Notifier" (verifica Firestore la 5 minute si trimitea emailuri de pe Gmail, cu link catre vechiul netlify.app). Notificarile vin acum doar din `api/notify.js`, prin Resend, la `panda@bucatarialuipanda.ro`. Proiectul Apps Script ramane salvat, fara trigger. Tot azi: incidentul GitGuardian pentru cheia Turnstile veche marcat rezolvat (cheia e rotita).
+- Stare: facut
+
 ## 2026-10-21 13:48 — Notificarile admin sosesc pe panda@bucatarialuipanda.ro
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `notify-panda`

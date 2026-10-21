@@ -5897,6 +5897,11 @@ function getPandaComment(allIngredients) {
     `Wow. ${n} ingrediente. Frigider de bogat, skilluri de gatit — sa vedem. Panda investigheaza.`,
     `${n} ingrediente si inca nu stii ce sa gatesti. Panda te intelege. Panda are acelasi problem cu bambus-ul.`
   ]);
+  if (n === 0) return _rand([
+    'Fara ingrediente, doar o dorinta. Panda respecta increderea oarba.',
+    'Nu stii ce ai in frigider, dar stii ce vrei. Panda cunoaste sentimentul.',
+    'Panda alege ingredientele. Nu te plange dupa aceea ca nu ai smantana.'
+  ]);
   if (n <= 2) {
     const ingList = allIngredients.slice(0,2).join(' si ');
     return _rand([
@@ -5948,11 +5953,13 @@ window.searchRecipes = async function() {
   const chips = [...document.querySelectorAll('.ichip.sel')].map(c => c.textContent.trim().replace(/^[^\w]+/, ''));
   const extra = document.getElementById('extra-ing')?.value?.trim() || '';
   const allIngredients = [...chips, ...(extra ? extra.split(',').map(s => s.trim()).filter(Boolean) : [])];
+  const dishName = sanitizePromptInput(document.getElementById('dish-name')?.value?.trim() || '');
 
-  if (allIngredients.length === 0) {
+  // Ajunge un singur camp: preparatul dorit, un chip sau alte ingrediente
+  if (allIngredients.length === 0 && !dishName) {
     document.getElementById('chef-btn').style.animation = 'shake .4s ease';
     setTimeout(() => document.getElementById('chef-btn').style.animation = '', 400);
-    document.getElementById('extra-ing').focus();
+    document.getElementById('dish-name').focus();
     const _zeroMsgs = [
       'Zero ingrediente selectate. Vrei sa gatesti aer? Panda poate sugera si aia, dar nu e nutritiv.',
       'Saracie mare. Nici un ingredient. Plange frigiderul la fel ca stomacul tau. Selecteaza ceva, orice.',
@@ -5988,11 +5995,10 @@ window.searchRecipes = async function() {
     if (_lsub) _lsub.textContent = _loadingMsgs[_lIdx][1];
   }, 1800);
 
-  const dishName = sanitizePromptInput(document.getElementById('dish-name')?.value?.trim() || '');
   const safeIngredients = allIngredients.map(i => sanitizePromptInput(i));
   const prompt = `Esti un chef panda sarcastict si amuzant din Romania. Cauta si propune TOP 10 retete concrete bazate pe urmatoarele criterii:
 
-INGREDIENTE DISPONIBILE: ${safeIngredients.join(', ')}${dishName ? `\nPREPARAT DORIT: ${dishName}` : ''}
+INGREDIENTE DISPONIBILE: ${safeIngredients.length ? safeIngredients.join(', ') : 'nespecificate (alege ingrediente obisnuite, usor de gasit)'}${dishName ? `\nPREPARAT DORIT: ${dishName}` : ''}
 TIMP MAXIM: ${selectedTime}
 CUPTOR: ${selectedOven}
 TIP: ${selectedTaste}
@@ -6000,7 +6006,7 @@ TIP: ${selectedTaste}
 REGULI IMPORTANTE:
 1. Returneaza EXACT un JSON array cu 10 obiecte, fara text inainte sau dupa
 2. Fiecare obiect are: "titlu", "timp", "dificultate" (Usor/Mediu/Greu), "descriere" (max 2 propozitii), "sarcasm" (comentariu amuzant de panda, max 1 propozitie), "ingrediente_cheie" (array cu 4-6 ingrediente principale cu cantitati, ex: ["200g faina", "3 oua", "100ml lapte"])
-3. Retetele trebuie sa foloseasca in principal ingredientele disponibile
+3. ${safeIngredients.length ? 'Retetele trebuie sa foloseasca in principal ingredientele disponibile' : 'Retetele trebuie sa fie variante ale preparatului dorit'}
 4. Comentariile trebuie sa fie AMUZANTE si SARCASTICE in stilul unui panda care nu vrea sa gateasca
 5. Limba: romana, FARA diacritice (scrie a/i/s/t simplu, ex: "reteta" nu "rețetă")
 
