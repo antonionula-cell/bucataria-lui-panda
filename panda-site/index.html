@@ -422,7 +422,8 @@ body[data-time="evening"] .label-strip { background: var(--red); }
 #cb-nt-nalangate:checked ~ #m-nt-nalangate,
 #cb-nt-clatitez:checked ~ #m-nt-clatitez,
 #cb-nt-mousse:checked ~ #m-nt-mousse,
-#cb-trokuti:checked ~ #m-trokuti { display: flex; animation: moverlayIn .25s ease-out; }
+#cb-trokuti:checked ~ #m-trokuti,
+#cb-propune:checked ~ #m-propune { display: flex; animation: moverlayIn .25s ease-out; }
 
 .modal {
   background: var(--cream);
@@ -890,12 +891,14 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
   background: var(--gold);
   border: 3px solid var(--ink);
   padding: 24px 28px;
-  margin-bottom: 24px;
 }
 .propose-panda { flex-shrink: 0; }
 .propose-panda svg { display: block; }
 .propose-title { font-family: var(--f-disp); font-weight: 400; font-size: 26px; color: var(--ink); margin-bottom: 6px; }
 .propose-sub { font-size: 15.5px; color: var(--ink); line-height: 1.55; max-width: 62ch; }
+.propose-open { display: inline-block; margin-top: 16px; }
+.propose-open:hover { background: var(--red); border-color: var(--red); }
+.modal .propose-form { border: 0; box-shadow: none; padding: 0; }
 
 .propose-form {
   background: var(--cream);
@@ -1601,7 +1604,6 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
     });
   }
 </script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -2138,34 +2140,8 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
       <div>
         <h3 class="propose-title">Arunci o idee la Panda?</h3>
         <p class="propose-sub">Daca ai gatit ceva interesant — sau ai vazut o reteta si ti-ai zis "asta ar trebui sa fie pe site" — trimite. Panda citeste. Panda nu judeca (mult). Nicio urgenta.</p>
+        <label class="pf-submit propose-open" for="cb-propune">Propune o reteta</label>
       </div>
-    </div>
-
-    <div class="propose-form" id="propose-form">
-
-      <textarea class="pf-input pf-textarea pf-big" id="pf-text" rows="7" maxlength="2000"
-        placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa... sau scrie doar 'brownie cu dovleac' si Panda se descurca."></textarea>
-
-      <div class="pf-photo-zone" id="pf-photo-zone" onclick="document.getElementById('pf-file').click()">
-        <div class="pf-photo-icon">+</div>
-        <div class="pf-photo-txt">Click sau drag &amp; drop poze</div>
-        <div class="pf-photo-sub">Poza cu reteta, ingredientele, cum a iesit — orice ajuta</div>
-        <input type="file" id="pf-file" accept="image/*" multiple style="display:none" onchange="handleProposePhotos(this)">
-      </div>
-      <div class="pf-photos-preview" id="pf-photos-preview"></div>
-
-      <!-- Honeypot — invizibil, doar botii il completeaza -->
-      <input type="text" id="pf-hp" name="website" autocomplete="off"
-        style="position:absolute;left:-9999px;opacity:0;height:0;width:0;pointer-events:none" tabindex="-1">
-
-      <!-- Cloudflare Turnstile -->
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAADYZeequGONwnrCy" data-theme="light"></div>
-
-      <div class="pf-actions">
-        <button class="pf-submit" onclick="submitProposal()">Arunc ideea la Panda</button>
-        <span class="pf-submit-note">Se trimite direct lui Panda.</span>
-      </div>
-
     </div>
 
     <!-- ADMIN PANEL — vizibil doar dupa login -->
@@ -2307,6 +2283,7 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 <input type="checkbox" id="cb-nt-clatitez" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 <input type="checkbox" id="cb-nt-mousse" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 <input type="checkbox" id="cb-trokuti" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
+<input type="checkbox" id="cb-propune" class="modal-toggle" style="position:fixed;top:0;left:0;opacity:0;pointer-events:none;width:0;height:0">
 
 <div class="moverlay" id="m-brownies" >
  <div class="modal">
@@ -3765,6 +3742,46 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
  </div>
 </div>
 
+<!-- Propune o reteta: data-enhanced opreste uneltele de reteta (scala, timer, print) -->
+<div class="moverlay" id="m-propune" data-enhanced="1">
+ <div class="modal">
+  <div class="mhead">
+   <label class="mclose" for="cb-propune">✕</label>
+   <div class="mcat">Propune o reteta</div>
+   <h2 class="mtitle">Scrie-i lui Panda</h2>
+   <p class="msub">Numele retetei, ingredientele, pasii, o poza. Sau doar o idee. Panda completeaza restul.</p>
+  </div>
+  <div class="mbody">
+      <div class="propose-form" id="propose-form">
+
+        <textarea class="pf-input pf-textarea pf-big" id="pf-text" rows="7" maxlength="2000"
+          placeholder="Scrie orice — numele retetei, ingredientele, pasii, sursa... sau scrie doar 'brownie cu dovleac' si Panda se descurca."></textarea>
+
+        <div class="pf-photo-zone" id="pf-photo-zone" onclick="document.getElementById('pf-file').click()">
+          <div class="pf-photo-icon">+</div>
+          <div class="pf-photo-txt">Click sau drag &amp; drop poze</div>
+          <div class="pf-photo-sub">Poza cu reteta, ingredientele, cum a iesit — orice ajuta</div>
+          <input type="file" id="pf-file" accept="image/*" multiple style="display:none" onchange="handleProposePhotos(this)">
+        </div>
+        <div class="pf-photos-preview" id="pf-photos-preview"></div>
+
+        <!-- Honeypot — invizibil, doar botii il completeaza -->
+        <input type="text" id="pf-hp" name="website" autocomplete="off"
+          style="position:absolute;left:-9999px;opacity:0;height:0;width:0;pointer-events:none" tabindex="-1">
+
+        <!-- Cloudflare Turnstile -->
+        <div id="pf-turnstile"></div>
+
+        <div class="pf-actions">
+          <button class="pf-submit" id="pf-send" onclick="submitProposal()">Arunc ideea la Panda</button>
+          <span class="pf-submit-note">Se trimite direct lui Panda.</span>
+        </div>
+
+      </div>
+  </div>
+ </div>
+</div>
+
 <script>
 /* Fade-in imagini Nutella dupa incarcare */
 document.querySelectorAll('.cthumb img').forEach(function(img) {
@@ -4122,10 +4139,30 @@ function renderProposeThumbs() {
       </div>`).join('');
 }
 
+// ── Turnstile se incarca doar cand se deschide modalul de propunere ──
+// Asa Cloudflare emite tokenuri numai pentru cine chiar vrea sa propuna.
+let tsWidget = null;
+function renderTurnstile() {
+  if (tsWidget !== null) return;
+  if (!window.turnstile) {
+    if (document.getElementById('ts-script')) return;
+    const s = document.createElement('script');
+    s.id = 'ts-script';
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.onload = renderTurnstile;
+    document.head.appendChild(s);
+    return;
+  }
+  tsWidget = window.turnstile.render('#pf-turnstile', { sitekey: '0x4AAAAAADYZeequGONwnrCy', theme: 'light' });
+}
+const cbPropune = document.getElementById('cb-propune');
+cbPropune.addEventListener('change', () => { if (cbPropune.checked) renderTurnstile(); });
+if (cbPropune.checked) renderTurnstile(); // deschis din link (#cb-propune)
+
 // ── submit proposal → /api/propose (Turnstile validat pe server) ──
 window.submitProposal = async function() {
   const text = document.getElementById('pf-text').value.trim();
-  const btn  = document.querySelector('.pf-submit');
+  const btn  = document.getElementById('pf-send');
   const idle = 'Arunc ideea la Panda';
   const flash = (msg, bg, ms) => {
     btn.textContent = msg;
@@ -4138,7 +4175,7 @@ window.submitProposal = async function() {
   if (hp) return; // bot detectat, ignoram silentios
 
   // 2. Turnstile token check
-  const tsToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+  const tsToken = tsWidget !== null ? window.turnstile.getResponse(tsWidget) : '';
   if (!tsToken) return flash('Asteapta verificarea Cloudflare...', '#c0392b', 2500);
 
   // 3. Continut check
@@ -4179,7 +4216,7 @@ window.submitProposal = async function() {
     flash('Eroare — incearca din nou', '#c0392b', 3000);
   } finally {
     // Tokenul Turnstile e de unica folosinta — reset indiferent de rezultat
-    if (window.turnstile) window.turnstile.reset();
+    if (tsWidget !== null) window.turnstile.reset(tsWidget);
   }
 };
 
@@ -5532,7 +5569,7 @@ window.rejectTextProposal = async function(id) {
 
 // Adauga buton Share in fiecare modal la DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.mhead').forEach(mhead => {
+  document.querySelectorAll('.moverlay:not(#m-propune) .mhead').forEach(mhead => {
     const titleEl = mhead.querySelector('.mtitle');
     const subEl = mhead.querySelector('.msub');
     if (!titleEl || mhead.querySelector('.mshare-btn')) return;
