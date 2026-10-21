@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-21 11:41 — Emailurile prin Resend nu mai esueaza in tacere
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `notify-erori`
+- Ce s-a facut: la propunerea de test din 2026-10-21 a sosit doar emailul scriptului vechi (Google Apps Script "Panda Email Notifier"), nu si cel trimis de site prin Resend. `api/notify.js` ignora raspunsul Resend, deci orice refuz (cheie gresita, destinatar nepermis) trecea neobservat. Acum un refuz e scris in logurile Vercel (`[Notify] Resend refuzat`) si endpoint-ul raspunde 502 cu detaliul. Site-ul apeleaza notify fara sa astepte raspunsul, deci vizitatorii nu vad nimic diferit. Trigger-ul scriptului vechi ramane activ pana merg emailurile Resend.
+- Fisiere: `panda-site/api/notify.js`, `LATEST_CHANGES.md`
+- Stare: pe branch, asteapta acordul lui Antonio pentru `main`
+
 ## 2026-10-21 11:23 — Propune reteta in fereastra separata, in main
 - Cine: Claude (laptop), cu acordul lui Antonio (preview verificat)
 - Branch: `main` (merge din `propune-pagina`)
