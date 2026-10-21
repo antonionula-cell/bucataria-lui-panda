@@ -1,6 +1,10 @@
 // ── Email notifications via Resend ──
 const ADMIN_INBOX = 'panda@bucatarialuipanda.ro'; // alias pe contul Zoho
 
+// Textul vine din browser: il scapam ca sa nu poata injecta HTML in email
+const esc = v => String(v ?? '').slice(0, 3000)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -60,6 +64,19 @@ export default async function handler(req, res) {
         <p><b>Continut:</b></p>
         <p style="background:#f5f5f5;padding:12px;border-radius:8px">${(data?.text || '').substring(0, 600)}</p>
         ${btn('Deschide Admin Panel', 'https://bucatarialuipanda.ro')}
+      </div>`
+    },
+    site_error: {
+      to: ADMIN_INBOX,
+      subject: `Eroare pe site: ${esc(data?.where).slice(0, 80)}`,
+      html: `<div style="${brandStyle}">
+        <h2 style="color:#8C2A14">Eroare pe Bucataria lui Panda</h2>
+        <p><b>Unde:</b> ${esc(data?.where)}</p>
+        <p><b>Cand:</b> ${esc(data?.time)}</p>
+        <p><b>Utilizator:</b> ${esc(data?.user)}</p>
+        <p><b>Pagina:</b> ${esc(data?.page)}</p>
+        <p><b>Eroarea bruta:</b></p>
+        <pre style="background:#f5f5f5;padding:12px;white-space:pre-wrap;word-break:break-word">${esc(data?.detail)}</pre>
       </div>`
     },
     reset_password: {
