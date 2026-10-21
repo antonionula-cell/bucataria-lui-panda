@@ -3944,6 +3944,32 @@ const googleProvider = new GoogleAuthProvider();
 const ADMIN_EMAIL = 'Antonio.nula@gmail.com';
 const AI_DAILY_LIMIT = 10;
 
+// ── Erori: vizitatorul vede un mesaj de-al lui Panda, eroarea bruta pleaca pe mail la panda@ ──
+const PANDA_OOPS = 'Ceva s-a stricat in bucatarie. Panda a fost anuntat si cauta vinovatul. Mai incearca in cateva minute.';
+const _reportedErrors = new Set();
+function reportError(where, err) {
+  const detail = String(err?.code ? err.code + ': ' : '') + String(err?.message || err);
+  if (_reportedErrors.has(where + detail)) return; // aceeasi eroare, o singura data pe pagina
+  _reportedErrors.add(where + detail);
+  console.error('[' + where + ']', err);
+  fetch('/api/notify', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type: 'site_error', data: {
+      where, detail: detail.slice(0, 3000), page: location.href,
+      user: currentUser?.email || 'anonim', time: new Date().toLocaleString('ro-RO')
+    } })
+  }).catch(() => {});
+}
+// Erorile 429/503 de la /api/gemini sunt deja mesaje de-ale lui Panda (limite, kill switch)
+async function geminiError(resp) {
+  const body = await resp.text();
+  let msg = body;
+  try { msg = JSON.parse(body).error || body; } catch {}
+  const err = new Error('HTTP ' + resp.status + ': ' + msg);
+  if (resp.status === 429 || resp.status === 503) err.friendly = msg;
+  return err;
+}
+
 // ── Security helpers ──
 function escHtml(s) {
   if (!s) return '';
@@ -4676,7 +4702,8 @@ window.deleteAccount = async function() {
     if (e.code === 'auth/requires-recent-login') {
       alert('Din motive de securitate, trebuie sa te autentifici din nou inainte sa stergi contul. Deconecteaza-te si reconecteaza-te, apoi incearca din nou.');
     } else {
-      alert('Eroare la stergere: ' + e.message);
+      reportError('Stergere cont', e);
+      alert('Contul nu a putut fi sters. ' + PANDA_OOPS);
     }
   }
 };
@@ -4761,7 +4788,8 @@ window.proposeAiRecipeForSite = async function() {
     window._pendingRecipe = null;
   } catch(e) {
     if (btn) { btn.disabled = false; btn.textContent = '🎋 Propune pentru site'; }
-    showToast('❌ Eroare: ' + e.message, '');
+    reportError('Propune reteta AI pentru site', e);
+    showToast('❌ ' + PANDA_OOPS, '');
   }
 };
 
@@ -4787,7 +4815,8 @@ window.saveAiRecipeToFavorites = async function() {
     showToast('🔖 Reteta salvata la favorite!', 'bamboo');
   } catch(e) {
     if (btn) { btn.disabled = false; btn.textContent = '🔖 Salveaza la Favorite'; }
-    showToast('❌ Eroare: ' + e.message, '');
+    reportError('Salveaza reteta la favorite', e);
+    showToast('❌ ' + PANDA_OOPS, '');
   }
 };
 
@@ -4985,10 +5014,10 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
         body: JSON.stringify({ prompt })
       });
       if (resp.ok) break;
-      lastErr = 'API error ' + resp.status;
+      lastErr = await geminiError(resp);
       if (resp.status !== 503 && resp.status !== 529) break; // eroare permanenta, nu retry
     }
-    if (!resp.ok) throw new Error(lastErr || 'API error');
+    if (!resp.ok) throw lastErr;
     const data = await resp.json();
     const cleanedText = (data.text || '').replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
     const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
@@ -5002,7 +5031,8 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   } catch(e) {
     document.getElementById('preview-loading-overlay').classList.remove('show');
     if (btn) { btn.disabled = false; btn.textContent = 'Preview reteta completa'; }
-    showToast('❌ Eroare la generare: ' + e.message, '');
+    if (!e.friendly) reportError('Preview reteta completa', e);
+    showToast('❌ ' + (e.friendly || PANDA_OOPS), '');
   }
 };
 
@@ -5133,7 +5163,8 @@ window.confirmPublishRecipe = async function() {
     renderDynamicRecipe({ id: docRef.id, ...recipe });
   } catch(e) {
     if (btn) { btn.disabled = false; btn.textContent = '✅ Publica in Panda'; }
-    showToast('❌ Eroare: ' + e.message, '');
+    reportError('Publica reteta (admin)', e);
+    showToast('❌ ' + PANDA_OOPS, '');
   }
 };
 
@@ -5527,6 +5558,7 @@ Returneaza DOAR JSON-ul.`;
   showToast('⏳ Panda genereaza reteta din propunere...', '');
   try {
     const resp = await fetch('/api/gemini', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) });
+    if (!resp.ok) throw await geminiError(resp);
     const data = await resp.json();
     const cleaned = (data.text || '').replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
     const recipe = JSON.parse(cleaned.match(/\{[\s\S]*\}/)[0]);
@@ -5538,7 +5570,8 @@ Returneaza DOAR JSON-ul.`;
     await updateDoc(doc(db, 'proposals', id), { status: 'accepted' });
     proposalCache = proposalCache.map(x => x.id === id ? { ...x, status: 'accepted' } : x);
   } catch(e) {
-    showToast('❌ Eroare la generare: ' + e.message, '');
+    if (!e.friendly) reportError('Genereaza reteta din propunere (admin)', e);
+    showToast('❌ ' + (e.friendly || PANDA_OOPS), '');
   }
 };
 
@@ -6022,11 +6055,7 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
       body: JSON.stringify({ prompt })
     });
 
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      const msg = errData.error || 'HTTP ' + response.status;
-      throw new Error(msg);
-    }
+    if (!response.ok) throw await geminiError(response);
     const data = await response.json();
     const text = data.text || '';
 
@@ -6077,10 +6106,11 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
     clearInterval(_lInterval);
     loading.style.display = 'none';
     results.style.display = 'block';
+    if (!e.friendly) reportError('Cautare retete', e);
     resultsList.innerHTML = `
       <div class="chef-error">
         <div class="chef-error-txt">Panda s-a incurcat in bambus</div>
-        <div class="chef-error-sub">Eroare: ${e.message}. Incearca din nou — Panda promite sa fie mai atent data viitoare. Nu promite.</div>
+        <div class="chef-error-sub">${escHtml(e.friendly || PANDA_OOPS)}</div>
       </div>
     `;
   } finally {

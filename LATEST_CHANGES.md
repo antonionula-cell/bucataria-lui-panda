@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-21 14:43 — Erorile: mesaj de-al lui Panda pentru vizitator, eroarea bruta pe mail
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `erori-prietenoase`
+- Ce s-a facut: cautarea afisa eroarea bruta Gemini (402 "prepayment credits are depleted", cu JSON si linkuri de billing). Acum, in cele 7 locuri care aratau `e.message` (cautare retete, preview reteta completa, propune pentru site, salveaza la favorite, publica (admin), genereaza din propunere (admin), stergere cont), vizitatorul vede mesajul `PANDA_OOPS`, iar `reportError()` trimite eroarea bruta prin `/api/notify` (tip nou `site_error`) la `panda@bucatarialuipanda.ro`: unde, cand, utilizator, pagina, eroare. Aceeasi eroare pleaca o singura data pe pagina. Limitele de la `/api/gemini` (429, 503) sunt deja mesaje de-ale lui Panda, deci se afiseaza ca atare si nu trimit mail. Generarea din propunere verifica acum si raspunsul HTTP. Textul din emailul de eroare e scapat (HTML). Creditul Gemini a fost reincarcat de Antonio (20$, prepay), iar `/api/gemini` raspunde din nou. `sw.js` CACHE `panda-v16`.
+- Fisiere: `panda-site/index.html`, `panda-site/api/notify.js`, `panda-site/sw.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-21 14:48, live)
+
 ## 2026-10-21 14:30 — Cautarea merge si doar cu "Ce vrei sa gatesti?"
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `cautare-un-camp`
