@@ -9,7 +9,7 @@ Format:
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `legal-gdpr`
 - Ce s-a facut: regulile Firestore live (ruleset din 2026-10-17) copiate in `firestore.rules` si stranse: userul nu-si mai poate schimba `role`, `isPremium`, `email` sau `name`; isi poate citi propriile propuneri; `pendingRecipes` doar in numele propriu, cu numele propriu de pe site sau anonim; `notifications` doar notificarea propriului cont nou, nu de la vizitatori; `stats/pwa` doar +1; `stats/pandaNames` fara acces din browser. `aiSearches` ramane scriabil pana se muta limita AI pe server. Contorul "Retete propuse" din profil citeste acum doar propunerile proprii (dupa uid). `sw.js` CACHE `panda-v19`.
-- Netestat: API-ul de test al regulilor cere permisiunea `firebaserules.rulesets.test`, pe care cheia de admin nu o are, iar emulatorul cere Java. Suita de teste e scrisa (39 de cazuri).
+- Testat 2026-10-22 in emulatorul Firestore local (proiect `demo-panda`, fara legatura cu Firebase-ul real): 42/42 cazuri trec, inclusiv inregistrarea (doc cu doar nume + completare), query-ul din profil, `pendingRecipes` cu nume propriu/anonim/al altcuiva, notificari, `stats`.
 - De facut de Antonio: publica regulile (consola Firebase → Firestore → Rules) doar odata cu merge-ul in `main`; cu regulile vechi contorul din profil ramane 0.
 - Fisiere: `firestore.rules`, `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
 - Stare: pe branch, nu e in `main`; regulile NU sunt publicate in Firebase
