@@ -1,10 +1,9 @@
 // 🐼 Bucataria lui Panda — Service Worker
-const CACHE = 'panda-v16';
+const CACHE = 'panda-v17';
 const STATIC = [
   '/',
   '/index.html',
-  '/og.png',
-  'https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:ital,wdth,wght@0,70..100,400..900;1,100,400..700&display=swap'
+  '/og.png'
 ];
 
 // Install — cache static assets

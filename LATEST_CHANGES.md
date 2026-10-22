@@ -5,6 +5,14 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-22 13:01 — Texte legale rescrise + reparatii GDPR
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: Politica de Confidentialitate si Termenii rescrise fara diacritice, dupa ce face site-ul de fapt: furnizori reali (Vercel in loc de Netlify, plus Resend, Zoho, Gemini), date colectate complete, transferuri SUA (DPF + SCC), retentie, cookie-uri si stocare locala, contact `panda@bucatarialuipanda.ro`; scos "abonamentul Premium" (nu exista); retetele nu mai sunt declarate "toate generate cu AI". In cod: stergerea contului merge prin `api/delete-account.js` (Firebase Admin) si sterge si propunerile, `pendingRecipes`, notificarea de cont nou si emailul de pe retetele publicate; retetele publicate nu mai primesc emailul celui care le-a propus (`publishedRecipes` e citibil public); rapoartele de eroare trimit UID-ul, nu emailul; confirmare 16+ ani la inregistrare si la Google sign-in; "Refuz" sterge cookie-urile `_ga`; fonturile gazduite pe site (`panda-site/fonts/`), fara Google Fonts. `sw.js` CACHE `panda-v17`.
+- De facut de Antonio: verifica in GA4 retentia datelor (textul spune 2 luni, implicitul GA4) si regiunea Firestore; curatenia emailurilor ramase pe retetele deja publicate.
+- Fisiere: `panda-site/index.html`, `panda-site/api/delete-account.js`, `panda-site/fonts/*`, `panda-site/sw.js`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-10-21 14:43 — Erorile: mesaj de-al lui Panda pentru vizitator, eroarea bruta pe mail
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `erori-prietenoase`

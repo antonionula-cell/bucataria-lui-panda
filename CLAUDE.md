@@ -6,7 +6,7 @@ Site personal de retete cu umor si sarcasm. Proprietar: Antonio. Acest fisier e 
 
 - Live: https://bucatarialuipanda.ro (www redirectioneaza 308). Vechea adresa https://bucataria-lui-panda.vercel.app merge si ea, cu `canonical` catre .ro.
 - `panda-site/index.html` — tot site-ul (HTML + CSS + JS inline). Se editeaza DOAR aici.
-- `panda-site/api/` — functii serverless Vercel: `gemini.js` (cautare AI, `gemini-2.5-flash`, `GEMINI_API_KEY`), `propose.js` (propuneri, valideaza Turnstile pe server cu `TURNSTILE_SECRET_KEY`), `notify.js` (emailuri), `reset-password.js`.
+- `panda-site/api/` — functii serverless Vercel: `gemini.js` (cautare AI, `gemini-2.5-flash`, `GEMINI_API_KEY`), `propose.js` (propuneri, valideaza Turnstile pe server cu `TURNSTILE_SECRET_KEY`), `notify.js` (emailuri), `reset-password.js`, `delete-account.js` (sterge contul si datele legate de el, cu Firebase Admin).
 - `panda-site/sw.js` — service worker, cache-first si pentru `index.html`.
 - `SPRINTS/` — sprinturile. "Hai la Sprint X" = citeste `SPRINTS/sprint-x.md` si lucreaza pe el.
 - Firebase: Auth (email/parola + Google) si Firestore (`users`, `proposals`, `pendingRecipes`, `publishedRecipes`, `notifications`).
