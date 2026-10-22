@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-22 16:54 — Testele regulilor Firestore in repo
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: cele 42 de teste ale regulilor mutate din scratchpad in `tests/firestore-rules/` (emulator local, proiect `demo-panda`, fara legatura cu Firebase-ul real); `npm test` → 42/42. Verificat ca testele pica daca slabesti o regula (scos controlul pe `role` → 40/42). Comanda notata in `CLAUDE.md`.
+- Fisiere: `tests/firestore-rules/*`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-10-22 16:43 — firestore.rules in repo, mai stricte (NEPUBLICATE)
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `legal-gdpr`
