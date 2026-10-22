@@ -5015,9 +5015,9 @@ window.loadProfileData = async function() {
   // Counter propuneri trimise
   let proposalsCount = 0;
   try {
-    const pq = query(collection(db, 'proposals'));
-    const psnap = await getDocs(pq);
-    proposalsCount = psnap.docs.filter(d => d.data().userEmail === user.email).length;
+    // Regulile Firestore lasa userul sa citeasca doar propriile propuneri
+    const psnap = await getDocs(query(collection(db, 'proposals'), where('uid', '==', user.uid)));
+    proposalsCount = psnap.size;
   } catch(e) {}
 
   const _tsComment = (() => {
