@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Server not configured' });
   }
 
-  const { text = '', photos = [], token, idToken } = req.body || {};
+  const { text = '', photos = [], token, idToken, anonymous = false } = req.body || {};
   if (!token) return res.status(400).json({ error: 'Missing token' });
   if (typeof text !== 'string' || text.length > MAX_TEXT) return res.status(400).json({ error: 'Invalid text' });
   if (!Array.isArray(photos) || !photos.every(p => typeof p?.dataUrl === 'string' && p.dataUrl.startsWith('data:image/'))) {
@@ -64,6 +64,12 @@ export default async function handler(req, res) {
     }
   }
 
+  // Numele public vine din profil, doar daca userul nu a ales "anonim"
+  let author = null;
+  if (uid && !anonymous) {
+    try { author = (await admin.firestore().collection('users').doc(uid).get()).get('name') || null; } catch(e) {}
+  }
+
   const now = new Date();
   const timestampDisplay = now.toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' });
   try {
@@ -74,7 +80,8 @@ export default async function handler(req, res) {
       timestampDisplay,
       status: 'pending',
       uid,
-      userEmail
+      userEmail,
+      author
     });
   } catch(e) {
     console.error('[Propose] Firestore error:', e.message);

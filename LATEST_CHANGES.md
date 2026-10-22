@@ -5,12 +5,50 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-22 16:58 — Merge legal-gdpr in main
+- Cine: Claude (laptop), cu acordul lui Antonio
+- Branch: `main` (merge `--no-ff` din `legal-gdpr`, dupa ce `main` cu meta description a fost adus in branch)
+- Ce s-a facut: in productie intra textele legale noi, stergerea completa a contului, numele de pe site cu "Sunt lenes", "Publica anonim", fonturile locale, `firestore.rules` + testele. Ambele branch-uri ajunsesera la `panda-v19`, deci `sw.js` CACHE `panda-v20`, ca sa primeasca versiunea noua si cine avea deja v19.
+- Fisiere: `panda-site/sw.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (live). Urmeaza: Antonio publica `firestore.rules` in consola Firebase.
+
+## 2026-10-22 16:54 — Testele regulilor Firestore in repo
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: cele 42 de teste ale regulilor mutate din scratchpad in `tests/firestore-rules/` (emulator local, proiect `demo-panda`, fara legatura cu Firebase-ul real); `npm test` → 42/42. Verificat ca testele pica daca slabesti o regula (scos controlul pe `role` → 40/42). Comanda notata in `CLAUDE.md`.
+- Fisiere: `tests/firestore-rules/*`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-22 16:58, live)
+
+## 2026-10-22 16:43 — firestore.rules in repo, mai stricte (NEPUBLICATE)
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: regulile Firestore live (ruleset din 2026-10-17) copiate in `firestore.rules` si stranse: userul nu-si mai poate schimba `role`, `isPremium`, `email` sau `name`; isi poate citi propriile propuneri; `pendingRecipes` doar in numele propriu, cu numele propriu de pe site sau anonim; `notifications` doar notificarea propriului cont nou, nu de la vizitatori; `stats/pwa` doar +1; `stats/pandaNames` fara acces din browser. `aiSearches` ramane scriabil pana se muta limita AI pe server. Contorul "Retete propuse" din profil citeste acum doar propunerile proprii (dupa uid). `sw.js` CACHE `panda-v19`.
+- Testat 2026-10-22 in emulatorul Firestore local (proiect `demo-panda`, fara legatura cu Firebase-ul real): 42/42 cazuri trec, inclusiv inregistrarea (doc cu doar nume + completare), query-ul din profil, `pendingRecipes` cu nume propriu/anonim/al altcuiva, notificari, `stats`.
+- De facut de Antonio: publica regulile (consola Firebase → Firestore → Rules) doar odata cu merge-ul in `main`; cu regulile vechi contorul din profil ramane 0.
+- Fisiere: `firestore.rules`, `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-22 16:58, live); regulile NU sunt publicate inca in Firebase
+
 ## 2026-10-22 16:28 — Meta description pentru Google
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `meta-description`
 - Ce s-a facut: pagina nu avea `<meta name="description">` (doar `og:` si `twitter:`), deci Google alegea singur textul de sub titlu. Adaugat un rand de 158 de caractere. Context: Search Console arata pagina principala "Crawled - currently not indexed" (crawl din 2026-10-17, ziua mutarii domeniului); Antonio cere indexarea manual (URL inspection → Request indexing). "Page with redirect" e `http://` / `www`, redirectionate intentionat. `sw.js` CACHE `panda-v19`, peste `panda-v17`/`panda-v18` folosite pe `legal-gdpr` (nemergeat), ca sa nu se suprapuna versiunile.
 - Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
 - Stare: in `main` (merge 2026-10-22 16:31, live)
+
+## 2026-10-22 13:48 — Nume pe site + "Publica anonim"
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: fiecare cont are un nume de pe site (`users.name`). Se cere la inregistrare, intr-o fereastra la primul login pentru conturile fara nume (Google, conturi vechi) si se schimba din profil. Butonul "Sunt lenes" da un nume automat din 200 de atribute, cu numar de ordine per atribut ("Primul Panda Happy", "Al cincisprezecelea Panda Morocanos"), prin `api/panda-name.js` (contor in `stats/pandaNames`). Numele apare in antet, in profil si in lista de useri din admin. La propuneri (formular si "Propune pentru site") e bifa "Publica anonim"; altfel reteta publicata primeste `author` + `authorUid` si arata "Propusa de ...". `publishedBy` primeste numele adminului, nu emailul. Stergerea contului scoate si `author`/`authorUid`. Textele legale actualizate. `sw.js` CACHE `panda-v18`.
+- Fisiere: `panda-site/index.html`, `panda-site/api/panda-name.js`, `panda-site/api/propose.js`, `panda-site/api/delete-account.js`, `panda-site/sw.js`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-22 16:58, live)
+
+## 2026-10-22 13:01 — Texte legale rescrise + reparatii GDPR
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: Politica de Confidentialitate si Termenii rescrise fara diacritice, dupa ce face site-ul de fapt: furnizori reali (Vercel in loc de Netlify, plus Resend, Zoho, Gemini), date colectate complete, transferuri SUA (DPF + SCC), retentie, cookie-uri si stocare locala, contact `panda@bucatarialuipanda.ro`; scos "abonamentul Premium" (nu exista); retetele nu mai sunt declarate "toate generate cu AI". In cod: stergerea contului merge prin `api/delete-account.js` (Firebase Admin) si sterge si propunerile, `pendingRecipes`, notificarea de cont nou si emailul de pe retetele publicate; retetele publicate nu mai primesc emailul celui care le-a propus (`publishedRecipes` e citibil public); rapoartele de eroare trimit UID-ul, nu emailul; confirmare 16+ ani la inregistrare si la Google sign-in; "Refuz" sterge cookie-urile `_ga`; fonturile gazduite pe site (`panda-site/fonts/`), fara Google Fonts. `sw.js` CACHE `panda-v17`.
+- De facut de Antonio: verifica in GA4 retentia datelor (textul spune 2 luni, implicitul GA4) si regiunea Firestore; curatenia emailurilor ramase pe retetele deja publicate.
+- Fisiere: `panda-site/index.html`, `panda-site/api/delete-account.js`, `panda-site/fonts/*`, `panda-site/sw.js`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-10-22 16:58, live)
 
 ## 2026-10-21 14:43 — Erorile: mesaj de-al lui Panda pentru vizitator, eroarea bruta pe mail
 - Cine: Claude (laptop), la cererea lui Antonio

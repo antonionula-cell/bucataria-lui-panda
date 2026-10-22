@@ -1,0 +1,79 @@
+rules_version = '2';
+// Regulile Firestore ale site-ului. Se publica manual (consola Firebase → Firestore → Rules,
+// sau `firebase deploy --only firestore:rules`). Functiile din panda-site/api/ folosesc
+// Firebase Admin, care trece peste aceste reguli.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'antonio.nula@gmail.com';
+    }
+    function isSelf(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+    // Valoarea de dinainte de scriere (null la creare)
+    function before(field, fallback) {
+      return resource == null ? fallback : resource.data.get(field, fallback);
+    }
+    function after(field, fallback) {
+      return request.resource.data.get(field, fallback);
+    }
+
+    // Useri — fiecare isi citeste/scrie propriul doc, admin poate tot.
+    // Userul nu-si poate schimba rolul, Premium, emailul sau numele (numele trece prin /api/panda-name).
+    // aiSearches ramane scriabil pana se muta numaratoarea limitei AI pe server.
+    match /users/{userId} {
+      allow read: if isSelf(userId);
+      allow create, update: if isSelf(userId)
+        && after('role', 'user') == before('role', 'user')
+        && after('isPremium', false) == before('isPremium', false)
+        && after('name', null) == before('name', null)
+        && after('email', request.auth.token.email) == request.auth.token.email;
+      allow read, write: if isAdmin();
+    }
+
+    // Propuneri — se scriu doar prin /api/propose. Userul isi vede doar propriile propuneri.
+    match /proposals/{docId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Retete publicate — toata lumea citeste, admin scrie
+    match /publishedRecipes/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Retete AI propuse de useri — in numele lor, cu numele lor de pe site (sau anonim)
+    match /pendingRecipes/{docId} {
+      allow create: if request.auth != null
+        && after('proposedByUid', null) == request.auth.uid
+        && after('proposedBy', null) == request.auth.token.email
+        && after('status', null) == 'proposed'
+        && (after('author', null) == null
+          || (after('authorUid', null) == request.auth.uid
+            && after('author', null) == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('name', null)));
+      allow read, write: if isAdmin();
+    }
+
+    // Notificari admin — clientul creeaza doar notificarea propriului cont nou
+    match /notifications/{docId} {
+      allow create: if request.auth != null
+        && docId == request.auth.uid + '_reg'
+        && after('type', null) == 'new_user'
+        && after('email', null) == request.auth.token.email;
+      allow read, write: if isAdmin();
+    }
+
+    // Contorul de instalari PWA — public, doar +1
+    match /stats/pwa {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['installCount'])
+        && request.resource.data.installCount == 1;
+      allow update: if request.resource.data.keys().hasOnly(['installCount'])
+        && request.resource.data.installCount == resource.data.installCount + 1;
+    }
+
+    // Restul din stats (ex. pandaNames, contorul numelor automate) — doar serverul
+  }
+}
