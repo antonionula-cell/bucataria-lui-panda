@@ -33,21 +33,24 @@ export default async function handler(req, res) {
   const { uid, email } = decoded;
   const db = admin.firestore();
   try {
-    const [byUid, byEmail, pending, published, publishedByEmail] = await Promise.all([
+    const [byUid, byEmail, pending, published, publishedByEmail, authored] = await Promise.all([
       db.collection('proposals').where('uid', '==', uid).get(),
       email ? db.collection('proposals').where('userEmail', '==', email).get() : null,
       db.collection('pendingRecipes').where('proposedByUid', '==', uid).get(),
       db.collection('publishedRecipes').where('proposedByUid', '==', uid).get(),
-      email ? db.collection('publishedRecipes').where('proposedBy', '==', email).get() : null
+      email ? db.collection('publishedRecipes').where('proposedBy', '==', email).get() : null,
+      db.collection('publishedRecipes').where('authorUid', '==', uid).get()
     ]);
     const writes = [
       ...byUid.docs.map(d => d.ref.delete()),
       ...(byEmail?.docs || []).map(d => d.ref.delete()),
       ...pending.docs.map(d => d.ref.delete()),
       // Reteta publicata ramane pe site, fara cine a propus-o (retetele vechi aveau emailul)
-      ...[...published.docs, ...(publishedByEmail?.docs || [])].map(d => d.ref.update({
+      ...[...published.docs, ...(publishedByEmail?.docs || []), ...authored.docs].map(d => d.ref.update({
         proposedBy: admin.firestore.FieldValue.delete(),
-        proposedByUid: admin.firestore.FieldValue.delete()
+        proposedByUid: admin.firestore.FieldValue.delete(),
+        author: admin.firestore.FieldValue.delete(),
+        authorUid: admin.firestore.FieldValue.delete()
       })),
       db.collection('notifications').doc(uid + '_reg').delete(),
       db.collection('users').doc(uid).delete()

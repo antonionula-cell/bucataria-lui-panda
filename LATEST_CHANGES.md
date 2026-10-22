@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-22 13:48 — Nume pe site + "Publica anonim"
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `legal-gdpr`
+- Ce s-a facut: fiecare cont are un nume de pe site (`users.name`). Se cere la inregistrare, intr-o fereastra la primul login pentru conturile fara nume (Google, conturi vechi) si se schimba din profil. Butonul "Sunt lenes" da un nume automat din 200 de atribute, cu numar de ordine per atribut ("Primul Panda Happy", "Al cincisprezecelea Panda Morocanos"), prin `api/panda-name.js` (contor in `stats/pandaNames`). Numele apare in antet, in profil si in lista de useri din admin. La propuneri (formular si "Propune pentru site") e bifa "Publica anonim"; altfel reteta publicata primeste `author` + `authorUid` si arata "Propusa de ...". `publishedBy` primeste numele adminului, nu emailul. Stergerea contului scoate si `author`/`authorUid`. Textele legale actualizate. `sw.js` CACHE `panda-v18`.
+- Fisiere: `panda-site/index.html`, `panda-site/api/panda-name.js`, `panda-site/api/propose.js`, `panda-site/api/delete-account.js`, `panda-site/sw.js`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-10-22 13:01 — Texte legale rescrise + reparatii GDPR
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `legal-gdpr`

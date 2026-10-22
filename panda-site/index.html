@@ -3778,6 +3778,11 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
         <!-- Cloudflare Turnstile -->
         <div id="pf-turnstile"></div>
 
+        <label class="auth-gdpr-check">
+          <input type="checkbox" id="pf-anon">
+          <span>Publica anonim, fara numele meu</span>
+        </label>
+
         <div class="pf-actions">
           <button class="pf-submit" id="pf-send" onclick="submitProposal()">Arunc ideea la Panda</button>
           <span class="pf-submit-note">Se trimite direct lui Panda.</span>
@@ -4224,7 +4229,8 @@ window.submitProposal = async function() {
         text,
         photos: proposePhotos.map(p => ({ name: p.name, dataUrl: p.dataUrl })),
         token: tsToken,
-        idToken: currentUser ? await currentUser.getIdToken() : null
+        idToken: currentUser ? await currentUser.getIdToken() : null,
+        anonymous: document.getElementById('pf-anon').checked
       })
     });
     if (resp.status === 413) return flash('Pozele sunt prea mari. Scoate cateva.', '#c0392b', 3000);
@@ -4390,7 +4396,7 @@ async function loadUsers() {
           ${(u.email || '?').charAt(0).toUpperCase()}
         </div>
         <div class="user-row-info">
-          <div class="user-row-email">${escHtml(u.email || '—')}</div>
+          <div class="user-row-email">${escHtml(u.name || 'fara nume')} <span style="font-weight:400;opacity:.6">${escHtml(u.email || '—')}</span></div>
           <div class="user-row-meta" id="umeta-${u.id}"></div>
         </div>
         ${(() => {
@@ -4510,6 +4516,10 @@ onAuthStateChanged(auth, async user => {
       const data = snap.data();
       savedRecipes = new Set(data.savedRecipes || []);
       currentAvatarId = data.avatarId || null;
+      currentUserName = data.name || null;
+      updateAuthHeader(user);
+      // Contul nu are inca nume (Google sau cont vechi): Panda il cere
+      if (!currentUserName && user.emailVerified) openNameModal();
     }
     // Splash + avatar nou la fiecare login
     if (splashPending) {
@@ -4522,17 +4532,97 @@ onAuthStateChanged(auth, async user => {
   } else {
     savedRecipes = new Set();
     currentAvatarId = null;
+    currentUserName = null;
   }
   updateSaveButtons();
   applyFilters();
   if (!window._recipesLoaded) { window._recipesLoaded = true; loadPublishedRecipes(); }
 });
 
+// ── Numele afisat: apare pe retetele propuse ──
+let currentUserName = null;
+const NAME_RULES = 'Numele are intre 2 si 40 de caractere, fara @, < sau >.';
+
+// "Sunt lenes": serverul propune un nume; numarul de ordine se fixeaza la salvare
+window.lazyName = async function(inputId) {
+  const input = document.getElementById(inputId);
+  try {
+    const resp = await fetch('/api/panda-name', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const { name, attr } = await resp.json();
+    input.value = name;
+    input.dataset.attr = attr;
+  } catch(e) {
+    reportError('Nume automat', e);
+    showToast(PANDA_OOPS, '');
+  }
+};
+
+function nameProblem(input) {
+  if (input.dataset.attr) return '';
+  const v = input.value.trim();
+  if (!v) return 'Scrie un nume sau apasa "Sunt lenes".';
+  if (v.length < 2 || v.length > 40 || /[<>@]/.test(v)) return NAME_RULES;
+  return '';
+}
+
+async function saveName(user, inputId) {
+  const input = document.getElementById(inputId);
+  const body = { idToken: await user.getIdToken() };
+  if (input.dataset.attr) body.attr = input.dataset.attr; else body.name = input.value.trim();
+  const resp = await fetch('/api/panda-name', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (resp.status === 400) throw Object.assign(new Error('invalid-name'), { friendly: NAME_RULES });
+  if (!resp.ok) throw new Error('HTTP ' + resp.status);
+  currentUserName = (await resp.json()).name;
+  delete input.dataset.attr;
+  input.value = currentUserName;
+  updateAuthHeader(currentUser);
+}
+
+// Salveaza din fereastra de nume sau din profil; true daca a mers
+async function submitName(inputId, errId) {
+  const err = document.getElementById(errId);
+  err.textContent = nameProblem(document.getElementById(inputId));
+  if (err.textContent) return false;
+  try {
+    await saveName(currentUser, inputId);
+    return true;
+  } catch(e) {
+    if (!e.friendly) reportError('Salveaza numele', e);
+    err.textContent = e.friendly || PANDA_OOPS;
+    return false;
+  }
+}
+
+window.openNameModal = function() {
+  document.getElementById('name-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closeNameModal = function() {
+  document.getElementById('name-modal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+window.submitNamePrompt = async function() {
+  const btn = document.getElementById('btn-prompt-name');
+  btn.disabled = true;
+  if (await submitName('prompt-name', 'err-prompt-name')) {
+    closeNameModal();
+    showToast('Salut, ' + currentUserName + '!', 'bamboo');
+  }
+  btn.disabled = false;
+};
+window.submitProfileName = async function() {
+  if (await submitName('profile-name', 'err-profile-name')) {
+    document.getElementById('profile-display-name').textContent = currentUserName;
+    showToast('Nume schimbat. Panda se obisnuieste greu, dar se obisnuieste.', 'bamboo');
+  }
+};
+
 // ── Creeaza doc user in Firestore la primul login ──
 async function ensureUserDoc(user) {
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
-  if (!snap.exists()) {
+  if (!snap.exists() || !snap.data().createdAt) {
     const userData = {
       email: user.email,
       displayName: user.displayName || null,
@@ -4542,7 +4632,7 @@ async function ensureUserDoc(user) {
       role: 'user',
       totalSearches: 0
     };
-    await setDoc(ref, userData);
+    await setDoc(ref, userData, { merge: true });
     // Notificare admin — Firestore (UID ca document ID = fara duplicate)
     await setDoc(doc(db, 'notifications', user.uid + '_reg'), {
       type: 'new_user',
@@ -4575,7 +4665,7 @@ function updateAuthHeader(user) {
   const area = document.getElementById('auth-header-area');
   if (!area) return;
   if (user && user.email !== ADMIN_EMAIL) {
-    const name = user.displayName || user.email.split('@')[0];
+    const name = escHtml(currentUserName || user.displayName || user.email.split('@')[0]);
     const av = PANDA_AVATARS.find(a => a.id === currentAvatarId) || PANDA_AVATARS[0];
     const isOwnerOrAdmin = isAdminUser;
     area.innerHTML = `
@@ -4796,6 +4886,9 @@ window.proposeAiRecipeForSite = async function() {
       ...recipe,
       proposedBy: currentUser.email,
       proposedByUid: currentUser.uid,
+      ...(!document.getElementById('ai-anon')?.checked && currentUserName
+        ? { author: currentUserName, authorUid: currentUser.uid }
+        : { author: null, authorUid: null }),
       proposedAt: new Date().toISOString(),
       status: 'proposed'
     });
@@ -4872,6 +4965,7 @@ document.addEventListener('keydown', e => {
     if (document.getElementById('profile-modal')?.classList.contains('open')) closeProfileModal();
     if (document.getElementById('publish-preview-modal')?.classList.contains('open')) closePublishPreview();
     if (document.getElementById('auth-modal')?.classList.contains('open')) closeAuthModal();
+    if (document.getElementById('name-modal')?.classList.contains('open')) closeNameModal();
   }
 });
 
@@ -4879,7 +4973,7 @@ window.loadProfileData = async function() {
   const user = currentUser || auth.currentUser;
   if (!user) return;
   currentUser = user;
-  const name = user.displayName || user.email.split('@')[0];
+  const name = currentUserName || user.displayName || user.email.split('@')[0];
   const av = PANDA_AVATARS.find(a => a.id === currentAvatarId) || PANDA_AVATARS[0];
   const avEl = document.getElementById('profile-avatar-big');
   avEl.style.background = av.bg;
@@ -4896,6 +4990,7 @@ window.loadProfileData = async function() {
   const searches = data.aiSearches || { count: 0, resetAt: null };
   const totalSearches = data.totalSearches || 0;
   const createdAt = data.createdAt ? new Date(data.createdAt).toLocaleDateString('ro-RO') : '—';
+  if (data.name) document.getElementById('profile-display-name').textContent = data.name;
   const now = new Date();
   const resetAt = searches.resetAt ? new Date(searches.resetAt) : null;
   const searchesUsed = (!resetAt || now > resetAt) ? 0 : searches.count;
@@ -4953,6 +5048,13 @@ window.loadProfileData = async function() {
       <div class="ai-progress-bar" style="width:${pct}%;background:${pct > 80 ? '#e05c5c' : 'var(--bam)'}"></div>
     </div>
     <p style="font-size:11px;color:rgba(43,43,43,.4);font-style:italic;margin:6px 0 24px">${searchesUsed} din ${AI_DAILY_LIMIT} cautari AI folosite azi · se reseteaza zilnic</p>
+    <h3>Numele tau</h3>
+    <div class="name-row">
+      <input class="pf-input" id="profile-name" type="text" maxlength="40" placeholder="Cum sa-ti spunem?" value="${escHtml(data.name || '')}" oninput="delete this.dataset.attr">
+      <button type="button" class="name-lazy-btn" onclick="lazyName('profile-name')">Sunt lenes</button>
+    </div>
+    <div class="auth-err" id="err-profile-name" style="margin-top:6px"></div>
+    <button class="pf-submit" onclick="submitProfileName()" style="font-size:13px;padding:10px 20px;margin:4px 0 24px">Salveaza numele</button>
     <h3>🔖 Retete salvate</h3>
     <div class="profile-saved-list">${savedHTML}</div>
     <div class="profile-danger">
@@ -5147,6 +5249,7 @@ window.showPublishPreview = function(recipe) {
     } else {
       actionsEl.innerHTML = `
         ${saveBtn}
+        <label class="auth-gdpr-check" style="flex-basis:100%"><input type="checkbox" id="ai-anon"><span>Daca o propun pentru site: publica anonim, fara numele meu</span></label>
         <button class="pf-submit" id="btn-propose-recipe" onclick="proposeAiRecipeForSite()" style="font-size:15px;padding:12px 24px;background:var(--ink)">🎋 Propune pentru site</button>
         ${cancelBtn}`;
     }
@@ -5170,7 +5273,7 @@ window.confirmPublishRecipe = async function() {
     const docRef = await addDoc(collection(db, 'publishedRecipes'), {
       ...recipe,
       publishedAt: new Date().toISOString(),
-      publishedBy: currentUser?.email || 'admin'
+      publishedBy: currentUserName || 'Panda'
     });
     closePublishPreview();
     showToast('🎋 Reteta publicata! Apare imediat in site.', 'bamboo');
@@ -5275,6 +5378,7 @@ function renderDynamicRecipe(r) {
         <div class="mcat">${r.categorie||''}</div>
         <h2 class="mtitle">${r.titlu}</h2>
         <p class="msub">${r.subtitlu||''}</p>
+        ${r.author ? `<p class="msub">Propusa de ${escHtml(r.author)}</p>` : ''}
       </div>
       <div class="mbody">
         ${macrosHtml}
@@ -5350,7 +5454,9 @@ window.submitRegister = async function() {
   const gdpr  = document.getElementById('reg-gdpr').checked;
   const err   = document.getElementById('err-register');
   const btn   = document.getElementById('btn-register');
+  const nameErr = nameProblem(document.getElementById('reg-name'));
 
+  if (nameErr) { err.textContent = nameErr; return; }
   if (!gdpr) { err.textContent = 'Bifeaza ca ai minim 16 ani si accepti Termenii.'; return; }
   if (pass !== pass2) { err.textContent = 'Parolele nu coincid.'; return; }
   if (pass.length < 6) { err.textContent = 'Parola trebuie sa aiba minim 6 caractere.'; return; }
@@ -5359,6 +5465,8 @@ window.submitRegister = async function() {
   try {
     splashPending = false; // Nu aratam splash pana nu e verificat emailul
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    // Daca numele nu se salveaza, Panda il cere din nou la primul login
+    await saveName(cred.user, 'reg-name').catch(e => reportError('Nume la inregistrare', e));
     await sendEmailVerification(cred.user);
     await signOut(auth); // Logout pana verifica emailul
     closeAuthModal();
@@ -5579,6 +5687,8 @@ Returneaza DOAR JSON-ul.`;
     const cleaned = (data.text || '').replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
     const recipe = JSON.parse(cleaned.match(/\{[\s\S]*\}/)[0]);
     recipe.source = 'community';
+    recipe.author = p.author || null;
+    recipe.authorUid = p.author ? p.uid : null;
     recipe.sursa = null;
     window._pendingRecipe = recipe;
     showPublishPreview(recipe);
@@ -6659,6 +6769,10 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
   cursor: pointer;
 }
 .auth-gdpr-check input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--bam); }
+.name-row { display: flex; gap: 8px; }
+.name-row .pf-input { flex: 1; min-width: 0; }
+.name-lazy-btn { flex-shrink: 0; background: none; border: 2px solid var(--ink); color: var(--ink); font-family: var(--f-body); font-size: 12px; font-weight: 800; font-stretch: 80%; letter-spacing: .06em; text-transform: uppercase; padding: 0 14px; cursor: pointer; }
+.name-lazy-btn:hover { background: var(--ink); color: var(--cream); }
 .auth-legal-note { font-size: 12px; color: rgba(31,22,14,0.6); line-height: 1.5; text-align: center; margin: 8px 0 0; }
 
 .auth-link {
@@ -6890,6 +7004,26 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 <!-- ── Toast ── -->
 <div class="panda-toast" id="panda-toast"></div>
 
+<!-- ── Name Modal: pentru conturile fara nume (Google, conturi vechi) ── -->
+<div class="legal-overlay" id="name-modal" onclick="if(event.target===this)closeNameModal()">
+  <div class="legal-modal" style="max-width:480px">
+    <div class="legal-mhead">
+      <button class="legal-mclose" onclick="closeNameModal()">✕</button>
+      <div class="legal-mtitle">Cum sa-ti spunem?</div>
+      <div class="legal-msub">Numele apare pe retetele pe care le propui. Il schimbi oricand din profil.</div>
+    </div>
+    <div style="padding:28px 36px 36px;display:flex;flex-direction:column;gap:14px">
+      <div class="ssarc" style="margin:0">Nu tin minte emailuri, doar nume. Scrie unul. Sau apasa "Sunt lenes" si te botez eu.</div>
+      <div class="name-row">
+        <input class="pf-input" id="prompt-name" type="text" maxlength="40" placeholder="Numele tau" autocomplete="nickname" oninput="delete this.dataset.attr">
+        <button type="button" class="name-lazy-btn" onclick="lazyName('prompt-name')">Sunt lenes</button>
+      </div>
+      <div class="auth-err" id="err-prompt-name"></div>
+      <button class="pf-submit" id="btn-prompt-name" onclick="submitNamePrompt()" style="font-size:15px;padding:13px 24px">Asta sunt eu</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── Auth Modal ── -->
 <div class="legal-overlay" id="auth-modal" onclick="if(event.target===this)closeAuthModal()">
   <div class="legal-modal" style="max-width:480px">
@@ -6918,6 +7052,10 @@ Returneaza DOAR JSON-ul, nimic altceva.`;
 
       <!-- Register form -->
       <div id="auth-form-register" style="display:none;flex-direction:column;gap:14px">
+        <div class="name-row">
+          <input class="pf-input" id="reg-name" type="text" maxlength="40" placeholder="Cum sa-ti spunem?" autocomplete="nickname" oninput="delete this.dataset.attr">
+          <button type="button" class="name-lazy-btn" onclick="lazyName('reg-name')">Sunt lenes</button>
+        </div>
         <input class="pf-input" id="reg-email" type="email" placeholder="Email" autocomplete="email">
         <input class="pf-input" id="reg-pass" type="password" placeholder="Parola (minim 6 caractere)" autocomplete="new-password">
         <input class="pf-input" id="reg-pass2" type="password" placeholder="Confirma parola" autocomplete="new-password">
@@ -7102,10 +7240,11 @@ var LEGAL_CONTENT = {
 
       <h3>2. Ce date prelucram</h3>
       <ul>
-        <li><strong>Contul</strong> — emailul, numele afisat (daca intri cu Google, numele din contul Google), data crearii contului, metoda de logare si avatarul ales. Parola o pastreaza Firebase Auth doar criptata; noi nu o vedem niciodata.</li>
+        <li><strong>Contul</strong> — emailul, numele tau de pe site (scris de tine sau dat de Panda la "Sunt lenes"), numele din contul Google daca intri cu Google, data crearii contului, metoda de logare si avatarul ales. Parola o pastreaza Firebase Auth doar criptata; noi nu o vedem niciodata.</li>
         <li><strong>Ce faci in cont</strong> — retetele salvate, retetele AI salvate si numarul de cautari AI (pentru limita de cautari).</li>
         <li><strong>Cautarile AI</strong> — ingredientele si preparatul pe care le scrii in "Hai sa gatim cu ce avem" sunt trimise la Google Gemini ca sa genereze retete. Emailul tau nu este trimis la Gemini. Nu scrie date personale in aceste campuri.</li>
         <li><strong>Propunerile de retete</strong> — textul si pozele trimise, data si, daca esti logat, emailul si ID-ul contului. La fel pentru retetele AI propuse pentru site.</li>
+        <li><strong>Ce apare public</strong> — cand o reteta propusa de tine e publicata, pe ea apare numele tau de pe site, daca nu ai bifat "Publica anonim". Langa nume, in datele retetei, sta si ID-ul contului, ca sa putem scoate numele cand iti stergi contul. Emailul nu apare niciodata public.</li>
         <li><strong>Date tehnice</strong> — adresa IP si informatii despre browser, vazute de serverele care gazduiesc site-ul (Vercel), de verificarea anti-spam de la propuneri (Cloudflare Turnstile) si de limita de cautari AI (IP-ul sta in memoria serverului cel mult 15 minute).</li>
         <li><strong>Rapoarte de eroare</strong> — cand ceva se strica, administratorul primeste pe email locul erorii, mesajul tehnic, pagina, ora si ID-ul contului tau (nu emailul).</li>
         <li><strong>Statistici de trafic</strong> — paginile vizitate, durata vizitei, tipul de dispozitiv si orasul aproximativ, prin Google Analytics 4 (care nu pastreaza adresa IP), <em>doar daca apesi "Accept"</em> in bannerul de cookie-uri.</li>
@@ -7137,7 +7276,7 @@ var LEGAL_CONTENT = {
 
       <h3>6. Cat pastram datele</h3>
       <ul>
-        <li><strong>Contul si ce e in el</strong> — pana il stergi. Stergerea din profil e imediata si ia cu ea contul, retetele salvate, propunerile tale si notificarea de cont nou. Retetele tale deja publicate raman pe site, dar fara emailul tau.</li>
+        <li><strong>Contul si ce e in el</strong> — pana il stergi. Stergerea din profil e imediata si ia cu ea contul, retetele salvate, propunerile tale si notificarea de cont nou. Retetele tale deja publicate raman pe site, dar fara numele si emailul tau.</li>
         <li><strong>Propunerile</strong> — pana le proceseaza si le sterge administratorul, sau pana iti stergi contul.</li>
         <li><strong>Emailurile catre administrator</strong> (cont nou, propunere noua, erori) — cat sunt utile pentru rezolvarea lor, apoi se sterg.</li>
         <li><strong>Date tehnice</strong> — IP-ul pentru limita AI, cel mult 15 minute; jurnalele serverului, pe termen scurt, conform Vercel.</li>
@@ -7197,7 +7336,7 @@ var LEGAL_CONTENT = {
       </ul>
 
       <h3>4. Ce trimiti tu</h3>
-      <p>Cand propui o reteta (text sau poze), confirmi ca e a ta sau ca ai dreptul sa o trimiti. Ne dai dreptul gratuit si neexclusiv sa o publicam pe site, sa o editam si sa o "condimentam" cu comentariile lui Panda. Poti cere oricand sa o scoatem.</p>
+      <p>Cand propui o reteta (text sau poze), confirmi ca e a ta sau ca ai dreptul sa o trimiti. Daca nu bifezi "Publica anonim", reteta publicata poarta numele tau de pe site. Numele trebuie sa fie decent si sa nu se dea drept altcineva; altfel il schimbam. Ne dai dreptul gratuit si neexclusiv sa o publicam pe site, sa o editam si sa o "condimentam" cu comentariile lui Panda. Poti cere oricand sa o scoatem.</p>
       <p>Nu trimite continut copiat fara drept, ilegal, ofensator sau date personale ale altor oameni. Putem refuza sau sterge orice propunere.</p>
 
       <h3>5. Retetele si inteligenta artificiala</h3>
