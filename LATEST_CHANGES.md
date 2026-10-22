@@ -5,12 +5,70 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-22 17:29 — Regulile Firestore noi publicate
+- Cine: Antonio (consola Firebase); Claude (laptop) a verificat
+- Ce s-a facut: `firestore.rules` din repo publicat in Firebase (ruleset `2c091eed-21c4-405c-ad58-1fe6209b39a9`, 2026-10-22 17:28). Verificat prin API (doar citire): regulile live sunt identice cu cele din repo.
+- Rollback: in consola Firebase → Firestore → Rules → istoricul versiunilor, ruleset-ul vechi `32036940-5a1a-4468-a851-41a9c29f4775` (2026-10-17). Textul lui e mai jos.
+- Fisiere: `LATEST_CHANGES.md`
+- Stare: live
+
+<details><summary>Regulile vechi (2026-10-17), pentru rollback</summary>
+
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Useri — citesc/scriu propriul doc, admin poate tot
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if request.auth != null
+        && request.auth.token.email == 'antonio.nula@gmail.com';
+    }
+
+    // Propuneri — se scriu doar prin /api/propose (Firebase Admin ignora regulile)
+    match /proposals/{docId} {
+      allow read, update, delete: if request.auth != null
+        && request.auth.token.email == 'antonio.nula@gmail.com';
+    }
+
+    // Retete publicate — toata lumea citeste, admin scrie
+    match /publishedRecipes/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null
+        && request.auth.token.email == 'antonio.nula@gmail.com';
+    }
+
+    // Retete pending/propuse — useri autentificati scriu, admin citeste/modifica
+    match /pendingRecipes/{docId} {
+      allow create: if request.auth != null;
+      allow read, write: if request.auth != null
+        && request.auth.token.email == 'antonio.nula@gmail.com';
+    }
+
+    // Notificari admin
+    match /notifications/{docId} {
+      allow create: if true;
+      allow read, write: if request.auth != null
+        && request.auth.token.email == 'antonio.nula@gmail.com';
+    }
+
+    // Stats publice (PWA counter etc.)
+    match /stats/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
+```
+
+</details>
+
 ## 2026-10-22 16:58 — Merge legal-gdpr in main
 - Cine: Claude (laptop), cu acordul lui Antonio
 - Branch: `main` (merge `--no-ff` din `legal-gdpr`, dupa ce `main` cu meta description a fost adus in branch)
 - Ce s-a facut: in productie intra textele legale noi, stergerea completa a contului, numele de pe site cu "Sunt lenes", "Publica anonim", fonturile locale, `firestore.rules` + testele. Ambele branch-uri ajunsesera la `panda-v19`, deci `sw.js` CACHE `panda-v20`, ca sa primeasca versiunea noua si cine avea deja v19.
 - Fisiere: `panda-site/sw.js`, `LATEST_CHANGES.md`
-- Stare: in `main` (live). Urmeaza: Antonio publica `firestore.rules` in consola Firebase.
+- Stare: in `main` (live); `firestore.rules` publicat de Antonio la 2026-10-22 17:28
 
 ## 2026-10-22 16:54 — Testele regulilor Firestore in repo
 - Cine: Claude (laptop), la cererea lui Antonio
@@ -26,7 +84,7 @@ Format:
 - Testat 2026-10-22 in emulatorul Firestore local (proiect `demo-panda`, fara legatura cu Firebase-ul real): 42/42 cazuri trec, inclusiv inregistrarea (doc cu doar nume + completare), query-ul din profil, `pendingRecipes` cu nume propriu/anonim/al altcuiva, notificari, `stats`.
 - De facut de Antonio: publica regulile (consola Firebase → Firestore → Rules) doar odata cu merge-ul in `main`; cu regulile vechi contorul din profil ramane 0.
 - Fisiere: `firestore.rules`, `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
-- Stare: in `main` (merge 2026-10-22 16:58, live); regulile NU sunt publicate inca in Firebase
+- Stare: in `main` (merge 2026-10-22 16:58, live); regulile publicate la 2026-10-22 17:28
 
 ## 2026-10-22 16:28 — Meta description pentru Google
 - Cine: Claude (laptop), la cererea lui Antonio
