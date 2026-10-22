@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-10-22 16:28 — Meta description pentru Google
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `meta-description`
+- Ce s-a facut: pagina nu avea `<meta name="description">` (doar `og:` si `twitter:`), deci Google alegea singur textul de sub titlu. Adaugat un rand de 158 de caractere. Context: Search Console arata pagina principala "Crawled - currently not indexed" (crawl din 2026-10-17, ziua mutarii domeniului); Antonio cere indexarea manual (URL inspection → Request indexing). "Page with redirect" e `http://` / `www`, redirectionate intentionat. `sw.js` CACHE `panda-v19`, peste `panda-v17`/`panda-v18` folosite pe `legal-gdpr` (nemergeat), ca sa nu se suprapuna versiunile.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
+- Stare: pe branch, asteapta acordul lui Antonio pentru `main`
+
 ## 2026-10-21 14:43 — Erorile: mesaj de-al lui Panda pentru vizitator, eroarea bruta pe mail
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `erori-prietenoase`
