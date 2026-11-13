@@ -694,6 +694,9 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 }
 .fd-btn:hover { background: var(--cream); }
 .fd-note { font-size: 12px; color: rgba(251,244,228,.55); }
+.ffamily { font-size: 13px; color: rgba(251,244,228,.7); line-height: 1.5; margin: 6px 0 2px; }
+.ffamily a { color: var(--gold); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.ffamily a:hover { color: var(--cream); }
 .ftxt { font-stretch: 75%; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(251,244,228,0.5); line-height: 1.8; }
 
 /* ══════════════════════════════════
@@ -1569,6 +1572,15 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 .scale-btn.on { background:var(--bam); color:var(--cream); }
 .scale-btn:hover:not(.on) { background:var(--paper); }
 
+.cj-card { background: var(--cream); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 16px 18px; margin: 4px 0 22px; }
+.cj-tag { font-size: 11px; font-weight: 800; font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+.cj-card .ssarc { margin: 0 0 12px; }
+.cj-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.cj-btn { background: var(--ink); color: var(--cream); border: 2px solid var(--ink); padding: 9px 16px; font-size: 13px; font-weight: 800; font-stretch: 80%; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+.cj-btn:hover { background: var(--red); border-color: var(--red); }
+.cj-hide { background: none; border: none; padding: 0; font-family: var(--f-body); font-size: 12px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cj-alt { font-size: 13px; color: var(--text-2); margin: 10px 0 0; }
+.cj-alt a { color: var(--red); font-weight: 700; }
 .timer-btn { display:inline-flex; align-items:center; gap:4px; background:var(--cream); border:2px solid var(--ink); color:var(--ink); padding:3px 11px; font-size:12px; font-weight:700; font-family:var(--f-body); cursor:pointer; margin-top:8px; transition:background .2s,border-color .2s; }
 .timer-btn:hover { background:var(--paper); }
 .timer-btn.timer-running { background:#FFF8E1; border-color:var(--gold); color:#7A5800; animation:timer-pulse 1s ease-in-out infinite; }
@@ -2253,6 +2265,7 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
       </div>
     </div>
     <div class="ftxt">Bucataria lui Panda · Proiect personal · Linkuri magazine romanesti · Setari Zanussi incluse</div>
+    <p class="ffamily">Din aceeasi familie: <a href="https://cejucamazi.ro/?utm_source=bucatarialuipanda&amp;utm_medium=promo&amp;utm_campaign=footer" target="_blank" rel="noopener" data-cejucam="footer">Ce jucam azi?</a> — jocuri de grup, Live pe TV si Scoala pentru copii.</p>
     <div class="footer-legal">
       <button class="flegal-btn" onclick="openLegalModal('privacy')">Politica de confidentialitate</button>
       <span class="flegal-sep">·</span>
@@ -5372,6 +5385,7 @@ function renderDynamicRecipe(r) {
 
   const overlay = document.createElement('div');
   overlay.className = 'moverlay'; overlay.id = mId;
+  overlay.dataset.asteptare = parseInt(r.cuptor?.timp, 10) || '';
   overlay.innerHTML = `
     <div class="modal">
       <div class="mhead">
@@ -7231,7 +7245,7 @@ var LEGAL_CONTENT = {
   privacy: {
     tag: 'GDPR · Confidentialitate',
     title: 'Politica de Confidentialitate',
-    sub: 'Ultima actualizare: 22 octombrie 2026',
+    sub: 'Ultima actualizare: 13 noiembrie 2026',
     body: `
       <div class="ssarc">Pe scurt: luam doar ce trebuie ca sa mearga site-ul, nu vindem nimic si nu facem reclame. Panda e lacom la bambus, nu la datele tale.</div>
 
@@ -7271,6 +7285,7 @@ var LEGAL_CONTENT = {
       </ul>
       <p><strong>Ko-fi</strong> primeste date doar daca alegi sa donezi; acolo Ko-fi decide singur ce date cere, conform politicii lui. Noi nu vedem datele cardului tau.</p>
       <p>Nu vindem si nu dam datele nimanui in scopuri de marketing.</p>
+      <p>Site-ul are linkuri spre <strong>cejucamazi.ro</strong> ("Ce jucam azi?"), un alt proiect al aceluiasi autor. Linkurile poarta doar numele campaniei (parametri <code>utm</code>); nu trimitem date personale catre acel site.</p>
 
       <h3>5. Transferuri in afara UE</h3>
       <p>Google, Vercel, Cloudflare si Resend sunt companii din SUA, deci datele pot ajunge acolo. Transferul se face pe baza cadrului UE-SUA de protectie a datelor (EU-US Data Privacy Framework), pentru companiile certificate, si a Clauzelor Contractuale Standard aprobate de Comisia Europeana.</p>
@@ -7438,12 +7453,121 @@ window.addEventListener('load', function() {
      SPRINT UX — Scale / Timer / Share / Print
 ══════════════════════════════════════════════════════ -->
 <script>
+// ── Sprint CeJucam: jocuri de pe cejucamazi.ro (acelasi autor), doar linkuri ──
+// asteptareMin = cel mai lung bloc in care nu faci nimic (cuptor, frigider, dospire), limita de jos.
+// grup = 8+ portii; copii = fara ulei incins si fara cutite mari (folosite la P2/P3).
+var RETETE_PROMO = {
+  'brownies':      { asteptareMin: 20,  ce: 'cuptor',     grup: true },
+  'cookies':       { asteptareMin: 20,  ce: 'congelator', grup: true },
+  'zabaglione':    {},
+  'nutella':       { grup: true, copii: true },
+  'cana':          { asteptareMin: 25,  ce: 'cuptor',     copii: true },
+  'muffins':       { grup: true },
+  'browniefructe': { asteptareMin: 120, ce: 'congelator', copii: true },
+  'bagels':        { grup: true },
+  'pbmuffins':     { grup: true },
+  'nt-banichki':   { grup: true, copii: true },
+  'nt-molnarka':   { asteptareMin: 30,  ce: 'odihna',     grup: true, copii: true },
+  'nt-topfen':     { asteptareMin: 20,  ce: 'cuptor',     grup: true },
+  'nt-babovka':    { asteptareMin: 50,  ce: 'cuptor',     grup: true },
+  'nt-koulouri':   { asteptareMin: 60,  ce: 'dospire',    grup: true },
+  'nt-rulouri':    { asteptareMin: 30,  ce: 'odihna',     grup: true },
+  'nt-churros':    { grup: true },
+  'nt-poffertjes': { copii: true },
+  'nt-clatitep':   { copii: true },
+  'nt-nalangate':  { grup: true, copii: true },
+  'nt-clatitez':   { copii: true },
+  'nt-mousse':     { asteptareMin: 120, ce: 'frigider',   copii: true },
+  'trokuti':       { asteptareMin: 120, ce: 'frigider',   grup: true, copii: true }
+};
+var CEJUCAM_HIDE_KEY = 'cejucamHiddenUntil';
+
+function _cejucamUrl(path, loc) {
+  return 'https://cejucamazi.ro' + path + '?utm_source=bucatarialuipanda&utm_medium=promo&utm_campaign=' + loc;
+}
+
+function _cejucamHidden() {
+  try { return Date.now() < Number(localStorage.getItem(CEJUCAM_HIDE_KEY) || 0); } catch(e) { return false; }
+}
+
+function _fmtAsteptare(min) {
+  if (min < 60) return min + ' de minute';
+  var h = Math.round(min / 60);
+  return h === 1 ? 'O ora' : h + ' ore';
+}
+
+// Ce card primeste reteta: P1 (asteptare) > P3 (copii) > P2 (invitati); null = niciunul
+function _cejucamOffer(info) {
+  if (info.asteptareMin >= 20) {
+    var joc = _cejucamJoc(info);
+    joc.loc = 'coace';
+    joc.alt = 'Doar voi doi? <a href="' + _cejucamUrl('/jocuri/trivia-rapida', 'coace') + '" target="_blank" rel="noopener" data-cejucam="coace">Trivia rapida</a> merge si in 2.';
+    return joc;
+  }
+  if (info.copii) return { loc: 'copii', path: '/scoala', cta: 'Deschide Scoala',
+    txt: 'Gatesti cu copiii? Cat se face, ei pot exersa tabla inmultirii. Fara reclame, fara cont. Panda verifica rezultatele. Panda a picat la 7×8.' };
+  if (info.grup) return { loc: 'invitati', path: '/jocuri', cta: 'Vezi jocurile de grup',
+    txt: 'Ai invitati? Mancarea e partea usoara. Dupa masa vine partea grea: conversatia. Panda recomanda jocuri de grup, se aleg dupa cati sunteti.' };
+  return null;
+}
+
+// P1: jocul potrivit cu asteptarea (praguri 20 / 30 / 60 de minute)
+function _cejucamJoc(info) {
+  var n = info.asteptareMin, ce = info.ce, t = _fmtAsteptare(n);
+  if (n >= 60 && ce === 'dospire') return { path: '/live', cta: 'Porneste un Quiz Live',
+    txt: 'Aluatul creste ' + t.toLowerCase() + '. Voi, intre timp, puteti face un Quiz Live pe TV, telefoanele sunt butoanele. Panda a incercat sa mimeze "framant aluat". Toata lumea a ghicit "panda suparat".' };
+  if (n >= 60) return { path: '/live', cta: 'Porneste un Quiz Live',
+    txt: t + ' la ' + ce + '. Panda a stat 40 de minute langa usa ' + ce + 'ului. Nu face ca Panda: porniti un Quiz Live pe televizor, telefoanele sunt butoanele.' };
+  if (n >= 30) return { path: '/seara', cta: 'Porneste o seara de jocuri',
+    txt: t + ' de asteptat. Destul pentru o seara de jocuri: 3-4 jocuri la rand, aceleasi echipe, punctele se aduna. Panda tine scorul. Si trisheaza.' };
+  if (ce === 'congelator') return { path: '/jocuri/mima', cta: 'Joaca Mima',
+    txt: t + ' la congelator. Aluatul se raceste, voi va incalziti: o runda de Mima. Fara recuzita, doar demnitate pierduta.' };
+  return { path: '/jocuri/cuvant-interzis', cta: 'Joaca Cuvant interzis',
+    txt: t + ' in cuptor. Poti sa te uiti la cuptor. Sau poti juca doua runde de Cuvant interzis. Panda a ales a doua. Cuptorul nu s-a suparat.' };
+}
+
+// Un singur card pe reteta, dupa pasi. Retetele din Firestore vin cu data-asteptare (din cuptor.timp).
+function _addCejucamCard(modal, cbId) {
+  if (_cejucamHidden()) return;
+  var info = RETETE_PROMO[cbId.replace(/^cb-/, '')]
+    || (modal.dataset.asteptare ? { asteptareMin: Number(modal.dataset.asteptare), ce: 'cuptor' } : null);
+  var offer = info && _cejucamOffer(info);
+  var steps = modal.querySelector('.slist');
+  if (!offer || !steps) return;
+  var card = document.createElement('aside');
+  card.className = 'cj-card';
+  card.innerHTML =
+    '<div class="cj-tag">Din aceeasi familie · Ce jucam azi?</div>' +
+    '<div class="ssarc">' + offer.txt + '</div>' +
+    '<div class="cj-acts">' +
+      '<a class="cj-btn" href="' + _cejucamUrl(offer.path, offer.loc) + '" target="_blank" rel="noopener" data-cejucam="' + offer.loc + '">' + offer.cta + '</a>' +
+      '<button type="button" class="cj-hide" onclick="hideCejucam()">Ascunde 30 de zile</button>' +
+    '</div>' +
+    (offer.alt ? '<p class="cj-alt">' + offer.alt + '</p>' : '');
+  steps.closest('.rsec').after(card);
+}
+
+window.hideCejucam = function() {
+  try { localStorage.setItem(CEJUCAM_HIDE_KEY, String(Date.now() + 30 * 24 * 3600 * 1000)); } catch(e) {}
+  document.querySelectorAll('.cj-card').forEach(function(c) { c.remove(); });
+};
+
+// Click-urile spre CeJucam se numara in GA doar daca vizitatorul a acceptat cookie-urile
+document.addEventListener('click', function(e) {
+  var a = e.target.closest && e.target.closest('a[data-cejucam]');
+  if (!a) return;
+  var ok = false;
+  try { ok = localStorage.getItem('cookieConsent') === 'yes'; } catch(err) {}
+  if (ok && typeof gtag === 'function') gtag('event', 'cejucam_click', { loc: a.dataset.cejucam });
+});
+
 // ── Deschide modal din URL hash la page load ──
 (function() {
   var h = window.location.hash;
   if (h && h.startsWith('#cb-')) {
     var cb = document.getElementById(h.slice(1));
-    if (cb) { cb.checked = true; }
+    // Fara click nu vine evenimentul "change", deci adaugam aici timerele, portiile si cardul
+    if (cb) { cb.checked = true; _enhanceModal('m-' + h.slice(4), h.slice(1)); }
   }
 })();
 
@@ -7522,6 +7646,9 @@ function _enhanceModal(modalId, cbId) {
     actions.appendChild(printBtn);
     mhead.appendChild(actions);
   }
+
+  // 4 — Sprint CeJucam: un joc pe masura asteptarii
+  _addCejucamCard(modal, cbId);
 }
 
 // ── Creeaza o scale bar si returneaza elementul ──

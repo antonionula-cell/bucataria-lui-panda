@@ -25,5 +25,6 @@ Aici stau toate sprinturile proiectului, ca sa putem lucra si de pe telefon (Cla
 | [sprint-seo-retete.md](sprint-seo-retete.md) | Poze retete, date pentru Google, pagini separate | deschis |
 | [sprint-promo-1.md](sprint-promo-1.md) | Product Hunt + Facebook Ads | neinceput |
 | [sprint-promo-2.md](sprint-promo-2.md) | Afiliere 2Performant | neinceput |
+| [sprint-cejucam.md](sprint-cejucam.md) | Promovare incrucisata cu cejucamazi.ro (jocuri cat se coace) | gata, in productie din 2026-11-13 |
 
 Planificat, de definit cand ajungem la el: **Sprint Plata Netopia**.

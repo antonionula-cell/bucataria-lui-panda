@@ -5,6 +5,42 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-13 19:02 — Sprint CeJucam P2: „Ai invitati la masa?” (sprint terminat pe branch)
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: la retetele de grup (8+ portii) fara card P1 sau P3 (muffin cups ×2, bagels, churros), cardul cu textul pentru invitati si butonul „Vezi jocurile de grup” → `cejucamazi.ro/jocuri?...utm_campaign=invitati`. Cu asta, toate cele patru parti din brief sunt facute. Verificat local: fiecare dintre cele 22 de retete arata exact cardul din tabelul de sprint (zabaglione niciunul), iar retetele din Firestore pastreaza cardul dupa timpul de cuptor. `sw.js` CACHE `panda-v24`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-13 19:03, live)
+
+## 2026-11-13 19:01 — Sprint CeJucam P3: „Gatesti cu copiii?”
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: la retetele cu `copii: true` care nu au deja cardul P1 (biscuiti cu Nutella, turtite, poffertjes, clatite pufoase, nalangate, clatite cu zmeura), acelasi card, cu textul pentru parinti si butonul „Deschide Scoala” → `cejucamazi.ro/scoala?...utm_campaign=copii`. Alegerea cardului e acum intr-o singura functie (`_cejucamOffer`: P1 > P3), unde se adauga si P2. Verificat local: toate cele 22 de retete arata cardul din sprint, churros nu are nimic; 375px. `sw.js` CACHE `panda-v23`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-13 19:03, live)
+
+## 2026-11-13 18:59 — Sprint CeJucam P1: „Cat se coace, jucati ceva”
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: `RETETE_PROMO` (cele 22 de retete: asteptare, grup, copii) si un card dupa pasi, adaugat de `_enhanceModal` la prima deschidere, doar la asteptare ≥ 20 min: 20–29 min Cuvant interzis (Mima la congelator), 30–59 Seara de jocuri, 60+ Quiz Live; sub el, Trivia rapida pentru 2. Retetele din Firestore folosesc `cuptor.timp` (`data-asteptare` pe fereastra). „Ascunde 30 de zile” (localStorage `cejucamHiddenUntil`). Click-urile spre CeJucam (card + subsol) trimit `cejucam_click` {loc} in GA doar cu „Accept” la cookie-uri. Reparat pe drum: reteta deschisa direct din link (`#cb-...`) nu primea timerele, portiile si butoanele de share; acum le primeste, plus cardul. Verificat local: cele 10 retete cu asteptare arata jocul din sprint, celelalte 12 nimic; link direct, Ascunde, GA cu si fara consimtamant, 375px. `sw.js` CACHE `panda-v22`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-13 19:03, live)
+
+## 2026-11-13 18:56 — Sprint CeJucam P4: „Din aceeasi familie” in subsol
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: in subsol, sub randul cu „Proiect personal”, un rand nou: „Din aceeasi familie: Ce jucam azi? — jocuri de grup, Live pe TV si Scoala pentru copii.”, cu link spre `https://cejucamazi.ro/?utm_source=bucatarialuipanda&utm_medium=promo&utm_campaign=footer` (tab nou, `rel="noopener"`). Politica de confidentialitate, sectiunea 4: fraza despre linkurile spre cejucamazi.ro (doar parametri utm, fara date personale); data actualizarii 13 noiembrie 2026. Verificat local pe 375px (incape, nu iese din ecran) si pe desktop. `sw.js` CACHE `panda-v21`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-13 19:03, live)
+
+## 2026-11-13 18:27 — Sprint CeJucam planificat (fara cod)
+- Cine: Claude (laptop), la cererea lui Antonio, din brief-ul proiectului CeJucam
+- Branch: `sprint-cejucam`
+- Ce s-a facut: `SPRINTS/sprint-cejucam.md`: cele 22 de retete inventariate (timp de asteptare, cuptor, portii, grup, copii) si cardul CeJucam ales pentru fiecare; textele finale in vocea lui Panda (P1–P4 + fraza din Politica); sarcinile in ordinea P4 → P1 → P3 → P2. Verificat pe site-ul live ca `/?utm_...#cb-nt-mousse` deschide reteta. Raspunsul pentru CeJucam (timpi, ingrediente, mascota, 10 replici) e in `4Fun/Office Games/docs/panda-raspuns-pentru-cejucam.md`, in afara repo-ului.
+- Gasite pe drum (notate in sprint): timpi gresiti pe card la `nt-molnarka` si `nt-topfen`, retete duble `muffins`/`pbmuffins`, numarul de cookies, linkurile `#cb-dyn-...` care nu deschid reteta.
+- Fisiere: `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-13 19:03, live)
+
 ## 2026-10-22 17:29 — Regulile Firestore noi publicate
 - Cine: Antonio (consola Firebase); Claude (laptop) a verificat
 - Ce s-a facut: `firestore.rules` din repo publicat in Firebase (ruleset `2c091eed-21c4-405c-ad58-1fe6209b39a9`, 2026-10-22 17:28). Verificat prin API (doar citire): regulile live sunt identice cu cele din repo.
