@@ -5,6 +5,14 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-13 18:27 — Sprint CeJucam planificat (fara cod)
+- Cine: Claude (laptop), la cererea lui Antonio, din brief-ul proiectului CeJucam
+- Branch: `sprint-cejucam`
+- Ce s-a facut: `SPRINTS/sprint-cejucam.md`: cele 22 de retete inventariate (timp de asteptare, cuptor, portii, grup, copii) si cardul CeJucam ales pentru fiecare; textele finale in vocea lui Panda (P1–P4 + fraza din Politica); sarcinile in ordinea P4 → P1 → P3 → P2. Verificat pe site-ul live ca `/?utm_...#cb-nt-mousse` deschide reteta. Raspunsul pentru CeJucam (timpi, ingrediente, mascota, 10 replici) e in `4Fun/Office Games/docs/panda-raspuns-pentru-cejucam.md`, in afara repo-ului.
+- Gasite pe drum (notate in sprint): timpi gresiti pe card la `nt-molnarka` si `nt-topfen`, retete duble `muffins`/`pbmuffins`, numarul de cookies, linkurile `#cb-dyn-...` care nu deschid reteta.
+- Fisiere: `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-10-22 17:29 — Regulile Firestore noi publicate
 - Cine: Antonio (consola Firebase); Claude (laptop) a verificat
 - Ce s-a facut: `firestore.rules` din repo publicat in Firebase (ruleset `2c091eed-21c4-405c-ad58-1fe6209b39a9`, 2026-10-22 17:28). Verificat prin API (doar citire): regulile live sunt identice cu cele din repo.
