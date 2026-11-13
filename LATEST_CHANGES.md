@@ -10,7 +10,7 @@ Format:
 - Branch: `cejucam-ilustratie`
 - Ce s-a facut: cardul CeJucam (P1, P2, P3) are acum un desen SVG facut de mana, inline (fara fisiere sau linkuri externe, ~7 KB): panda bucatar se joaca pe telefon, linistit, in timp ce oala da in foc, cuptorul coace, mixerul stropeste, punga de faina e rasturnata, un ou e spart pe jos, ceasul suna si zboara carti de joc. Culorile sunt tokenii site-ului. Aburul, bulele, ceasul si stropii se misca discret; miscarea se opreste la `prefers-reduced-motion`. Desktop: desenul in stanga (250px); telefon (sub 640px): deasupra textului, pe toata latimea. Verificat local pe desktop si 375px. `sw.js` CACHE `panda-v25`.
 - Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `LATEST_CHANGES.md`
-- Stare: pe branch, nu e in `main`
+- Stare: in `main` (merge 2026-11-13 19:14, live)
 
 ## 2026-11-13 19:02 — Sprint CeJucam P2: „Ai invitati la masa?” (sprint terminat pe branch)
 - Cine: Claude (laptop), la cererea lui Antonio
