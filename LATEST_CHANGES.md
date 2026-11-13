@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-13 18:56 — Sprint CeJucam P4: „Din aceeasi familie” in subsol
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: in subsol, sub randul cu „Proiect personal”, un rand nou: „Din aceeasi familie: Ce jucam azi? — jocuri de grup, Live pe TV si Scoala pentru copii.”, cu link spre `https://cejucamazi.ro/?utm_source=bucatarialuipanda&utm_medium=promo&utm_campaign=footer` (tab nou, `rel="noopener"`). Politica de confidentialitate, sectiunea 4: fraza despre linkurile spre cejucamazi.ro (doar parametri utm, fara date personale); data actualizarii 13 noiembrie 2026. Verificat local pe 375px (incape, nu iese din ecran) si pe desktop. `sw.js` CACHE `panda-v21`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-11-13 18:27 — Sprint CeJucam planificat (fara cod)
 - Cine: Claude (laptop), la cererea lui Antonio, din brief-ul proiectului CeJucam
 - Branch: `sprint-cejucam`
