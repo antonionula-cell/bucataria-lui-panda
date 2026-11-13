@@ -60,7 +60,7 @@ Pentru retetele din Firestore: `asteptareMin` se ia din `cuptor.timp` (primul nu
 
 | Asteptare | Text | Link |
 |---|---|---|
-| 20–29 min, cuptor | „{N} minute in cuptor. Poti sa te uiti la cuptor. Sau poti juca doua runde de Cuvant interzis. Panda a ales a doua. Cuptorul nu s-a suparat.” | `/jocuri/cuvant-interzis` |
+| 20–29 min, cuptor | „{N} minute in cuptor. Poti sa te uiti la cuptor. Sau poti ghici cuvinte ascunse: 14 definitii, 4 minute runda, merge si singur. Panda a cerut trei litere la «bambus». Cuptorul n-a comentat.” (schimbat pe 2026-11-13 din Cuvant interzis, la cererea lui Antonio) | `/solo/cuvantul-ascuns` |
 | 20–29 min, congelator | „20 de minute la congelator. Aluatul se raceste, voi va incalziti: o runda de Mima. Fara recuzita, doar demnitate pierduta.” | `/jocuri/mima` |
 | 30–59 min | „{N} minute de asteptat. Destul pentru o seara de jocuri: 3–4 jocuri la rand, aceleasi echipe, punctele se aduna. Panda tine scorul. Si trisheaza.” | `/seara` |
 | 60+ min, frigider | „{N} la frigider. Panda a stat 40 de minute langa usa frigiderului. Nu face ca Panda: porniti un Quiz Live pe televizor, telefoanele sunt butoanele.” | `/live` |
