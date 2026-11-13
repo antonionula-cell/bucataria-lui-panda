@@ -10,7 +10,7 @@ Format:
 - Branch: `cejucam-cautare`
 - Ce s-a facut: intre cautarea AI (si lista de retete) si citatul lui Panda, o banda mare in stilul cardurilor CeJucam: desenul cu panda in bucataria varza, titlu, text in balonul lui Panda si linkuri spre `/jocuri`, `/solo/cuvantul-ascuns` si `/live` (`utm_campaign=pauze`, numarate in GA doar cu consimtamant). „Ascunde 30 de zile” o ascunde impreuna cu cardurile din retete. Apare sub ambele tab-uri. Verificat local pe desktop si 375px. `sw.js` CACHE `panda-v27`.
 - Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `LATEST_CHANGES.md`
-- Stare: pe branch, nu e in `main`
+- Stare: in `main` (merge 2026-11-13 19:21, live)
 
 ## 2026-11-13 19:17 — Card CeJucam: Cuvantul ascuns in loc de Cuvant interzis
 - Cine: Claude (laptop), la cererea lui Antonio
