@@ -7496,7 +7496,7 @@ function _fmtAsteptare(min) {
   return h === 1 ? 'O ora' : h + ' ore';
 }
 
-// Ce card primeste reteta: P1 (asteptare) > P3 (copii); null = niciunul
+// Ce card primeste reteta: P1 (asteptare) > P3 (copii) > P2 (invitati); null = niciunul
 function _cejucamOffer(info) {
   if (info.asteptareMin >= 20) {
     var joc = _cejucamJoc(info);
@@ -7506,6 +7506,8 @@ function _cejucamOffer(info) {
   }
   if (info.copii) return { loc: 'copii', path: '/scoala', cta: 'Deschide Scoala',
     txt: 'Gatesti cu copiii? Cat se face, ei pot exersa tabla inmultirii. Fara reclame, fara cont. Panda verifica rezultatele. Panda a picat la 7×8.' };
+  if (info.grup) return { loc: 'invitati', path: '/jocuri', cta: 'Vezi jocurile de grup',
+    txt: 'Ai invitati? Mancarea e partea usoara. Dupa masa vine partea grea: conversatia. Panda recomanda jocuri de grup, se aleg dupa cati sunteti.' };
   return null;
 }
 

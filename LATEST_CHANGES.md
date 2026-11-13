@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-13 19:02 — Sprint CeJucam P2: „Ai invitati la masa?” (sprint terminat pe branch)
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: la retetele de grup (8+ portii) fara card P1 sau P3 (muffin cups ×2, bagels, churros), cardul cu textul pentru invitati si butonul „Vezi jocurile de grup” → `cejucamazi.ro/jocuri?...utm_campaign=invitati`. Cu asta, toate cele patru parti din brief sunt facute. Verificat local: fiecare dintre cele 22 de retete arata exact cardul din tabelul de sprint (zabaglione niciunul), iar retetele din Firestore pastreaza cardul dupa timpul de cuptor. `sw.js` CACHE `panda-v24`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-11-13 19:01 — Sprint CeJucam P3: „Gatesti cu copiii?”
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `sprint-cejucam`
