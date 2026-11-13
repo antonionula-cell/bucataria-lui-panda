@@ -1572,7 +1572,25 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 .scale-btn.on { background:var(--bam); color:var(--cream); }
 .scale-btn:hover:not(.on) { background:var(--paper); }
 
-.cj-card { background: var(--cream); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 16px 18px; margin: 4px 0 22px; }
+.cj-card { background: var(--cream); border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); padding: 16px 18px; margin: 4px 0 22px; display: flex; align-items: center; gap: 20px; }
+.cj-art { flex: 0 0 250px; border: 2px solid var(--ink); line-height: 0; }
+.cj-art svg { display: block; width: 100%; height: auto; }
+.cj-body { flex: 1; min-width: 0; }
+@media (max-width: 640px) {
+  .cj-card { flex-direction: column; align-items: stretch; gap: 14px; }
+  .cj-art { flex-basis: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cj-steam { animation: cjSteam 2.4s ease-in-out infinite; }
+  .cj-boil circle { animation: cjBoil 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .cj-boil circle:nth-child(2n) { animation-delay: .4s; }
+  .cj-boil circle:nth-child(3n) { animation-delay: .8s; }
+  .cj-ring, .cj-joy, .cj-splat { animation: cjBlink 1s steps(2, jump-none) infinite; }
+  .cj-splat { animation-duration: 1.6s; }
+}
+@keyframes cjSteam { 50% { transform: translateY(-3px); opacity: .55; } }
+@keyframes cjBoil { 50% { transform: scale(1.15); } }
+@keyframes cjBlink { 50% { opacity: 0; } }
 .cj-tag { font-size: 11px; font-weight: 800; font-stretch: 75%; letter-spacing: .14em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
 .cj-card .ssarc { margin: 0 0 12px; }
 .cj-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
@@ -7481,6 +7499,8 @@ var RETETE_PROMO = {
   'trokuti':       { asteptareMin: 120, ce: 'frigider',   grup: true, copii: true }
 };
 var CEJUCAM_HIDE_KEY = 'cejucamHiddenUntil';
+// Panda se joaca pe telefon in timp ce bucataria arde (desenat de mana, fara fisiere externe)
+var CEJUCAM_ART = '<svg class="cj-svg" viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Panda bucatar se joaca pe telefon, in timp ce oala da in foc, cuptorul coace si mixerul stropeste peste tot"><rect width="240" height="200" fill="#F1E4CB"/><path d="M0 40h240M0 80h240" stroke="#E3D2B0" stroke-width="1.5"/><rect y="170" width="240" height="30" fill="#D9C39A"/><path d="M0 170h240" stroke="#1F160E" stroke-width="2.5"/><path d="M40 170v30M100 170v30M160 170v30M220 170v30" stroke="#C9B084" stroke-width="1.5"/><circle cx="200" cy="30" r="13" fill="#FBF4E4" stroke="#1F160E" stroke-width="2.5"/><path d="M200 30v-8M200 30l6 4" stroke="#1F160E" stroke-width="2" stroke-linecap="round"/><path class="cj-ring" d="M180 18l-5-4M182 30h-6M220 18l5-4M218 30h6" stroke="#8C2A14" stroke-width="2" stroke-linecap="round"/><rect x="10" y="96" width="80" height="74" fill="#FBF4E4" stroke="#1F160E" stroke-width="2.5"/><rect x="7" y="90" width="86" height="7" fill="#1F160E"/><circle cx="24" cy="106" r="3.5" fill="#FBF4E4" stroke="#1F160E" stroke-width="2"/><circle cx="36" cy="106" r="3.5" fill="#FBF4E4" stroke="#1F160E" stroke-width="2"/><circle cx="48" cy="106" r="3.5" fill="#FBF4E4" stroke="#1F160E" stroke-width="2"/><rect x="58" y="102" width="24" height="8" fill="#C9A46A" stroke="#1F160E" stroke-width="1.5"/><rect x="20" y="118" width="60" height="40" fill="#C9A46A" stroke="#1F160E" stroke-width="2.5"/><rect x="24" y="122" width="52" height="32" fill="#E8B44C" opacity=".55"/><path d="M30 146q4-14 20-14t20 14z" fill="#4F3422" stroke="#1F160E" stroke-width="2"/><path d="M27 147h46" stroke="#1F160E" stroke-width="2.5"/><path d="M38 138l3-3M50 136v-4M61 138l-3-3" stroke="#8C2A14" stroke-width="1.6" stroke-linecap="round"/><path d="M28 90l4-9 4 9M42 90l4-10 4 10M56 90l4-9 4 9M68 90l4-8 4 8" fill="#E8B44C" stroke="#8C2A14" stroke-width="1.5" stroke-linejoin="round"/><g transform="translate(0,-7)"><rect x="16" y="66" width="6" height="6" fill="#1F160E"/><rect x="78" y="66" width="6" height="6" fill="#1F160E"/><rect x="22" y="60" width="56" height="28" fill="#8C2A14" stroke="#1F160E" stroke-width="2.5"/><rect x="19" y="56" width="62" height="6" fill="#8C2A14" stroke="#1F160E" stroke-width="2.5"/><path d="M25 62q3 10 0 16q-3 6 1 8" fill="none" stroke="#FBF4E4" stroke-width="4" stroke-linecap="round"/><path d="M73 62q-2 7 1 12" fill="none" stroke="#FBF4E4" stroke-width="4" stroke-linecap="round"/><g class="cj-boil" fill="#FBF4E4" stroke="#1F160E" stroke-width="2"><circle cx="30" cy="54" r="6"/><circle cx="43" cy="49" r="8"/><circle cx="57" cy="52" r="6"/><circle cx="69" cy="49" r="5"/></g><path class="cj-steam" d="M36 38q-5-6 0-12t0-12M52 36q-5-6 0-12t0-12M66 38q-5-6 0-12" fill="none" stroke="#1F160E" stroke-width="2" stroke-linecap="round"/></g><rect x="150" y="120" width="84" height="50" fill="#4F3422" stroke="#1F160E" stroke-width="2.5"/><path d="M192 128v34" stroke="#1F160E" stroke-width="2"/><circle cx="186" cy="145" r="2" fill="#C9A46A"/><circle cx="198" cy="145" r="2" fill="#C9A46A"/><rect x="145" y="113" width="94" height="8" fill="#C9A46A" stroke="#1F160E" stroke-width="2.5"/><ellipse cx="170" cy="112" rx="14" ry="3.5" fill="#FFFFFF"/><path d="M150 112l5-20 18 6-5 16z" fill="#FBF4E4" stroke="#1F160E" stroke-width="2" stroke-linejoin="round"/><path d="M155 100l12 4" stroke="#8C2A14" stroke-width="2"/><circle class="cj-puff" cx="178" cy="100" r="5" fill="#FFFFFF" stroke="#E3D2B0"/><circle class="cj-puff" cx="184" cy="92" r="3.5" fill="#FFFFFF" stroke="#E3D2B0"/><rect x="206" y="105" width="28" height="9" fill="#8C2A14" stroke="#1F160E" stroke-width="2"/><rect x="222" y="72" width="11" height="36" fill="#8C2A14" stroke="#1F160E" stroke-width="2"/><rect x="192" y="64" width="42" height="14" rx="5" fill="#8C2A14" stroke="#1F160E" stroke-width="2"/><path d="M206 78v14" stroke="#1F160E" stroke-width="2.5"/><path d="M193 92h28l-4 21h-20z" fill="#FBF4E4" stroke="#1F160E" stroke-width="2" stroke-linejoin="round"/><path d="M196 92q11 -6 22 0" fill="#4F3422"/><g class="cj-splat" fill="#4F3422"><circle cx="186" cy="84" r="2.5"/><circle cx="227" cy="86" r="2"/><circle cx="190" cy="74" r="1.6"/><circle cx="216" cy="84" r="1.8"/><circle cx="182" cy="94" r="1.6"/></g><ellipse cx="236" cy="108" rx="3.5" ry="4.5" fill="#FBF4E4" stroke="#1F160E" stroke-width="1.5"/><ellipse cx="160" cy="183" rx="9" ry="4" fill="#FFFFFF" stroke="#1F160E" stroke-width="1.5"/><circle cx="161" cy="182" r="3" fill="#E8B44C"/><path d="M170 178l4-3 2 4 3-3" fill="none" stroke="#1F160E" stroke-width="1.5"/><g transform="rotate(-14 128 46)"><rect x="118" y="32" width="20" height="28" fill="#FBF4E4" stroke="#1F160E" stroke-width="2"/><text x="128" y="52" text-anchor="middle" font-family="Alfa Slab One, serif" font-size="15" fill="#8C2A14">?</text></g><g transform="rotate(12 158 58)"><rect x="149" y="45" width="18" height="25" fill="#FBF4E4" stroke="#1F160E" stroke-width="2"/><text x="158" y="63" text-anchor="middle" font-family="Alfa Slab One, serif" font-size="14" fill="#4A5B30">!</text></g><ellipse cx="104" cy="171" rx="10" ry="7" fill="#1F160E"/><ellipse cx="136" cy="171" rx="10" ry="7" fill="#1F160E"/><ellipse cx="120" cy="148" rx="25" ry="24" fill="#FBF4E4" stroke="#1F160E" stroke-width="2.5"/><circle cx="101" cy="95" r="7" fill="#1F160E"/><circle cx="139" cy="95" r="7" fill="#1F160E"/><circle cx="120" cy="111" r="21" fill="#FBF4E4" stroke="#1F160E" stroke-width="2.5"/><ellipse cx="111" cy="112" rx="5" ry="6.5" transform="rotate(-25 111 112)" fill="#1F160E"/><ellipse cx="129" cy="112" rx="5" ry="6.5" transform="rotate(25 129 112)" fill="#1F160E"/><circle cx="112" cy="114" r="1.8" fill="#FBF4E4"/><circle cx="128" cy="114" r="1.8" fill="#FBF4E4"/><ellipse cx="120" cy="120" rx="3" ry="2" fill="#1F160E"/><path d="M115 124q5 4 10 0" fill="none" stroke="#1F160E" stroke-width="1.8" stroke-linecap="round"/><circle cx="106" cy="121" r="2.5" fill="#8C2A14" opacity=".3"/><circle cx="134" cy="121" r="2.5" fill="#8C2A14" opacity=".3"/><g fill="#FFFFFF" stroke="#1F160E" stroke-width="2"><circle cx="111" cy="80" r="8"/><circle cx="129" cy="80" r="8"/><circle cx="120" cy="74" r="10"/></g><rect x="107" y="83" width="26" height="9" fill="#FFFFFF" stroke="#1F160E" stroke-width="2"/><ellipse cx="103" cy="142" rx="6.5" ry="12" transform="rotate(-35 103 142)" fill="#1F160E"/><ellipse cx="137" cy="142" rx="6.5" ry="12" transform="rotate(35 137 142)" fill="#1F160E"/><rect x="110" y="132" width="20" height="28" rx="3" fill="#1F160E"/><rect x="112.5" y="135" width="15" height="21" fill="#C9A46A"/><rect x="115" y="138" width="10" height="7" fill="#8C2A14"/><rect x="115" y="147" width="10" height="2.5" fill="#FBF4E4"/><rect x="115" y="151" width="7" height="2.5" fill="#FBF4E4"/><path class="cj-joy" d="M96 128l-5-4M95 136h-6M144 128l5-4M145 136h6" stroke="#C9A46A" stroke-width="2" stroke-linecap="round"/><circle cx="110" cy="148" r="5.5" fill="#1F160E"/><circle cx="130" cy="148" r="5.5" fill="#1F160E"/></svg>';
 
 function _cejucamUrl(path, loc) {
   return 'https://cejucamazi.ro' + path + '?utm_source=bucatarialuipanda&utm_medium=promo&utm_campaign=' + loc;
@@ -7537,13 +7557,16 @@ function _addCejucamCard(modal, cbId) {
   var card = document.createElement('aside');
   card.className = 'cj-card';
   card.innerHTML =
+    '<div class="cj-art">' + CEJUCAM_ART + '</div>' +
+    '<div class="cj-body">' +
     '<div class="cj-tag">Din aceeasi familie · Ce jucam azi?</div>' +
     '<div class="ssarc">' + offer.txt + '</div>' +
     '<div class="cj-acts">' +
       '<a class="cj-btn" href="' + _cejucamUrl(offer.path, offer.loc) + '" target="_blank" rel="noopener" data-cejucam="' + offer.loc + '">' + offer.cta + '</a>' +
       '<button type="button" class="cj-hide" onclick="hideCejucam()">Ascunde 30 de zile</button>' +
     '</div>' +
-    (offer.alt ? '<p class="cj-alt">' + offer.alt + '</p>' : '');
+    (offer.alt ? '<p class="cj-alt">' + offer.alt + '</p>' : '') +
+    '</div>';
   steps.closest('.rsec').after(card);
 }
 
