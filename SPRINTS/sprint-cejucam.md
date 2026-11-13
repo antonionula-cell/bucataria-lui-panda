@@ -7,7 +7,7 @@ Pe Panda apar jocuri de pe https://cejucamazi.ro cat se coace sau se raceste man
 ## Reguli comune
 
 - Doar linkuri: niciun script, iframe sau imagine incarcata de pe cejucamazi.ro.
-- Linkuri cu `target="_blank" rel="noopener"` si `?utm_source=bucatarialuipanda&utm_medium=promo&utm_campaign=<loc>`, unde `<loc>` = `coace` / `invitati` / `copii` / `footer`.
+- Linkuri cu `target="_blank" rel="noopener"` si `?utm_source=bucatarialuipanda&utm_medium=promo&utm_campaign=<loc>`, unde `<loc>` = `coace` / `invitati` / `copii` / `footer` / `pauze` (banda de pe pagina principala, adaugata pe 2026-11-13).
 - **Un singur card CeJucam pe reteta.** Prioritate: P1 (asteptare) > P3 (copii) > P2 (invitati).
 - „Ascunde” pe card → ascuns 30 de zile pe dispozitiv (`localStorage`, cheie `cejucamHiddenUntil`), citit si scris in `try/catch`.
 - Click numarat in GA ca eveniment `cejucam_click` `{ loc }`, **doar cu consimtamant** (`gtag` exista doar dupa „Accept”). Nu trimitem nimic catre CeJucam.
