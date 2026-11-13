@@ -1597,6 +1597,11 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 .cj-btn { background: var(--ink); color: var(--cream); border: 2px solid var(--ink); padding: 9px 16px; font-size: 13px; font-weight: 800; font-stretch: 80%; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
 .cj-btn:hover { background: var(--red); border-color: var(--red); }
 .cj-hide { background: none; border: none; padding: 0; font-family: var(--f-body); font-size: 12px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cj-banner { margin: 50px 0 0; border-width: 3px; box-shadow: 6px 6px 0 var(--ink); padding: 22px 26px; gap: 26px; }
+.cj-banner .cj-art { flex-basis: 300px; }
+.cj-title { font-family: var(--f-disp); font-size: 26px; line-height: 1.15; color: var(--ink); margin: 0 0 12px; }
+.cj-link { font-size: 13px; font-weight: 700; color: var(--red); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) { .cj-banner { padding: 16px; } .cj-banner .cj-art { flex-basis: auto; } .cj-title { font-size: 22px; } }
 .cj-alt { font-size: 13px; color: var(--text-2); margin: 10px 0 0; }
 .cj-alt a { color: var(--red); font-weight: 700; }
 .timer-btn { display:inline-flex; align-items:center; gap:4px; background:var(--cream); border:2px solid var(--ink); color:var(--ink); padding:3px 11px; font-size:12px; font-weight:700; font-family:var(--f-body); cursor:pointer; margin-top:8px; transition:background .2s,border-color .2s; }
@@ -2121,6 +2126,22 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
 
 </div>
 <!-- ════ END TAB 2 ════ -->
+
+  <!-- CEJUCAM: pauzele din bucatarie (desenul se pune din JS, ca la cardurile din retete) -->
+  <aside class="cj-card cj-banner">
+    <div class="cj-art"></div>
+    <div class="cj-body">
+      <div class="cj-tag">Din aceeasi familie · Ce jucam azi?</div>
+      <h3 class="cj-title">Gatitul are pauze. Panda le umple.</h3>
+      <div class="ssarc">Cat creste aluatul, cat se coace, cat se raceste: Panda nu sta sa se uite la cuptor. Joaca. Singur pe telefon, cu familia pe TV sau cu toata gasca. Mancarea se face oricum.</div>
+      <div class="cj-acts">
+        <a class="cj-btn" href="https://cejucamazi.ro/jocuri?utm_source=bucatarialuipanda&amp;utm_medium=promo&amp;utm_campaign=pauze" target="_blank" rel="noopener" data-cejucam="pauze">Vezi jocurile</a>
+        <a class="cj-link" href="https://cejucamazi.ro/solo/cuvantul-ascuns?utm_source=bucatarialuipanda&amp;utm_medium=promo&amp;utm_campaign=pauze" target="_blank" rel="noopener" data-cejucam="pauze">Cuvantul ascuns, singur</a>
+        <a class="cj-link" href="https://cejucamazi.ro/live?utm_source=bucatarialuipanda&amp;utm_medium=promo&amp;utm_campaign=pauze" target="_blank" rel="noopener" data-cejucam="pauze">Quiz Live pe TV</a>
+      </div>
+      <button type="button" class="cj-hide" onclick="hideCejucam()" style="margin-top:12px">Ascunde 30 de zile</button>
+    </div>
+  </aside>
 
   <!-- PANDA QUOTE -->
   <div class="panda-quote">
@@ -7569,6 +7590,12 @@ function _addCejucamCard(modal, cbId) {
     '</div>';
   steps.closest('.rsec').after(card);
 }
+
+// Banda de pe pagina principala: desenul, sau dispare daca vizitatorul a ascuns CeJucam
+document.querySelectorAll('.cj-banner').forEach(function(b) {
+  if (_cejucamHidden()) b.remove();
+  else b.querySelector('.cj-art').innerHTML = CEJUCAM_ART;
+});
 
 window.hideCejucam = function() {
   try { localStorage.setItem(CEJUCAM_HIDE_KEY, String(Date.now() + 30 * 24 * 3600 * 1000)); } catch(e) {}
