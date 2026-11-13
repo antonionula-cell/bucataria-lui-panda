@@ -10,7 +10,7 @@ Format:
 - Branch: `cuvantul-ascuns`
 - Ce s-a facut: la retetele cu 20–29 de minute in cuptor (brownies, prajitura in cana, foitaj cu branza), cardul trimite acum la jocul solo „Cuvantul ascuns” (`cejucamazi.ro/solo/cuvantul-ascuns`, 14 definitii, 4 minute runda), cu text nou al lui Panda si butonul „Joaca Cuvantul ascuns”. Mima (cookies, congelator), Seara de jocuri si Quiz Live raman. Adresa luata din codul CeJucam (ruta `/solo/:id`); nu am putut deschide cejucamazi.ro de pe laptop (Zscaler). Verificat local: cele 3 retete au jocul nou, celelalte neschimbate. `sw.js` CACHE `panda-v26`.
 - Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `LATEST_CHANGES.md`
-- Stare: pe branch, nu e in `main`
+- Stare: in `main` (merge 2026-11-13 19:18, live)
 
 ## 2026-11-13 19:11 — Ilustratie pe cardul CeJucam: panda se joaca in bucataria varza
 - Cine: Claude (laptop), la cererea lui Antonio
