@@ -7496,6 +7496,19 @@ function _fmtAsteptare(min) {
   return h === 1 ? 'O ora' : h + ' ore';
 }
 
+// Ce card primeste reteta: P1 (asteptare) > P3 (copii); null = niciunul
+function _cejucamOffer(info) {
+  if (info.asteptareMin >= 20) {
+    var joc = _cejucamJoc(info);
+    joc.loc = 'coace';
+    joc.alt = 'Doar voi doi? <a href="' + _cejucamUrl('/jocuri/trivia-rapida', 'coace') + '" target="_blank" rel="noopener" data-cejucam="coace">Trivia rapida</a> merge si in 2.';
+    return joc;
+  }
+  if (info.copii) return { loc: 'copii', path: '/scoala', cta: 'Deschide Scoala',
+    txt: 'Gatesti cu copiii? Cat se face, ei pot exersa tabla inmultirii. Fara reclame, fara cont. Panda verifica rezultatele. Panda a picat la 7×8.' };
+  return null;
+}
+
 // P1: jocul potrivit cu asteptarea (praguri 20 / 30 / 60 de minute)
 function _cejucamJoc(info) {
   var n = info.asteptareMin, ce = info.ce, t = _fmtAsteptare(n);
@@ -7516,20 +7529,19 @@ function _addCejucamCard(modal, cbId) {
   if (_cejucamHidden()) return;
   var info = RETETE_PROMO[cbId.replace(/^cb-/, '')]
     || (modal.dataset.asteptare ? { asteptareMin: Number(modal.dataset.asteptare), ce: 'cuptor' } : null);
-  if (!info || !(info.asteptareMin >= 20)) return;
+  var offer = info && _cejucamOffer(info);
   var steps = modal.querySelector('.slist');
-  if (!steps) return;
-  var joc = _cejucamJoc(info);
+  if (!offer || !steps) return;
   var card = document.createElement('aside');
   card.className = 'cj-card';
   card.innerHTML =
     '<div class="cj-tag">Din aceeasi familie · Ce jucam azi?</div>' +
-    '<div class="ssarc">' + joc.txt + '</div>' +
+    '<div class="ssarc">' + offer.txt + '</div>' +
     '<div class="cj-acts">' +
-      '<a class="cj-btn" href="' + _cejucamUrl(joc.path, 'coace') + '" target="_blank" rel="noopener" data-cejucam="coace">' + joc.cta + '</a>' +
+      '<a class="cj-btn" href="' + _cejucamUrl(offer.path, offer.loc) + '" target="_blank" rel="noopener" data-cejucam="' + offer.loc + '">' + offer.cta + '</a>' +
       '<button type="button" class="cj-hide" onclick="hideCejucam()">Ascunde 30 de zile</button>' +
     '</div>' +
-    '<p class="cj-alt">Doar voi doi? <a href="' + _cejucamUrl('/jocuri/trivia-rapida', 'coace') + '" target="_blank" rel="noopener" data-cejucam="coace">Trivia rapida</a> merge si in 2.</p>';
+    (offer.alt ? '<p class="cj-alt">' + offer.alt + '</p>' : '');
   steps.closest('.rsec').after(card);
 }
 

@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-13 19:01 — Sprint CeJucam P3: „Gatesti cu copiii?”
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: la retetele cu `copii: true` care nu au deja cardul P1 (biscuiti cu Nutella, turtite, poffertjes, clatite pufoase, nalangate, clatite cu zmeura), acelasi card, cu textul pentru parinti si butonul „Deschide Scoala” → `cejucamazi.ro/scoala?...utm_campaign=copii`. Alegerea cardului e acum intr-o singura functie (`_cejucamOffer`: P1 > P3), unde se adauga si P2. Verificat local: toate cele 22 de retete arata cardul din sprint, churros nu are nimic; 375px. `sw.js` CACHE `panda-v23`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-11-13 18:59 — Sprint CeJucam P1: „Cat se coace, jucati ceva”
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `sprint-cejucam`

@@ -1,6 +1,6 @@
 # Sprint CeJucam — promovare incrucisata cu „Ce jucam azi?”
 
-Sursa: brief-ul scris din proiectul CeJucam pe 2026-11-13 (`4Fun/Office Games/docs/panda-brief-pentru-bucatarie.md`). Planificat pe 2026-11-13. P4 si P1 facute pe 2026-11-13; urmeaza P3 si P2.
+Sursa: brief-ul scris din proiectul CeJucam pe 2026-11-13 (`4Fun/Office Games/docs/panda-brief-pentru-bucatarie.md`). Planificat pe 2026-11-13. P4, P1 si P3 facute pe 2026-11-13; urmeaza P2.
 
 Pe Panda apar jocuri de pe https://cejucamazi.ro cat se coace sau se raceste mancarea. Pe CeJucam apar retete de la Panda intre runde. Acelasi autor, deci se spune deschis: eticheta „Din aceeasi familie”. **Panda ramane Panda**: textele sunt in vocea lui, discrete, fara ton de reclama.
 
@@ -83,7 +83,7 @@ Sub fiecare card P1, un rand mic: „Doar voi doi? Trivia rapida merge si in 2.�
 - [x] `RETETE_PROMO` cu datele din tabel, confirmate de Antonio.
 - [x] Componenta de card (o singura functie, apelata din `_enhanceModal` la prima deschidere a retetei), dupa sectiunea de pasi; functioneaza si pentru retetele din Firestore (`cuptor.timp`).
 - [x] **P1** card dupa timpul de asteptare (praguri 20 / 30 / 60), cu Trivia rapida ca varianta pentru putini.
-- [ ] **P3** rand pentru parinti, doar la `copii: true` fara P1.
+- [x] **P3** rand pentru parinti, doar la `copii: true` fara P1.
 - [ ] **P2** rand pentru invitati, doar la grup fara P1/P3.
 - [x] „Ascunde” 30 de zile (localStorage, `try/catch`).
 - [x] Eveniment GA `cejucam_click` `{ loc }`, doar cu consimtamant.
