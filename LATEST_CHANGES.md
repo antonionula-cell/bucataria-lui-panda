@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-13 18:59 — Sprint CeJucam P1: „Cat se coace, jucati ceva”
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-cejucam`
+- Ce s-a facut: `RETETE_PROMO` (cele 22 de retete: asteptare, grup, copii) si un card dupa pasi, adaugat de `_enhanceModal` la prima deschidere, doar la asteptare ≥ 20 min: 20–29 min Cuvant interzis (Mima la congelator), 30–59 Seara de jocuri, 60+ Quiz Live; sub el, Trivia rapida pentru 2. Retetele din Firestore folosesc `cuptor.timp` (`data-asteptare` pe fereastra). „Ascunde 30 de zile” (localStorage `cejucamHiddenUntil`). Click-urile spre CeJucam (card + subsol) trimit `cejucam_click` {loc} in GA doar cu „Accept” la cookie-uri. Reparat pe drum: reteta deschisa direct din link (`#cb-...`) nu primea timerele, portiile si butoanele de share; acum le primeste, plus cardul. Verificat local: cele 10 retete cu asteptare arata jocul din sprint, celelalte 12 nimic; link direct, Ascunde, GA cu si fara consimtamant, 375px. `sw.js` CACHE `panda-v22`.
+- Fisiere: `panda-site/index.html`, `panda-site/sw.js`, `SPRINTS/sprint-cejucam.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-11-13 18:56 — Sprint CeJucam P4: „Din aceeasi familie” in subsol
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `sprint-cejucam`
