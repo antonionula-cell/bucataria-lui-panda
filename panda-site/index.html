@@ -1258,6 +1258,7 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
   transition: background .15s, border-color .15s;
 }
 .tab-btn:hover { border-color: var(--line); }
+a.tab-btn { text-decoration: none; }
 .tab-btn.on { border-color: var(--ink); background: var(--cream); }
 .tab-btn:focus-visible { outline: 3px solid var(--bam); outline-offset: 2px; }
 .tab-short { display: none; }
@@ -1682,6 +1683,10 @@ td.egg-active { background: var(--bam-pale); border-radius: 0; cursor:pointer; t
       <span class="tab-text">Retetele lui Panda</span>
       <span class="tab-short">Retete</span>
     </button>
+    <a class="tab-btn" href="/fit">
+      <span class="tab-text">Panda Fit</span>
+      <span class="tab-short">Fit</span>
+    </a>
     <div style="flex:1"></div>
     <div class="auth-header-area" id="auth-header-area">
       <button class="auth-login-btn" onclick="openAuthModal('login')">Cont</button>
@@ -4563,6 +4568,15 @@ onAuthStateChanged(auth, async user => {
   updateAuthHeader(user);
 
   if (user) {
+    // Venit de pe /fit pentru login: dupa autentificare, inapoi acolo
+    let dupaLogin = null;
+    try { dupaLogin = sessionStorage.getItem('dupaLogin'); } catch(e) {}
+    if (dupaLogin && (user.emailVerified || user.providerData?.[0]?.providerId === 'google.com')) {
+      try { sessionStorage.removeItem('dupaLogin'); } catch(e) {}
+      await ensureUserDoc(user);
+      location.href = dupaLogin;
+      return;
+    }
     await ensureUserDoc(user);
     const snap = await getDoc(doc(db, 'users', user.uid));
     if (snap.exists()) {
@@ -5463,6 +5477,15 @@ function renderDynamicRecipe(r) {
     vc.textContent = n + (n === 1 ? ' reteta' : ' retete');
   }
 }
+
+// /?cont=fit (login) sau /?cont=fit-nou (cont nou): deschide fereastra de cont si tine minte intoarcerea la /fit
+(function() {
+  var cont = new URLSearchParams(location.search).get('cont');
+  if (cont !== 'fit' && cont !== 'fit-nou') return;
+  try { sessionStorage.setItem('dupaLogin', '/fit'); } catch(e) {}
+  history.replaceState(null, '', location.pathname + location.hash);
+  setTimeout(function() { openAuthModal(cont === 'fit-nou' ? 'register' : 'login'); }, 0);
+})();
 
 window.openAuthModal = function(tab) {
   document.getElementById('auth-modal').classList.add('open');
@@ -7614,6 +7637,9 @@ document.addEventListener('click', function(e) {
 // ── Deschide modal din URL hash la page load ──
 (function() {
   var h = window.location.hash;
+  // Linkuri din /fit: tab-ul de retete si Politica de confidentialitate
+  if (h === '#retete') switchTab('tab1', document.querySelector('.tab-btn[data-tab="tab1"]'));
+  if (h === '#confidentialitate') openLegalModal('privacy');
   if (h && h.startsWith('#cb-')) {
     var cb = document.getElementById(h.slice(1));
     // Fara click nu vine evenimentul "change", deci adaugam aici timerele, portiile si cardul

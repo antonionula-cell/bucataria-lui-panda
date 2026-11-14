@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Panda Fit — Bucataria lui Panda</title>
+<meta name="description" content="Panda Fit: afla de cate calorii, proteine si carbohidrati ai nevoie, tine-ti jurnalul si cere un plan alimentar de la Panda.">
+<link rel="canonical" href="https://bucatarialuipanda.ro/fit">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/fit/fit.css">
+</head>
+<body>
+
+<div class="label-strip">
+  <div class="strip-inner">
+    <span>Fabricat in Bucataria lui Panda</span>
+    <span>Panda Fit · nu e sfat medical</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <img class="hero-banner" src="/img/banner.webp" srcset="/img/banner-1000.jpg 1000w, /img/banner.webp 2000w" sizes="(max-width: 1100px) 100vw, 1100px" width="2000" height="424" decoding="async"
+      alt="Bucataria lui Panda: o panda bucatareasa cu funda rosie gusta din lingura, framanta aluat, mananca spaghete si strange o ciocolata.">
+  </div>
+</header>
+
+<nav class="tabs-bar" aria-label="Sectiuni">
+  <div class="tabs-inner">
+    <a class="tabs-brand" href="/"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" fill="#FBF6EC" stroke="#1E1A16" stroke-width="3"/><circle cx="11" cy="12" r="5" fill="#1E1A16"/><circle cx="29" cy="12" r="5" fill="#1E1A16"/><circle cx="20" cy="22" r="12" fill="#FBF6EC" stroke="#1E1A16" stroke-width="2.5"/><ellipse cx="15" cy="21" rx="3.2" ry="4.2" transform="rotate(-25 15 21)" fill="#1E1A16"/><ellipse cx="25" cy="21" rx="3.2" ry="4.2" transform="rotate(25 25 21)" fill="#1E1A16"/><ellipse cx="20" cy="27.5" rx="2.2" ry="1.5" fill="#1E1A16"/></svg><span>Bucataria lui Panda</span></a>
+    <a class="tab-btn" href="/"><span class="tab-text">Hai sa gatim cu ce avem</span><span class="tab-short">Gateste</span></a>
+    <a class="tab-btn" href="/#retete"><span class="tab-text">Retetele lui Panda</span><span class="tab-short">Retete</span></a>
+    <a class="tab-btn on" href="/fit" aria-current="page"><span class="tab-text">Panda Fit</span><span class="tab-short">Fit</span></a>
+    <div class="cont-area" id="cont-area">
+      <a class="btn btn-sm" href="/?cont=fit">Cont</a>
+    </div>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="fit-tag">Nou · Panda Fit</div>
+  <h1 class="fit-h1">Cat mananci, cat iti trebuie</h1>
+  <p class="fit-lead">Afla de cate calorii, proteine, carbohidrati si grasimi ai nevoie, tine-ti jurnalul si cere-i lui Panda un plan alimentar. Cifrele vin din formule si dintr-o baza de alimente, nu din imaginatia AI-ului.</p>
+  <div class="ssarc" id="panda-zilei"></div>
+
+  <!-- Calculatorul -->
+  <section class="card" id="calc">
+    <h2 class="card-h">Profilul tau</h2>
+    <p class="card-sub" id="calc-sub">Completeaza si apasa „Calculeaza”. Fara cont vezi doar caloriile.</p>
+    <div class="grid">
+      <div class="fld"><span class="lbl">Sex (pentru formula)</span>
+        <div class="tbtns" data-grup="sex"><button class="tbtn" data-v="f">Femeie</button><button class="tbtn" data-v="m">Barbat</button><button class="tbtn" data-v="x">Prefer sa nu spun</button></div>
+      </div>
+      <label class="fld"><span class="lbl">Varsta (ani)</span><input class="inp" id="varsta" type="number" inputmode="numeric" min="16" max="100"></label>
+      <label class="fld"><span class="lbl">Greutate (kg)</span><input class="inp" id="kg" type="text" inputmode="decimal" placeholder="ex: 72,5"></label>
+      <label class="fld"><span class="lbl">Inaltime (cm)</span><input class="inp" id="cm" type="number" inputmode="numeric" min="120" max="230"></label>
+      <label class="fld"><span class="lbl">Cat de activ esti</span><select class="inp" id="activitate"></select></label>
+      <div class="fld"><span class="lbl">Obiectiv</span>
+        <div class="tbtns" data-grup="obiectiv"><button class="tbtn" data-v="slabire">Slabire</button><button class="tbtn" data-v="mentinere">Mentinere</button><button class="tbtn" data-v="masa">Masa musculara</button></div>
+      </div>
+    </div>
+    <details class="more">
+      <summary>Restrictii si afectiuni (optional)</summary>
+      <div>
+        <div class="lbl">Ce nu mananci</div>
+        <div class="chks" id="restrictii">
+          <label class="chk"><input type="checkbox" value="vegetarian">Vegetarian</label>
+          <label class="chk"><input type="checkbox" value="post">De post (fara carne, lactate, oua)</label>
+          <label class="chk"><input type="checkbox" value="fara-lactoza">Fara lactate</label>
+          <label class="chk"><input type="checkbox" value="fara-gluten">Fara gluten</label>
+        </div>
+        <div class="lbl" style="margin-top:14px">Afectiuni (la acestea Panda nu face calcule si te trimite la medic)</div>
+        <div class="chks" id="afectiuni"></div>
+      </div>
+    </details>
+    <div class="acts"><button class="btn" id="btn-calc">Calculeaza</button><span class="err" id="calc-err"></span></div>
+
+    <div class="rez" id="rez" hidden>
+      <div class="tbtns" data-grup="mod" style="margin-bottom:16px">
+        <button class="tbtn on" data-v="normal">Zi normala</button><button class="tbtn" data-v="proteic">Azi vreau proteic</button><button class="tbtn" data-v="carboload">Carbo load</button>
+      </div>
+      <div class="kcal"><span id="r-kcal">0</span><small>kcal pe zi</small></div>
+      <div class="macros" id="r-macros">
+        <div class="mbox"><div class="mval"><span id="r-p">0</span> g</div><div class="mlbl">Proteine</div></div>
+        <div class="mbox"><div class="mval"><span id="r-c">0</span> g</div><div class="mlbl">Carbohidrati</div></div>
+        <div class="mbox"><div class="mval"><span id="r-g">0</span> g</div><div class="mlbl">Grasimi</div></div>
+      </div>
+      <p class="muted" id="r-detalii" style="margin-top:10px"></p>
+      <ul class="note" id="r-note"></ul>
+
+      <div class="teaser" id="teaser" hidden>
+        <b>Restul il vezi cu cont. Gratuit.</b>
+        Proteinele, carbohidratii si grasimile, jurnalul de mancare, greutatea in timp si planurile alimentare facute de Panda. Contul e gratuit; datele tale nu se vand si le stergi cand vrei.
+        <div class="acts"><a class="btn" href="/?cont=fit-nou">Fa-ti cont</a><a class="link" href="/?cont=fit">Am deja cont</a></div>
+      </div>
+
+      <div id="consimtamant" hidden>
+        <div class="teaser">
+          <b>Salvam profilul?</b>
+          Ca sa-ti tinem jurnalul, greutatea si planurile, pastram greutatea, inaltimea, varsta, sexul, obiectivul, restrictiile si afectiunile bifate. Sunt date despre sanatate, asa ca iti cerem acordul separat.
+          <label class="chk" style="margin-top:12px"><input type="checkbox" id="acord">Sunt de acord ca Bucataria lui Panda sa pastreze aceste date ca sa-mi calculeze necesarul, jurnalul si planurile. Le pot descarca sau sterge oricand din pagina asta.</label>
+          <div class="acts"><button class="btn" id="btn-salveaza">Salveaza profilul</button><span class="err" id="salv-err"></span></div>
+        </div>
+      </div>
+      <p class="ok" id="salvat" hidden>Profil salvat.</p>
+    </div>
+  </section>
+
+  <!-- Jurnalul -->
+  <section class="card" id="jurnal">
+    <h2 class="card-h">Jurnalul de azi</h2>
+    <p class="card-sub">Scrie ce ai mancat sau ce vei manca; Panda recunoaste alimentele, cifrele vin din baza de date.</p>
+    <p class="lock" data-lock>Jurnalul merge cu cont si profil salvat.</p>
+    <div data-unlock hidden>
+      <div class="row">
+        <label class="fld" style="max-width:190px"><span class="lbl">Ziua</span><input class="inp" id="j-zi" type="date"></label>
+        <div class="fld"><span class="lbl">Ce e</span><div class="tbtns" data-grup="tip"><button class="tbtn on" data-v="mancat">Am mancat</button><button class="tbtn" data-v="planificat">Voi manca</button></div></div>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <label class="fld"><span class="lbl">Scrie liber</span><input class="inp" id="j-text" maxlength="300" placeholder="ex: 2 oua, o felie de paine integrala, un iaurt grecesc"></label>
+        <button class="btn" id="btn-j-text">Adauga</button>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <label class="fld"><span class="lbl">Sau alege din lista</span><input class="inp" id="j-aliment" list="lista-alimente" placeholder="Cauta un aliment"></label>
+        <label class="fld" style="max-width:120px"><span class="lbl">Grame</span><input class="inp" id="j-grame" type="number" inputmode="numeric" min="1" max="3000"></label>
+        <button class="btn btn-2" id="btn-j-add">Adauga</button>
+      </div>
+      <datalist id="lista-alimente"></datalist>
+      <p class="err" id="j-err"></p>
+      <div class="bars" id="j-bars"></div>
+      <ul class="items" id="j-items"></ul>
+    </div>
+  </section>
+
+  <!-- Greutatea -->
+  <section class="card" id="greutate">
+    <h2 class="card-h">Greutatea in timp</h2>
+    <p class="card-sub">Cantareste-te dimineata, de 2–3 ori pe saptamana. Dupa 14 zile, Panda iti spune daca sa ajustezi caloriile.</p>
+    <p class="lock" data-lock>Graficul merge cu cont si profil salvat.</p>
+    <div data-unlock hidden>
+      <div class="row">
+        <label class="fld" style="max-width:160px"><span class="lbl">Azi (kg)</span><input class="inp" id="g-kg" type="text" inputmode="decimal"></label>
+        <button class="btn" id="btn-g">Salveaza</button>
+      </div>
+      <p class="err" id="g-err"></p>
+      <div id="g-chart"></div>
+      <p id="g-trend" style="margin-top:10px;font-size:15px"></p>
+    </div>
+  </section>
+
+  <!-- Planul AI -->
+  <section class="card" id="plan">
+    <h2 class="card-h">Plan alimentar de la Panda</h2>
+    <p class="card-sub">Ceri un plan pe 1 sau 3 zile pentru tintele tale. Panda il pregateste dupa ce il aproba adminul. Ai un numar limitat de planuri pe saptamana.</p>
+    <p class="lock" data-lock>Planurile merg cu cont si profil salvat.</p>
+    <div data-unlock hidden>
+      <div class="row">
+        <div class="fld"><span class="lbl">Tipul zilei</span><div class="tbtns" data-grup="p-mod"><button class="tbtn on" data-v="normal">Normal</button><button class="tbtn" data-v="proteic">Proteic</button><button class="tbtn" data-v="carboload">Carbo load</button></div></div>
+        <div class="fld"><span class="lbl">Cate zile</span><div class="tbtns" data-grup="p-zile"><button class="tbtn on" data-v="1">1 zi</button><button class="tbtn" data-v="3">3 zile</button></div></div>
+        <button class="btn" id="btn-plan">Cere planul</button>
+      </div>
+      <p class="err" id="p-err"></p>
+      <div id="p-lista"></div>
+    </div>
+  </section>
+
+  <!-- Admin -->
+  <section class="card" id="admin" hidden>
+    <h2 class="card-h">Admin: planuri cerute</h2>
+    <p class="card-sub">Aprobi si Panda il genereaza (pana la un minut). Limita implicita: 3 planuri in 7 zile.</p>
+    <div id="a-lista"></div>
+  </section>
+
+  <!-- Datele mele -->
+  <section class="card" id="date" hidden>
+    <h2 class="card-h">Datele tale</h2>
+    <p class="card-sub">Tot ce pastram in Panda Fit: profilul, jurnalul, greutatea si planurile.</p>
+    <div class="acts" style="margin-top:0"><button class="btn btn-2" id="btn-export">Descarca datele (JSON)</button><button class="link" id="btn-sterge">Sterge tot din Panda Fit (retrag acordul)</button></div>
+    <p class="err" id="d-err"></p>
+  </section>
+
+  <p class="disc">Panda Fit nu e sfat medical si nu inlocuieste un medic sau un nutritionist. Calculele folosesc formula Mifflin-St Jeor si valori medii ale alimentelor; rezultatele sunt aproximative. Daca esti insarcinata, alaptezi, ai diabet, o boala de rinichi sau o tulburare de alimentatie, vorbeste intai cu medicul.</p>
+</main>
+
+<footer class="foot">
+  <div class="in"><span>Bucataria lui Panda · Panda Fit</span><a href="/">Inapoi la retete</a><a href="/#confidentialitate">Politica de confidentialitate</a></div>
+</footer>
+
+<script type="module" src="/fit/app.js"></script>
+</body>
+</html>
