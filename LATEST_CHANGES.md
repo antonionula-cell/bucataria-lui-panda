@@ -5,10 +5,17 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-14 23:36 — Fix 2: API-urile Panda Fit merg in productie
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `fix-fit-api-2`
+- Ce s-a facut: un diagnostic temporar (`api/fit-diag.mjs`, sters acum) a aratat cauza reala: la build, Vercel transforma si `fit/*.js` (importate de functii) in CommonJS, dar `fit/package.json` (`"type": "module"`, pus pentru teste) ii spunea lui Node ca sunt module ES → „exports is not defined”. Scos `fit/package.json`, functiile readuse la `.js`, ca toate celelalte. Browserul incarca tot fisierele originale (module ES). Testele `tests/fit/` trec si fara el (Node detecteaza singur modulul).
+- Fisiere: `panda-site/api/fit-plan.js`, `panda-site/api/fit-jurnal.js`, `panda-site/fit/package.json` (sters), `panda-site/api/fit-diag.mjs` (sters), `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-14 23:36, live)
+
 ## 2026-11-14 23:31 — Fix: API-urile Panda Fit crapau in productie
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `fix-fit-api`
-- Ce s-a facut: dupa deploy, `/api/fit-plan` si `/api/fit-jurnal` dadeau 500 `FUNCTION_INVOCATION_FAILED` la orice cerere: sunt singurele functii care importa module ES din `fit/` (`core.js`, `alimente.js`), iar Vercel compileaza `api/*.js` in CommonJS. Redenumite in `.mjs`, ca Vercel sa le ruleze direct ca module ES (adresele raman aceleasi). Celelalte functii neatinse. Verificat local: ambele se incarca si raspund 401 fara login.
+- Ce s-a facut: dupa deploy, `/api/fit-plan` si `/api/fit-jurnal` dadeau 500 `FUNCTION_INVOCATION_FAILED` la orice cerere: sunt singurele functii care importa module ES din `fit/` (`core.js`, `alimente.js`), iar Vercel compileaza `api/*.js` in CommonJS. Redenumite in `.mjs`, ca Vercel sa le ruleze direct ca module ES (adresele raman aceleasi). Celelalte functii neatinse. Verificat local: ambele se incarca si raspund 401 fara login. **N-a rezolvat in productie** (vezi intrarea urmatoare).
 - Fisiere: `panda-site/api/fit-plan.mjs`, `panda-site/api/fit-jurnal.mjs`, `CLAUDE.md`, `LATEST_CHANGES.md`
 - Stare: in `main` (merge 2026-11-14 23:31, live)
 
