@@ -12,14 +12,14 @@ Format:
 - Netestat: tot ce cere cont (consimtamant, jurnal, greutate, planuri, admin) si cele doua API-uri, care merg doar pe Vercel cu un cont real. Verificat local: teaser-ul, calculul, tab-urile pe 375px, linkurile `#retete` si `/?cont=fit-nou`.
 - `firestore.rules` publicat de Antonio pe 2026-11-14 23:25 (ruleset `5188d641-e38a-472b-800f-9caf1a26d226`), verificat prin API: identic cu repo-ul. Merge si cu codul live: nu schimba nimic din ce foloseste site-ul. Rollback: ruleset-ul anterior din istoricul consolei.
 - Fisiere: `panda-site/fit/*`, `panda-site/api/fit-plan.js`, `panda-site/api/fit-jurnal.js`, `panda-site/api/delete-account.js`, `panda-site/index.html`, `panda-site/sw.js`, `panda-site/vercel.json`, `panda-site/sitemap.xml`, `firestore.rules`, `tests/fit/*`, `tests/firestore-rules/rules.test.mjs`, `SPRINTS/*`, `CLAUDE.md`, `LATEST_CHANGES.md`
-- Stare: pe branch, nu e in `main`
+- Stare: in `main` (merge 2026-11-14 23:28, live)
 
 ## 2026-11-14 18:04 — Sprint Nutritie planificat (fara cod)
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `sprint-nutritie`
 - Ce s-a facut: `SPRINTS/sprint-nutritie.md`: modulul „Panda Fit” (nume de lucru), cu plata. Functiile cerute (profil si necesar caloric, plan alimentar, „azi vreau proteic”, jurnal de macro, carbo load / protein load), 10 idei in plus (mod post, plan pe buget, lista de cumparaturi, gatit in avans etc.), limitele de siguranta, GDPR art. 9 pentru datele de sanatate, Gemini pe plan platit, baza de date cu alimente, cerintele pentru plata (PFA/SRL, ANPC, procesator), gratuit fata de Premium si 5 faze. Faza 0 = deciziile lui Antonio inainte de orice cod.
 - Fisiere: `SPRINTS/sprint-nutritie.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
-- Stare: pe branch, nu e in `main`
+- Stare: in `main` (merge 2026-11-14 23:28, live)
 
 ## 2026-11-13 19:21 — Banda CeJucam pe pagina principala: „Gatitul are pauze. Panda le umple.”
 - Cine: Claude (laptop), la cererea lui Antonio
