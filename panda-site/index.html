@@ -7307,7 +7307,7 @@ var LEGAL_CONTENT = {
   privacy: {
     tag: 'GDPR · Confidentialitate',
     title: 'Politica de Confidentialitate',
-    sub: 'Ultima actualizare: 13 noiembrie 2026',
+    sub: 'Ultima actualizare: 14 noiembrie 2026',
     body: `
       <div class="ssarc">Pe scurt: luam doar ce trebuie ca sa mearga site-ul, nu vindem nimic si nu facem reclame. Panda e lacom la bambus, nu la datele tale.</div>
 
@@ -7324,6 +7324,7 @@ var LEGAL_CONTENT = {
         <li><strong>Ce apare public</strong> — cand o reteta propusa de tine e publicata, pe ea apare numele tau de pe site, daca nu ai bifat "Publica anonim". Langa nume, in datele retetei, sta si ID-ul contului, ca sa putem scoate numele cand iti stergi contul. Emailul nu apare niciodata public.</li>
         <li><strong>Date tehnice</strong> — adresa IP si informatii despre browser, vazute de serverele care gazduiesc site-ul (Vercel), de verificarea anti-spam de la propuneri (Cloudflare Turnstile) si de limita de cautari AI (IP-ul sta in memoria serverului cel mult 15 minute).</li>
         <li><strong>Rapoarte de eroare</strong> — cand ceva se strica, administratorul primeste pe email locul erorii, mesajul tehnic, pagina, ora si ID-ul contului tau (nu emailul).</li>
+        <li><strong>Panda Fit (date despre sanatate)</strong> — doar daca intri in Panda Fit si iti dai acordul separat: greutatea, inaltimea, varsta, sexul, nivelul de activitate, obiectivul, restrictiile alimentare (ex. vegetarian, de post), afectiunile bifate, jurnalul de mancare, cantaririle si planurile alimentare cerute. Fara acord nu salvam nimic; calculatorul merge si fara salvare.</li>
         <li><strong>Statistici de trafic</strong> — paginile vizitate, durata vizitei, tipul de dispozitiv si orasul aproximativ, prin Google Analytics 4 (care nu pastreaza adresa IP), <em>doar daca apesi "Accept"</em> in bannerul de cookie-uri.</li>
       </ul>
       <p>Pozele adaugate la "Arata rezultatul" de pe retete raman doar in browserul tau si dispar la reincarcarea paginii. Nu le incarcam nicaieri.</p>
@@ -7333,13 +7334,15 @@ var LEGAL_CONTENT = {
         <li><strong>Ca sa-ti oferim serviciul cerut</strong> (art. 6(1)(b)) — contul, retetele salvate, cautarile AI, propunerile si emailurile de verificare, bun venit si resetare a parolei.</li>
         <li><strong>Interes legitim</strong> (art. 6(1)(f)) — securitatea site-ului, protectia anti-spam, limita de cautari AI, repararea erorilor si notificarea administratorului cand apare un cont sau o propunere noua.</li>
         <li><strong>Consimtamant</strong> (art. 6(1)(a)) — Google Analytics. Il poti retrage oricand.</li>
+        <li><strong>Consimtamant explicit</strong> (art. 9(2)(a)) — datele din Panda Fit, care sunt date despre sanatate (iar postul poate arata convingeri religioase). Il retragi oricand din pagina Panda Fit; atunci stergem profilul, jurnalul si cantaririle.</li>
       </ul>
+      <p>Datele din Panda Fit nu ajung in Google Analytics, in rapoartele de eroare sau in emailuri. Nici administratorul nu le vede in site; pentru un plan alimentar, adminul vede doar numele de pe site si tipul planului cerut.</p>
       <p>Nu facem profilare, nu luam decizii automate despre tine si nu folosim datele pentru reclame.</p>
 
       <h3>4. Cine mai vede datele</h3>
       <p>Folosim furnizori care prelucreaza datele doar pentru noi, pe baza unor contracte de prelucrare a datelor:</p>
       <ul>
-        <li><strong>Google</strong> — Firebase Auth si Firestore (conturi si continut), Gemini API (cautari AI), Google Analytics 4 (doar cu consimtamant)</li>
+        <li><strong>Google</strong> — Firebase Auth si Firestore (conturi si continut), Gemini API (cautari AI; in Panda Fit, textul scris in jurnal si tintele pentru plan, fara nume sau email), Google Analytics 4 (doar cu consimtamant)</li>
         <li><strong>Vercel</strong> — gazduirea site-ului si a functiilor de pe server</li>
         <li><strong>Cloudflare</strong> — Turnstile, verificarea anti-spam la propuneri</li>
         <li><strong>Resend</strong> — trimiterea emailurilor (verificare, bun venit, resetare parola, notificari catre administrator)</li>
@@ -7359,6 +7362,7 @@ var LEGAL_CONTENT = {
         <li><strong>Emailurile catre administrator</strong> (cont nou, propunere noua, erori) — cat sunt utile pentru rezolvarea lor, apoi se sterg.</li>
         <li><strong>Date tehnice</strong> — IP-ul pentru limita AI, cel mult 15 minute; jurnalele serverului, pe termen scurt, conform Vercel.</li>
         <li><strong>Google Analytics</strong> — 2 luni.</li>
+        <li><strong>Panda Fit</strong> — profilul, jurnalul si cantaririle pana le stergi din pagina Panda Fit sau iti stergi contul; planurile alimentare pana iti stergi contul.</li>
       </ul>
 
       <h3>7. Drepturile tale</h3>
@@ -7367,6 +7371,7 @@ var LEGAL_CONTENT = {
         <li><strong>Rectificare</strong> — corectam ce e gresit</li>
         <li><strong>Stergere</strong> — direct din profil ("Sterge contul meu permanent") sau pe email</li>
         <li><strong>Restrictionare</strong> si <strong>opozitie</strong> — fata de prelucrarile bazate pe interes legitim</li>
+        <li><strong>Panda Fit</strong> — descarci datele (JSON) sau le stergi direct din pagina Panda Fit</li>
         <li><strong>Retragerea consimtamantului</strong> pentru Analytics — din <button onclick="openCookieSettings();closeLegalModal();" style="background:none;border:none;color:var(--bam-dark);font-weight:700;cursor:pointer;text-decoration:underline;font-family:inherit;font-size:14px;padding:0">Setari cookie-uri</button></li>
       </ul>
       <p>Scrie la <a href="mailto:panda@bucatarialuipanda.ro">panda@bucatarialuipanda.ro</a>; raspundem in cel mult o luna. Poti depune plangere si la <strong>ANSPDCP</strong> (B-dul G-ral Gheorghe Magheru 28-30, Bucuresti, <a href="https://www.dataprotection.ro" target="_blank" rel="noopener">dataprotection.ro</a>).</p>
@@ -7391,7 +7396,7 @@ var LEGAL_CONTENT = {
   terms: {
     tag: 'Legal · Termeni',
     title: 'Termeni si Conditii',
-    sub: 'Ultima actualizare: 22 octombrie 2026',
+    sub: 'Ultima actualizare: 14 noiembrie 2026',
     body: `
       <h3>1. Despre site</h3>
       <p><strong>Bucataria lui Panda</strong> (bucatarialuipanda.ro) este un site personal de retete cu umor, necomercial si gratuit, facut de <strong>Antonio Nula</strong> (persoana fizica, Constanta, Romania).</p>
@@ -7427,22 +7432,30 @@ var LEGAL_CONTENT = {
       <h3>6. Alergeni, sanatate, calorii</h3>
       <p>Retetele nu sunt sfat medical sau nutritional. Caloriile sunt estimari. Verifica mereu etichetele produselor pentru alergeni si intreaba un medic sau nutritionist daca ai restrictii alimentare.</p>
 
-      <h3>7. Linkuri catre magazine si alte site-uri</h3>
+      <h3>7. Panda Fit</h3>
+      <ul>
+        <li>Panda Fit calculeaza un necesar caloric si de macronutrienti cu o formula standard (Mifflin-St Jeor) si valori medii ale alimentelor. Rezultatele sunt aproximative, cu scop informativ si de wellness; <strong>nu sunt sfat medical</strong> si nu inlocuiesc un medic sau un nutritionist</li>
+        <li>Nu facem calcule si planuri pentru sarcina, alaptare, diabet, boli de rinichi sau tulburari de alimentatie; nu facem deficit caloric sub 18 ani sau la IMC sub 18,5 si nu coboram sub un minim de calorii</li>
+        <li>Planurile alimentare sunt generate cu AI (Google Gemini) dupa aprobarea administratorului, iar cifrele lor sunt verificate de cod. Numarul de planuri pe saptamana e limitat si il poate schimba administratorul</li>
+        <li>Momentan Panda Fit e gratuit. Daca va deveni platit, anuntam inainte pe site; nimic nu se plateste fara acordul tau</li>
+      </ul>
+
+      <h3>8. Linkuri catre magazine si alte site-uri</h3>
       <p>Linkurile catre magazine (Freshful, Carrefour, Bringo si altele) sunt puse pentru comoditate. Preturile, stocul si comenzile tin de magazinul respectiv, nu de noi.</p>
 
-      <h3>8. Umorul</h3>
+      <h3>9. Umorul</h3>
       <p>Tonul sarcastic al lui Panda e pentru amuzament. Panda nu judeca pe nimeni; asa e el.</p>
 
-      <h3>9. Raspundere</h3>
+      <h3>10. Raspundere</h3>
       <p>Site-ul si retetele sunt oferite "ca atare", cu scop informativ si de divertisment. In limitele permise de lege, nu raspundem pentru rezultatele culinare, reactii alergice sau alte consecinte ale folosirii retetelor. Nimic din acesti termeni nu limiteaza drepturile pe care ti le da legea.</p>
 
-      <h3>10. Drepturi de autor</h3>
+      <h3>11. Drepturi de autor</h3>
       <p>Textele, comentariile lui Panda, ilustratiile si designul site-ului apartin autorului. Poti distribui linkuri catre retete oricat; copierea in masa a continutului nu e permisa fara acord.</p>
 
-      <h3>11. Modificari</h3>
+      <h3>12. Modificari</h3>
       <p>Putem actualiza termenii; data de sus arata ultima versiune. Schimbarile importante le anuntam pe site.</p>
 
-      <h3>12. Legea aplicabila</h3>
+      <h3>13. Legea aplicabila</h3>
       <p>Se aplica <strong>legea romana</strong>. Neintelegerile le rezolvam intai pe email; daca nu se poate, ajung la instantele competente potrivit legii.</p>
     `
   }

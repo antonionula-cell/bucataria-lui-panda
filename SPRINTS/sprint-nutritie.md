@@ -1,6 +1,8 @@
 # Sprint Nutritie — „Panda Fit” (nume de lucru), modul cu plata
 
-Analiza si plan din 2026-11-14. **Doar planificare, fara cod.** Nimic nu se implementeaza pana nu sunt luate deciziile din Faza 0.
+Analiza si plan din 2026-11-14. Tot ce nu tine de PFA si plati s-a facut pe 2026-11-14, pe branch-ul `sprint-nutritie` (vezi mai jos).
+
+**Decizii luate (2026-11-14):** pagina separata `/fit` care arata ca al treilea tab; totul cu cont, iar fara cont un teaser (doar caloriile, restul blurat, invitatie la cont); planul AI acum, gratuit, dar cu aprobarea adminului si limita pe user (implicit 3 planuri in 7 zile); sex M / F / prefer sa nu spun (media formulelor).
 
 Ideea: userul isi pune greutatea, inaltimea, varsta si obiectivul, iar Panda ii calculeaza necesarul, ii face un plan alimentar si il ajuta sa tina socoteala proteinelor si a carbohidratilor. Cu zile speciale („azi vreau proteic”, carbo load) si cu vocea lui Panda.
 
@@ -73,34 +75,42 @@ Ideea: userul isi pune greutatea, inaltimea, varsta si obiectivul, iar Panda ii 
 - [ ] Procesatorul de plati: Netopia sau Stripe
 - [ ] Pretul si ce ramane gratuit
 - [ ] Planul Gemini (gratuit / platit) verificat si, la nevoie, schimbat
-- [ ] Textul consimtamantului pentru date de sanatate
-- [ ] Termeni + Politica de confidentialitate pentru modul si abonament (de preferat verificate de un jurist)
+- [x] Textul consimtamantului pentru date de sanatate
+- [~] Termeni + Politica pentru modul facute (fara abonament); de verificat de un jurist inainte de plata
 
 ### Faza 1 — Gratuit: profil, calculator, valori pe retete
-- [ ] Colectia `health/{uid}` + reguli Firestore + teste
-- [ ] Ecran de consimtamant + profil (greutate, inaltime, varsta, sex, activitate, obiectiv)
-- [ ] Calculator: necesar caloric si macro (formula in cod, cu teste)
-- [ ] Limitele de siguranta in cod
+- [x] Colectia `health/{uid}` + reguli Firestore + teste
+- [x] Ecran de consimtamant + profil (greutate, inaltime, varsta, sex, activitate, obiectiv)
+- [x] Calculator: necesar caloric si macro (formula in cod, cu teste)
+- [x] Limitele de siguranta in cod
 - [ ] Valori nutritionale pe toate cele 22 de retete statice + recalcul la portii
-- [ ] Stergerea contului si exportul includ datele noi
+- [x] Stergerea contului si exportul includ datele noi
 
 ### Faza 2 — Jurnal
-- [ ] Baza de date cu alimente (USDA + ~300 alimente romanesti traduse)
-- [ ] Jurnal „mancat / planificat”, cu totaluri pe zi fata de tinta
-- [ ] Intrare in text liber (AI extrage alimentele, valorile din baza de date)
+- [~] Baza de date cu alimente: 140 de alimente uzuale (valori medii USDA / etichete), de extins spre ~300
+- [x] Jurnal „mancat / planificat”, cu totaluri pe zi fata de tinta
+- [x] Intrare in text liber (AI extrage alimentele, valorile din baza de date)
 - [ ] „Adauga in jurnal” din retete
 
 ### Faza 3 — Premium
 - [ ] Plata (sprint separat: Netopia/Stripe, webhook care pune `isPremium`, facturi)
-- [ ] Plan alimentar AI cu verificarea totalurilor in cod
-- [ ] Moduri: proteic, carbo load, post, buget
+- [x] Plan alimentar AI cu verificarea totalurilor in cod
+- [~] Moduri: proteic, carbo load si post (ca restrictie) facute; plan pe buget nu
 - [ ] Lista de cumparaturi cu linkuri Freshful / Carrefour
 - [ ] Gatit in avans
 
 ### Faza 4 — Progres
-- [ ] Graficul greutatii
-- [ ] Ajustarea automata a tintei
-- [ ] Mesajul zilnic al lui Panda
+- [x] Graficul greutatii
+- [x] Ajustarea automata a tintei
+- [x] Mesajul zilnic al lui Panda
+
+## Ramas dupa 2026-11-14
+
+- Valori nutritionale pe cele 22 de retete statice + „Adauga in jurnal” din reteta.
+- Baza de alimente extinsa (~300) si verificata.
+- Lista de cumparaturi, gatit in avans, plan pe buget, zi de antrenament.
+- Notificare pe email catre admin cand vine o cerere de plan (acum le vede doar in /fit).
+- Testat cap-coada pe preview cu un cont real: consimtamant, jurnal din text, greutate, cerere + aprobare plan, export, stergere.
 
 ## Intrebari deschise
 
