@@ -20,7 +20,8 @@ service cloud.firestore {
     }
 
     // Useri — fiecare isi citeste/scrie propriul doc, admin poate tot.
-    // Userul nu-si poate schimba rolul, Premium, emailul sau numele (numele trece prin /api/panda-name).
+    // Userul nu-si poate schimba rolul, Premium, emailul, numele (trece prin /api/panda-name)
+    // sau cate planuri Panda Fit are pe saptamana (il stabileste adminul).
     // aiSearches ramane scriabil pana se muta numaratoarea limitei AI pe server.
     match /users/{userId} {
       allow read: if isSelf(userId);
@@ -28,6 +29,7 @@ service cloud.firestore {
         && after('role', 'user') == before('role', 'user')
         && after('isPremium', false) == before('isPremium', false)
         && after('name', null) == before('name', null)
+        && after('fitPlanuri', null) == before('fitPlanuri', null)
         && after('email', request.auth.token.email) == request.auth.token.email;
       allow read, write: if isAdmin();
     }
@@ -63,6 +65,32 @@ service cloud.firestore {
         && after('type', null) == 'new_user'
         && after('email', null) == request.auth.token.email;
       allow read, write: if isAdmin();
+    }
+
+    // Panda Fit — date de sanatate (GDPR art. 9): doar proprietarul, nici adminul din browser.
+    // Profilul se salveaza doar cu consimtamantul explicit (versiunea textului + data).
+    match /health/{userId} {
+      allow read, delete: if isSelf(userId);
+      allow create, update: if isSelf(userId)
+        && request.resource.data.keys().hasOnly(['consimtamant', 'consimtamantLa', 'sex', 'kg', 'cm', 'varsta', 'activitate', 'obiectiv', 'afectiuni', 'restrictii', 'actualizatLa'])
+        && request.resource.data.consimtamant is string
+        && request.resource.data.consimtamantLa is string;
+
+      // Jurnalul pe zile (ID = AAAA-LL-ZZ) si cantaririle
+      match /jurnal/{zi} {
+        allow read, write: if isSelf(userId) && zi.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+      }
+      match /greutate/{zi} {
+        allow read, delete: if isSelf(userId);
+        allow create, update: if isSelf(userId) && zi.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+          && request.resource.data.keys().hasOnly(['kg'])
+          && request.resource.data.kg is number && request.resource.data.kg >= 30 && request.resource.data.kg <= 300;
+      }
+    }
+
+    // Planurile alimentare AI: le scrie doar serverul (/api/fit-plan); userul le vede pe ale lui, adminul pe toate
+    match /fitPlans/{docId} {
+      allow read: if isAdmin() || (request.auth != null && resource.data.uid == request.auth.uid);
     }
 
     // Contorul de instalari PWA — public, doar +1

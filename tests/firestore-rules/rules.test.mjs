@@ -9,6 +9,7 @@ const env = await initializeTestEnvironment({
 
 const U = ['u1', 'ana@x.ro'], O = ['u2', 'bob@x.ro'], A = ['adm', 'antonio.nula@gmail.com'];
 const base = { email: 'ana@x.ro', role: 'user', isPremium: false, name: 'Primul Panda Happy', createdAt: 't' };
+const sanatate = { consimtamant: 'v1', consimtamantLa: '2026-11-14T10:00:00Z', sex: 'm', kg: 80, cm: 180, varsta: 30, activitate: 'moderat', obiectiv: 'mentinere', afectiuni: [], restrictii: [], actualizatLa: 't' };
 const db = who => who ? env.authenticatedContext(who[0], { email: who[1] }).firestore() : env.unauthenticatedContext().firestore();
 
 // [eticheta, asteptare, cine, operatie, cale, date noi, date existente, alte documente existente]
@@ -55,6 +56,24 @@ const cases = [
   ['PWA: citire publica', 'ALLOW', null, 'get', 'stats/pwa', null, { installCount: 7 }],
   ['pandaNames: resetare din browser', 'DENY', U, 'merge', 'stats/pandaNames', { Happy: 0 }, { Happy: 5 }],
   ['pandaNames: citire din browser', 'DENY', null, 'get', 'stats/pandaNames', null, { Happy: 5 }],
+  // Panda Fit
+  ['user isi schimba limita de planuri', 'DENY', U, 'merge', 'users/u1', { fitPlanuri: 99 }, base],
+  ['admin seteaza limita de planuri', 'ALLOW', A, 'merge', 'users/u1', { fitPlanuri: 5 }, base],
+  ['profil de sanatate cu consimtamant', 'ALLOW', U, 'set', 'health/u1', sanatate],
+  ['profil de sanatate fara consimtamant', 'DENY', U, 'set', 'health/u1', { sex: 'm', kg: 80 }],
+  ['profil de sanatate cu camp in plus', 'DENY', U, 'set', 'health/u1', { ...sanatate, email: 'ana@x.ro' }],
+  ['alt user citeste profilul de sanatate', 'DENY', O, 'get', 'health/u1', null, sanatate],
+  ['adminul citeste profilul de sanatate', 'DENY', A, 'get', 'health/u1', null, sanatate],
+  ['userul isi sterge profilul (retrage consimtamantul)', 'ALLOW', U, 'delete', 'health/u1', null, sanatate],
+  ['jurnal pe ziua de azi', 'ALLOW', U, 'set', 'health/u1/jurnal/2026-11-14', { items: [{ id: 'ou', grame: 100 }] }],
+  ['jurnal cu ID gresit', 'DENY', U, 'set', 'health/u1/jurnal/azi', { items: [] }],
+  ['jurnalul altcuiva', 'DENY', O, 'get', 'health/u1/jurnal/2026-11-14', null, { items: [] }],
+  ['cantarire normala', 'ALLOW', U, 'set', 'health/u1/greutate/2026-11-14', { kg: 79.5 }],
+  ['cantarire imposibila', 'DENY', U, 'set', 'health/u1/greutate/2026-11-14', { kg: 500 }],
+  ['userul isi vede planul', 'ALLOW', U, 'get', 'fitPlans/p1', null, { uid: 'u1', status: 'gata' }],
+  ['planul altcuiva', 'DENY', O, 'get', 'fitPlans/p1', null, { uid: 'u1', status: 'gata' }],
+  ['adminul vede planurile', 'ALLOW', A, 'get', 'fitPlans/p1', null, { uid: 'u1', status: 'cerut' }],
+  ['userul isi aproba singur planul', 'DENY', U, 'merge', 'fitPlans/p1', { status: 'aprobat' }, { uid: 'u1', status: 'cerut' }],
 ];
 
 let bad = 0;
