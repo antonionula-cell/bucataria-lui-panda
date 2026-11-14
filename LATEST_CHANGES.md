@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-14 18:04 — Sprint Nutritie planificat (fara cod)
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-nutritie`
+- Ce s-a facut: `SPRINTS/sprint-nutritie.md`: modulul „Panda Fit” (nume de lucru), cu plata. Functiile cerute (profil si necesar caloric, plan alimentar, „azi vreau proteic”, jurnal de macro, carbo load / protein load), 10 idei in plus (mod post, plan pe buget, lista de cumparaturi, gatit in avans etc.), limitele de siguranta, GDPR art. 9 pentru datele de sanatate, Gemini pe plan platit, baza de date cu alimente, cerintele pentru plata (PFA/SRL, ANPC, procesator), gratuit fata de Premium si 5 faze. Faza 0 = deciziile lui Antonio inainte de orice cod.
+- Fisiere: `SPRINTS/sprint-nutritie.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: pe branch, nu e in `main`
+
 ## 2026-11-13 19:21 — Banda CeJucam pe pagina principala: „Gatitul are pauze. Panda le umple.”
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `cejucam-cautare`
