@@ -33,13 +33,14 @@ export default async function handler(req, res) {
   const { uid, email } = decoded;
   const db = admin.firestore();
   try {
-    const [byUid, byEmail, pending, published, publishedByEmail, authored] = await Promise.all([
+    const [byUid, byEmail, pending, published, publishedByEmail, authored, fitPlans] = await Promise.all([
       db.collection('proposals').where('uid', '==', uid).get(),
       email ? db.collection('proposals').where('userEmail', '==', email).get() : null,
       db.collection('pendingRecipes').where('proposedByUid', '==', uid).get(),
       db.collection('publishedRecipes').where('proposedByUid', '==', uid).get(),
       email ? db.collection('publishedRecipes').where('proposedBy', '==', email).get() : null,
-      db.collection('publishedRecipes').where('authorUid', '==', uid).get()
+      db.collection('publishedRecipes').where('authorUid', '==', uid).get(),
+      db.collection('fitPlans').where('uid', '==', uid).get()
     ]);
     const writes = [
       ...byUid.docs.map(d => d.ref.delete()),
@@ -53,6 +54,10 @@ export default async function handler(req, res) {
         authorUid: admin.firestore.FieldValue.delete()
       })),
       db.collection('notifications').doc(uid + '_reg').delete(),
+      // Panda Fit: profilul de sanatate cu jurnalul si cantaririle, planurile, contorul zilnic
+      db.recursiveDelete(db.collection('health').doc(uid)),
+      ...fitPlans.docs.map(d => d.ref.delete()),
+      db.collection('fitUsage').doc(uid).delete(),
       db.collection('users').doc(uid).delete()
     ];
     await Promise.all(writes);
