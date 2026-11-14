@@ -5,6 +5,13 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-14 23:31 — Fix: API-urile Panda Fit crapau in productie
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `fix-fit-api`
+- Ce s-a facut: dupa deploy, `/api/fit-plan` si `/api/fit-jurnal` dadeau 500 `FUNCTION_INVOCATION_FAILED` la orice cerere: sunt singurele functii care importa module ES din `fit/` (`core.js`, `alimente.js`), iar Vercel compileaza `api/*.js` in CommonJS. Redenumite in `.mjs`, ca Vercel sa le ruleze direct ca module ES (adresele raman aceleasi). Celelalte functii neatinse. Verificat local: ambele se incarca si raspund 401 fara login.
+- Fisiere: `panda-site/api/fit-plan.mjs`, `panda-site/api/fit-jurnal.mjs`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-14 23:31, live)
+
 ## 2026-11-14 22:17 — Panda Fit (fara plata): calculator, jurnal, greutate, plan AI cu aprobare
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `sprint-nutritie`
