@@ -26,5 +26,6 @@ Aici stau toate sprinturile proiectului, ca sa putem lucra si de pe telefon (Cla
 | [sprint-promo-1.md](sprint-promo-1.md) | Product Hunt + Facebook Ads | neinceput |
 | [sprint-promo-2.md](sprint-promo-2.md) | Afiliere 2Performant | neinceput |
 | [sprint-cejucam.md](sprint-cejucam.md) | Promovare incrucisata cu cejucamazi.ro (jocuri cat se coace) | gata, in productie din 2026-11-13 |
+| [sprint-nutritie.md](sprint-nutritie.md) | Modul nutritie si fitness, cu plata (profil, plan, jurnal, carbo load) | Fazele 1, 2, 4 si planul AI live din 2026-11-14 (fara plata) |
 
 Planificat, de definit cand ajungem la el: **Sprint Plata Netopia**.

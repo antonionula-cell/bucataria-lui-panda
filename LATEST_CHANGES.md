@@ -5,6 +5,22 @@ Jurnalul tuturor modificarilor din repo. Cea mai noua intrare sta sus. Ora e ora
 Format:
 
 ```
+## 2026-11-14 22:17 — Panda Fit (fara plata): calculator, jurnal, greutate, plan AI cu aprobare
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-nutritie`
+- Ce s-a facut: pagina noua `/fit` (`panda-site/fit/`), care arata ca al treilea tab („Panda Fit”, „Fit” pe telefon); tab-ul apare si pe site. Fara cont: calculatorul arata doar caloriile, macro-urile sunt blurate (in pagina nu ajung cifrele), cu invitatie la cont (`/?cont=fit` / `fit-nou` deschide fereastra de cont si te intoarce la `/fit`). Cu cont: consimtamant explicit (GDPR art. 9) inainte de salvare; profil (sex M/F/prefer sa nu spun, varsta, kg, cm, activitate, obiectiv, restrictii, afectiuni); necesar cu Mifflin-St Jeor si limite de siguranta (minim de calorii, fara deficit sub 18 ani sau la IMC sub 18,5, afectiuni = fara calcul); moduri zi normala / proteica / carbo load; jurnal mancat/planificat cu text liber (`api/fit-jurnal.js`, Gemini doar recunoaste alimentele, cifrele din `alimente.js`, 30/zi) sau din lista; greutate cu grafic, tendinta si ajustare dupa 14 zile; plan alimentar AI pe 1 sau 3 zile (`api/fit-plan.js`): userul cere, adminul aproba in `/fit`, codul scaleaza portiile si verifica tintele, limita `users.fitPlanuri` (implicit 3 in 7 zile); export JSON si stergere. Reguli Firestore noi (`health`, `fitPlans`, `fitPlanuri` blocat pentru user) + 17 teste noi (59/59); 18 teste pentru calcule (`tests/fit/`). Stergerea contului include datele Fit. Politica (date de sanatate, art. 9) si Termeni (sectiunea 7. Panda Fit) actualizate. `#retete` si `#confidentialitate` deschid tab-ul / Politica din link. `vercel.json`: ruta `/fit`. `sitemap.xml`: `/fit`. `sw.js` CACHE `panda-v28`.
+- Netestat: tot ce cere cont (consimtamant, jurnal, greutate, planuri, admin) si cele doua API-uri, care merg doar pe Vercel cu un cont real. Verificat local: teaser-ul, calculul, tab-urile pe 375px, linkurile `#retete` si `/?cont=fit-nou`.
+- `firestore.rules` publicat de Antonio pe 2026-11-14 23:25 (ruleset `5188d641-e38a-472b-800f-9caf1a26d226`), verificat prin API: identic cu repo-ul. Merge si cu codul live: nu schimba nimic din ce foloseste site-ul. Rollback: ruleset-ul anterior din istoricul consolei.
+- Fisiere: `panda-site/fit/*`, `panda-site/api/fit-plan.js`, `panda-site/api/fit-jurnal.js`, `panda-site/api/delete-account.js`, `panda-site/index.html`, `panda-site/sw.js`, `panda-site/vercel.json`, `panda-site/sitemap.xml`, `firestore.rules`, `tests/fit/*`, `tests/firestore-rules/rules.test.mjs`, `SPRINTS/*`, `CLAUDE.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-14 23:28, live)
+
+## 2026-11-14 18:04 — Sprint Nutritie planificat (fara cod)
+- Cine: Claude (laptop), la cererea lui Antonio
+- Branch: `sprint-nutritie`
+- Ce s-a facut: `SPRINTS/sprint-nutritie.md`: modulul „Panda Fit” (nume de lucru), cu plata. Functiile cerute (profil si necesar caloric, plan alimentar, „azi vreau proteic”, jurnal de macro, carbo load / protein load), 10 idei in plus (mod post, plan pe buget, lista de cumparaturi, gatit in avans etc.), limitele de siguranta, GDPR art. 9 pentru datele de sanatate, Gemini pe plan platit, baza de date cu alimente, cerintele pentru plata (PFA/SRL, ANPC, procesator), gratuit fata de Premium si 5 faze. Faza 0 = deciziile lui Antonio inainte de orice cod.
+- Fisiere: `SPRINTS/sprint-nutritie.md`, `SPRINTS/README.md`, `LATEST_CHANGES.md`
+- Stare: in `main` (merge 2026-11-14 23:28, live)
+
 ## 2026-11-13 19:21 — Banda CeJucam pe pagina principala: „Gatitul are pauze. Panda le umple.”
 - Cine: Claude (laptop), la cererea lui Antonio
 - Branch: `cejucam-cautare`

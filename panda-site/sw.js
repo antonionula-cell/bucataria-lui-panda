@@ -1,5 +1,5 @@
 // 🐼 Bucataria lui Panda — Service Worker
-const CACHE = 'panda-v27';
+const CACHE = 'panda-v28';
 const STATIC = [
   '/',
   '/index.html',
